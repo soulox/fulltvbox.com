@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allReviews = await getCollection('reviews');
+const featured = allReviews.filter(r => r.data.featured).slice(0, 3);
+const recent = allReviews.sort((a, b) =>
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+).slice(0, 6);
+---
+<BaseLayout title="TV Box Reviews & Comparisons">
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-gray-900 to-gray-950 py-28 px-4 text-center">
+    <h1 class="text-5xl sm:text-7xl font-bold text-white mb-6 leading-tight">
+      Find the Best <span class="text-brand">TV Box</span><br />for Your Setup
+    </h1>
+    <p class="text-gray-400 text-xl sm:text-2xl max-w-2xl mx-auto mb-10">
+      Independent reviews, head-to-head comparisons, and setup guides — no manufacturer bias.
+    </p>
+    <div class="flex gap-3 justify-center flex-wrap">
+      <a href="/reviews" class="bg-brand hover:bg-brand-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+        Browse Reviews
+      </a>
+      <a href="/best-picks" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+        Best Picks 2025
+      </a>
+    </div>
+  </section>
+
+  <!-- Featured Reviews -->
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-2xl font-bold text-white mb-8">Featured Reviews</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {featured.map(review => (
+        <a href={`/reviews/${review.slug}`} class="group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors">
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex flex-wrap gap-1">
+              {review.data.tags.slice(0, 2).map(tag => (
+                <span class="text-xs bg-gray-800 text-gray-400 px-2 py-0.5 rounded">{tag}</span>
+              ))}
+            </div>
+            <span class="text-yellow-400 font-bold text-sm">{review.data.rating}/5 ★</span>
+          </div>
+          <h3 class="font-semibold text-white group-hover:text-brand transition-colors leading-snug mb-2">
+            {review.data.title}
+          </h3>
+          <p class="text-gray-400 text-sm line-clamp-2">{review.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="bg-gray-900/50 py-12">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl font-bold text-white mb-8">Browse by Category</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {[
+          { label: 'Android TV', icon: '📺', href: '/reviews?tag=android+tv' },
+          { label: 'Budget Picks', icon: '💰', href: '/reviews?tag=budget' },
+          { label: '4K Streaming', icon: '🎬', href: '/reviews?tag=4k' },
+          { label: 'Gaming Boxes', icon: '🎮', href: '/reviews?tag=gaming' },
+        ].map(cat => (
+          <a href={cat.href} class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-center hover:border-gray-600 transition-colors">
+            <div class="text-3xl mb-2">{cat.icon}</div>
+            <div class="text-sm font-medium text-gray-300">{cat.label}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Reviews -->
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl font-bold text-white">Recent Reviews</h2>
+      <a href="/reviews" class="text-brand hover:underline text-sm font-medium">View all →</a>
+    </div>
+    <div class="divide-y divide-gray-800">
+      {recent.map(review => (
+        <a href={`/reviews/${review.slug}`} class="group flex items-center justify-between py-4 hover:pl-2 transition-all">
+          <div>
+            <h3 class="font-medium text-white group-hover:text-brand transition-colors">{review.data.title}</h3>
+            <p class="text-gray-500 text-sm mt-0.5">{new Date(review.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+          </div>
+          <span class="text-yellow-400 font-semibold text-sm shrink-0 ml-4">{review.data.rating} ★</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

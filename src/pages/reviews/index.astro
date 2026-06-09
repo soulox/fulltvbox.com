@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const reviews = await getCollection('reviews');
+const sorted = reviews.sort((a, b) =>
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+---
+<BaseLayout title="TV Box Reviews" description="All TV box reviews on FullTVBox — ranked, rated, and honestly written.">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-white mb-2">TV Box Reviews</h1>
+    <p class="text-gray-400 mb-10">All reviews, sorted by newest first.</p>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+      {sorted.map(review => (
+        <a href={`/reviews/${review.slug}`} class="group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex flex-wrap gap-1">
+              {review.data.tags.slice(0, 2).map(tag => (
+                <span class="text-xs bg-gray-800 text-gray-400 px-2 py-0.5 rounded">{tag}</span>
+              ))}
+            </div>
+            <span class="text-yellow-400 font-bold text-sm">{review.data.rating}/5</span>
+          </div>
+          <h2 class="font-semibold text-white group-hover:text-brand transition-colors leading-snug mb-2 flex-1">
+            {review.data.title}
+          </h2>
+          <p class="text-gray-400 text-sm line-clamp-2 mb-4">{review.data.description}</p>
+          <time class="text-xs text-gray-600">
+            {new Date(review.data.publishDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+          </time>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

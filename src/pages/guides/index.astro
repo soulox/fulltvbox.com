@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const guides = await getCollection('guides');
+const sorted = guides.sort((a, b) =>
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+---
+<BaseLayout title="TV Box Guides" description="Setup guides, comparisons, and buying advice for streaming devices.">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-white mb-2">Guides</h1>
+    <p class="text-gray-400 mb-10">Buying advice, setup walkthroughs, and comparisons.</p>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+      {sorted.map(guide => (
+        <a href={`/guides/${guide.slug}`} class="group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors flex flex-col">
+          {guide.data.image && (
+            <img src={guide.data.image} alt={guide.data.title} class="w-full rounded-lg mb-4 object-cover h-40" />
+          )}
+          <h2 class="font-semibold text-white group-hover:text-brand transition-colors leading-snug mb-2 flex-1">
+            {guide.data.title}
+          </h2>
+          <p class="text-gray-400 text-sm line-clamp-2 mb-4">{guide.data.description}</p>
+          <time class="text-xs text-gray-600">
+            {new Date(guide.data.publishDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+          </time>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
