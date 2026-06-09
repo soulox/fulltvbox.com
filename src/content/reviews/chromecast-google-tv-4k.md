@@ -4,6 +4,7 @@ description: "Google finally gave Chromecast a real interface and a remote. The 
 publishDate: "2025-07-18"
 rating: 4.1
 featured: false
+image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Chromecast-with-Google-TV-snow-color-on-wood-table2.jpg/800px-Chromecast-with-Google-TV-snow-color-on-wood-table2.jpg"
 tags: ["google tv", "4k", "chromecast", "budget", "android"]
 affiliate: "https://www.amazon.com/dp/B08KRV7NRD?tag=fulltvbox-20"
 ---
