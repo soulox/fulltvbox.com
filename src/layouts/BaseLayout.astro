@@ -11,7 +11,6 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage = image ?? new URL('/og-default.png', Astro.site).href;
 const fullTitle = `${title} | FullTVBox`;
 ---
 <!DOCTYPE html>
@@ -21,6 +20,7 @@ const fullTitle = `${title} | FullTVBox`;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -28,13 +28,13 @@ const fullTitle = `${title} | FullTVBox`;
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
-  <meta property="og:image" content={ogImage} />
+  {image && <meta property="og:image" content={image} />}
 
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
   <meta name="twitter:title" content={fullTitle} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={ogImage} />
+  {image && <meta name="twitter:image" content={image} />}
 
   <title>{fullTitle}</title>
   <slot name="head" />
@@ -48,11 +48,33 @@ const fullTitle = `${title} | FullTVBox`;
       <a href="/" class="text-2xl font-bold text-white">
         Full<span class="text-brand">TV</span>Box
       </a>
-      <nav class="flex gap-6 text-sm font-medium text-gray-400">
+
+      <!-- Desktop nav -->
+      <nav class="hidden sm:flex gap-6 text-sm font-medium text-gray-400">
         <a href="/reviews" class="hover:text-white transition-colors">Reviews</a>
         <a href="/best-picks" class="hover:text-white transition-colors">Best Picks</a>
         <a href="/guides" class="hover:text-white transition-colors">Guides</a>
         <a href="/about" class="hover:text-white transition-colors">About</a>
+      </nav>
+
+      <!-- Mobile hamburger -->
+      <button id="menu-btn" class="sm:hidden text-gray-400 hover:text-white p-1" aria-label="Toggle menu">
+        <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" class="hidden">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden sm:hidden border-t border-gray-800 bg-gray-950">
+      <nav class="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-1">
+        <a href="/reviews" class="text-gray-300 hover:text-white hover:bg-gray-900 px-3 py-2 rounded-lg transition-colors font-medium">Reviews</a>
+        <a href="/best-picks" class="text-gray-300 hover:text-white hover:bg-gray-900 px-3 py-2 rounded-lg transition-colors font-medium">Best Picks</a>
+        <a href="/guides" class="text-gray-300 hover:text-white hover:bg-gray-900 px-3 py-2 rounded-lg transition-colors font-medium">Guides</a>
+        <a href="/about" class="text-gray-300 hover:text-white hover:bg-gray-900 px-3 py-2 rounded-lg transition-colors font-medium">About</a>
       </nav>
     </div>
   </header>
@@ -67,5 +89,17 @@ const fullTitle = `${title} | FullTVBox`;
       <p>Links may earn us a commission at no extra cost to you.</p>
     </div>
   </footer>
+
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+    btn?.addEventListener('click', () => {
+      const isHidden = menu?.classList.toggle('hidden');
+      iconOpen?.classList.toggle('hidden', !isHidden);
+      iconClose?.classList.toggle('hidden', isHidden);
+    });
+  </script>
 </body>
 </html>

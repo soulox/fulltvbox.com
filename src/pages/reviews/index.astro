@@ -6,15 +6,33 @@ const reviews = await getCollection('reviews');
 const sorted = reviews.sort((a, b) =>
   new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
 );
+
+const allTags = [...new Set(reviews.flatMap(r => r.data.tags))].sort();
 ---
 <BaseLayout title="TV Box Reviews" description="All TV box reviews on FullTVBox — ranked, rated, and honestly written.">
   <div class="max-w-4xl mx-auto px-4 py-12">
     <h1 class="text-3xl font-bold text-white mb-2">TV Box Reviews</h1>
-    <p class="text-gray-400 mb-10">All reviews, sorted by newest first.</p>
+    <p class="text-gray-400 mb-6">All reviews, sorted by newest first.</p>
 
-    <div class="grid sm:grid-cols-2 gap-6">
+    <!-- Tag filters -->
+    <div class="flex flex-wrap gap-2 mb-10">
+      <button data-tag="" class="tag-btn bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors">
+        All
+      </button>
+      {allTags.map(tag => (
+        <button data-tag={tag} class="tag-btn bg-gray-800 text-gray-400 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors">
+          {tag}
+        </button>
+      ))}
+    </div>
+
+    <div id="reviews-grid" class="grid sm:grid-cols-2 gap-6">
       {sorted.map(review => (
-        <a href={`/reviews/${review.slug}`} class="group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors flex flex-col">
+        <a
+          href={`/reviews/${review.slug}`}
+          data-tags={review.data.tags.join(',')}
+          class="review-card group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors flex flex-col"
+        >
           <div class="flex items-center justify-between mb-3">
             <div class="flex flex-wrap gap-1">
               {review.data.tags.slice(0, 2).map(tag => (
@@ -33,5 +51,42 @@ const sorted = reviews.sort((a, b) =>
         </a>
       ))}
     </div>
+
+    <p id="no-results" class="hidden text-gray-500 text-center py-12">No reviews found for this tag.</p>
   </div>
 </BaseLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const initialTag = params.get('tag') ?? '';
+
+  function applyFilter(tag: string) {
+    const cards = document.querySelectorAll<HTMLElement>('.review-card');
+    const buttons = document.querySelectorAll<HTMLElement>('.tag-btn');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const tags = card.dataset.tags ?? '';
+      const match = !tag || tags.split(',').includes(tag);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+
+    buttons.forEach(btn => {
+      const isActive = btn.dataset.tag === tag;
+      btn.classList.toggle('bg-brand', isActive);
+      btn.classList.toggle('text-white', isActive);
+      btn.classList.toggle('bg-gray-800', !isActive);
+      btn.classList.toggle('text-gray-400', !isActive);
+    });
+
+    const noResults = document.getElementById('no-results');
+    if (noResults) noResults.classList.toggle('hidden', visible > 0);
+  }
+
+  applyFilter(initialTag);
+
+  document.querySelectorAll<HTMLElement>('.tag-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.tag ?? ''));
+  });
+</script>
