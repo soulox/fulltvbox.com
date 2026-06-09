@@ -24,4 +24,17 @@ const guides = defineCollection({
   }),
 });
 
-export const collections = { reviews, guides };
+const tutorials = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishDate: z.string(),
+    difficulty: z.enum(['beginner', 'intermediate', 'advanced']),
+    duration: z.string(),
+    tags: z.array(z.string()).default([]),
+    image: z.string().optional(),
+  }),
+});
+
+export const collections = { reviews, guides, tutorials };

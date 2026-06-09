@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const tutorials = await getCollection('tutorials');
+const sorted = tutorials.sort((a, b) =>
+  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+const allTags = [...new Set(tutorials.flatMap(t => t.data.tags))].sort();
+
+const difficultyColor = {
+  beginner: 'bg-green-800 text-green-200',
+  intermediate: 'bg-yellow-800 text-yellow-200',
+  advanced: 'bg-red-900 text-red-200',
+};
+---
+<BaseLayout title="Tutorials" description="Step-by-step tutorials for Raspberry Pi, new gadgets, home automation, and more.">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-white mb-2">Tutorials</h1>
+    <p class="text-gray-400 mb-6">Raspberry Pi, home automation, retro gaming, and more — hands-on guides for tinkerers.</p>
+
+    <!-- Tag filters -->
+    <div class="flex flex-wrap gap-2 mb-10">
+      <button data-tag="" class="tag-btn bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors">
+        All
+      </button>
+      {allTags.map(tag => (
+        <button data-tag={tag} class="tag-btn bg-gray-800 text-gray-400 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors">
+          {tag}
+        </button>
+      ))}
+    </div>
+
+    <div id="tutorials-grid" class="grid sm:grid-cols-2 gap-6">
+      {sorted.map(tutorial => (
+        <a
+          href={`/tutorials/${tutorial.slug}`}
+          data-tags={tutorial.data.tags.join(',')}
+          class="tutorial-card group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors flex flex-col"
+        >
+          <div class="flex items-center gap-2 mb-3 flex-wrap">
+            <span class={`text-xs font-bold px-2.5 py-1 rounded-full ${difficultyColor[tutorial.data.difficulty]}`}>
+              {tutorial.data.difficulty.charAt(0).toUpperCase() + tutorial.data.difficulty.slice(1)}
+            </span>
+            <span class="text-gray-500 text-xs">⏱ {tutorial.data.duration}</span>
+          </div>
+          <h2 class="font-semibold text-white group-hover:text-brand transition-colors leading-snug mb-2 flex-1">
+            {tutorial.data.title}
+          </h2>
+          <p class="text-gray-400 text-sm line-clamp-2 mb-4">{tutorial.data.description}</p>
+          <div class="flex items-center justify-between">
+            <div class="flex flex-wrap gap-1">
+              {tutorial.data.tags.slice(0, 2).map(tag => (
+                <span class="text-xs bg-gray-800 text-gray-500 px-2 py-0.5 rounded">{tag}</span>
+              ))}
+            </div>
+            <time class="text-xs text-gray-600 shrink-0">
+              {new Date(tutorial.data.publishDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+            </time>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <p id="no-results" class="hidden text-gray-500 text-center py-12">No tutorials found for this tag.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const initialTag = params.get('tag') ?? '';
+
+  function applyFilter(tag: string) {
+    const cards = document.querySelectorAll<HTMLElement>('.tutorial-card');
+    const buttons = document.querySelectorAll<HTMLElement>('.tag-btn');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const tags = card.dataset.tags ?? '';
+      const match = !tag || tags.split(',').includes(tag);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+
+    buttons.forEach(btn => {
+      const isActive = btn.dataset.tag === tag;
+      btn.classList.toggle('bg-brand', isActive);
+      btn.classList.toggle('text-white', isActive);
+      btn.classList.toggle('bg-gray-800', !isActive);
+      btn.classList.toggle('text-gray-400', !isActive);
+    });
+
+    const noResults = document.getElementById('no-results');
+    if (noResults) noResults.classList.toggle('hidden', visible > 0);
+  }
+
+  applyFilter(initialTag);
+
+  document.querySelectorAll<HTMLElement>('.tag-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.tag ?? ''));
+  });
+</script>
