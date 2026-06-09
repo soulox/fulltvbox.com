@@ -41,8 +41,18 @@ const jsonLd = {
   </Fragment>
 
   <article class="max-w-3xl mx-auto px-4 py-12">
-    {image && (
+
+    <!-- Hero: image if available, gradient banner otherwise -->
+    {image ? (
       <img src={image} alt={title} class="w-full rounded-xl mb-8 object-cover max-h-72" />
+    ) : (
+      <div class="w-full rounded-xl mb-8 h-48 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-gray-800 flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-brand/10 to-transparent" />
+        <div class="relative text-center px-6">
+          <div class="text-brand text-4xl mb-2">📺</div>
+          <div class="text-white font-bold text-lg leading-snug">{title.replace(/ Review.*$/i, '').trim()}</div>
+        </div>
+      </div>
     )}
 
     <div class="mb-2 text-sm text-gray-500">
