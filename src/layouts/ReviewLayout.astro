@@ -40,9 +40,17 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
 
-  <article class="max-w-3xl mx-auto px-4 py-12">
+  <!-- Breadcrumbs -->
+  <nav class="max-w-3xl mx-auto px-4 pt-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="/" class="hover:text-white transition-colors">Home</a>
+    <span>/</span>
+    <a href="/reviews" class="hover:text-white transition-colors">Reviews</a>
+    <span>/</span>
+    <span class="text-gray-400 truncate">{title.replace(/ Review.*$/i, '').trim()}</span>
+  </nav>
 
-    <!-- Hero: image if available, gradient banner otherwise -->
+  <article class="max-w-3xl mx-auto px-4 py-8">
+
     {image ? (
       <img src={image} alt={title} class="w-full rounded-xl mb-8 object-cover max-h-72" />
     ) : (
@@ -81,4 +89,6 @@ const jsonLd = {
       <slot />
     </div>
   </article>
+
+  <slot name="related" />
 </BaseLayout>

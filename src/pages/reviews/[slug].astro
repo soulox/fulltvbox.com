@@ -6,12 +6,22 @@ export async function getStaticPaths() {
   const reviews = await getCollection('reviews');
   return reviews.map(review => ({
     params: { slug: review.slug },
-    props: { review },
+    props: { review, allReviews: reviews },
   }));
 }
 
-const { review } = Astro.props;
+const { review, allReviews } = Astro.props;
 const { Content } = await review.render();
+
+const related = allReviews
+  .filter(r => r.slug !== review.slug)
+  .map(r => ({
+    r,
+    score: r.data.tags.filter((t: string) => review.data.tags.includes(t)).length,
+  }))
+  .sort((a, b) => b.score - a.score || new Date(b.r.data.publishDate).getTime() - new Date(a.r.data.publishDate).getTime())
+  .slice(0, 3)
+  .map(({ r }) => r);
 ---
 <ReviewLayout
   title={review.data.title}
@@ -22,4 +32,24 @@ const { Content } = await review.render();
   affiliate={review.data.affiliate}
 >
   <Content />
+  <div slot="related">
+    {related.length > 0 && (
+      <section class="max-w-3xl mx-auto px-4 pb-16">
+        <h2 class="text-xl font-bold text-white mb-6">Related Reviews</h2>
+        <div class="grid sm:grid-cols-3 gap-4">
+          {related.map(r => (
+            <a href={`/reviews/${r.slug}`} class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors flex flex-col">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-yellow-400 text-xs font-bold">{r.data.rating}/5 ★</span>
+              </div>
+              <h3 class="text-sm font-semibold text-white group-hover:text-brand transition-colors leading-snug flex-1">
+                {r.data.title.replace(/ Review.*$/i, '').trim()}
+              </h3>
+              <p class="text-gray-500 text-xs mt-2 line-clamp-2">{r.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
 </ReviewLayout>

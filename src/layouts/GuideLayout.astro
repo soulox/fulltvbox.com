@@ -10,7 +10,16 @@ interface Props {
 const { title, description, publishDate, image } = Astro.props;
 ---
 <BaseLayout title={title} description={description}>
-  <article class="max-w-3xl mx-auto px-4 py-12">
+  <!-- Breadcrumbs -->
+  <nav class="max-w-3xl mx-auto px-4 pt-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="/" class="hover:text-white transition-colors">Home</a>
+    <span>/</span>
+    <a href="/guides" class="hover:text-white transition-colors">Guides</a>
+    <span>/</span>
+    <span class="text-gray-400 truncate">{title}</span>
+  </nav>
+
+  <article class="max-w-3xl mx-auto px-4 py-8">
     {image && (
       <img src={image} alt={title} class="w-full rounded-xl mb-8 object-cover max-h-72" />
     )}

@@ -36,6 +36,7 @@ function mobileNavClass(href: string) {
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="alternate" type="application/rss+xml" title="FullTVBox Reviews" href="/rss.xml" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -101,7 +102,10 @@ function mobileNavClass(href: string) {
   <footer class="border-t border-gray-800 mt-16">
     <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-gray-500 flex flex-col sm:flex-row justify-between gap-4">
       <p>&copy; {new Date().getFullYear()} FullTVBox.com — Independent reviews, no manufacturer bias.</p>
-      <p>Links may earn us a commission at no extra cost to you.</p>
+      <div class="flex items-center gap-4">
+        <p>Links may earn us a commission at no extra cost to you.</p>
+        <a href="/rss.xml" class="hover:text-gray-300 transition-colors" title="RSS Feed">RSS</a>
+      </div>
     </div>
   </footer>
 
