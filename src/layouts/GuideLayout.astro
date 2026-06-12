@@ -9,8 +9,35 @@ interface Props {
   ogImage?: string;
 }
 const { title, description, publishDate, image, ogImage } = Astro.props;
+
+const site = Astro.site;
+const pageUrl = new URL(Astro.url.pathname, site).href;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description,
+    datePublished: publishDate,
+    author: { '@type': 'Organization', name: 'FullTVBox', url: site?.href },
+    publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/favicon.svg', site).href } },
+    mainEntityOfPage: pageUrl,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: new URL('/guides', site).href },
+      { '@type': 'ListItem', position: 3, name: title, item: pageUrl },
+    ],
+  },
+];
 ---
 <BaseLayout title={title} description={description} ogImage={ogImage}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
   <!-- Breadcrumbs -->
   <nav class="max-w-3xl mx-auto px-4 pt-8 label flex items-center gap-2">
     <a href="/" class="hover:text-signal transition-colors">Home</a>
@@ -22,7 +49,7 @@ const { title, description, publishDate, image, ogImage } = Astro.props;
 
   <article class="max-w-3xl mx-auto px-4 py-8">
     {image && (
-      <img src={image} alt={title} class="w-full mb-8 object-cover max-h-72 border border-line" onerror="this.style.display='none';" />
+      <img src={image} alt={title} width="960" height="288" class="w-full h-72 mb-8 object-contain bg-panel border border-line" onerror="this.style.display='none';" />
     )}
 
     <div class="label mb-3 flex items-center gap-2">
