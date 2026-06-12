@@ -4,7 +4,7 @@ description: "After six years on the market, the Shield TV Pro remains the gold 
 publishDate: "2025-11-15"
 rating: 4.8
 featured: true
-image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/NVIDIA_SHIELD_TV_2017ver_console.jpg/800px-NVIDIA_SHIELD_TV_2017ver_console.jpg"
+image: "/images/reviews/nvidia-shield-tv-pro-2025.jpg"
 tags: ["android tv", "4k", "gaming", "plex", "nvidia"]
 affiliate: "https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20"
 ---

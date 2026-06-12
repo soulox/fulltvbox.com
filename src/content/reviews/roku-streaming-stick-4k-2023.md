@@ -4,7 +4,7 @@ description: "Roku's compact 4K stick keeps things simple — no ads on the home
 publishDate: "2025-10-10"
 rating: 4.3
 featured: false
-image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Roku_Streaming_Stick_4K.jpg/800px-Roku_Streaming_Stick_4K.jpg"
+image: "/images/reviews/roku-streaming-stick-4k-2023.jpg"
 tags: ["roku", "4k", "budget", "streaming"]
 affiliate: "https://www.amazon.com/dp/B09BKCDXZC?tag=fulltvbox-20"
 ---

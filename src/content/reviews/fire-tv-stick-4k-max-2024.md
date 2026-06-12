@@ -4,7 +4,7 @@ description: "Amazon's top Fire TV stick gets Wi-Fi 6E and faster hardware in it
 publishDate: "2025-09-20"
 rating: 4.2
 featured: true
-image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/FireTV_Stick_3rd_Gen.jpg/800px-FireTV_Stick_3rd_Gen.jpg"
+image: "/images/reviews/fire-tv-stick-4k-max-2024.jpg"
 tags: ["amazon", "fire tv", "4k", "budget", "alexa"]
 affiliate: "https://www.amazon.com/dp/B0CFJ4Y5XD?tag=fulltvbox-20"
 ---

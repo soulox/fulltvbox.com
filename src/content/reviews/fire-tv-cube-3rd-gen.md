@@ -4,6 +4,7 @@ description: "Amazon's flagship streaming box packs an octa-core chip, hands-fre
 publishDate: "2025-10-05"
 rating: 4.3
 featured: false
+image: "/images/reviews/fire-tv-cube-3rd-gen.jpg"
 tags: ["amazon", "fire tv", "4k", "alexa", "ethernet"]
 affiliate: "https://www.amazon.com/dp/B09BZZ3MM7?tag=fulltvbox-20"
 ---
