@@ -170,13 +170,17 @@ function isActive(href: string) {
     :root {
       --void:#06080b; --panel:#0d1117; --panel2:#131b23;
       --line:#1d2731; --line-bright:#2c3b47;
-      --ink:#e8eae3; --muted:#8b97a1; --dim:#566069;
+      --ink:#e8eae3; --muted:#8b97a1; --dim:#737f8a;
       --signal:#a8e84d; --signal-dim:#6f9a33; --signal-glow:#c7ff6e;
       --scope:#3ad6e6; --amber:#ffb43a; --magenta:#ff5d8f;
     }
 
     html { scroll-behavior: smooth; }
     ::selection { background: var(--signal); color: #0a1206; }
+
+    /* keyboard focus — visible signal ring */
+    :focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; border-radius: 1px; }
+    :focus:not(:focus-visible) { outline: none; }
 
     .font-900 { font-weight: 900; }
 

@@ -10,7 +10,7 @@ const mono = readFileSync(join(fontDir, 'IBMPlexMono-Medium.ttf'));
 
 const C = {
   void: '#06080b', line: '#1d2731', ink: '#e8eae3',
-  muted: '#8b97a1', dim: '#566069', signal: '#a8e84d',
+  muted: '#8b97a1', dim: '#737f8a', signal: '#a8e84d',
 };
 const SMPTE = ['#b9b9b9', '#c9c40e', '#1fbcc9', '#1faf3a', '#c92191', '#c92121', '#2433c0'];
 

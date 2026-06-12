@@ -14,7 +14,7 @@ export default {
         'line-bright': '#2c3b47',
         ink: '#e8eae3',
         muted: '#8b97a1',
-        dim: '#566069',
+        dim: '#737f8a',
         signal: {
           DEFAULT: '#a8e84d',
           dim: '#6f9a33',
