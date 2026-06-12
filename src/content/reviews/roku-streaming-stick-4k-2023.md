@@ -1,6 +1,6 @@
 ---
 title: "Roku Streaming Stick 4K (2023) Review: The No-Nonsense Streamer"
-description: "Roku's compact 4K stick keeps things simple — no ads on the home screen, no ecosystem lock-in, and a remote with actual TV controls. Is simple still good enough in 2025?"
+description: "Roku's compact 4K stick keeps it simple — no home-screen ads, no ecosystem lock-in, a remote with real TV controls. Is simple still good enough in 2025?"
 publishDate: "2025-10-10"
 rating: 4.3
 featured: false

@@ -1,6 +1,6 @@
 ---
 title: "Amazon Fire TV Cube (3rd Gen) Review: The Fastest Fire TV, Period"
-description: "Amazon's flagship streaming box packs an octa-core chip, hands-free Alexa, and an HDMI input for controlling your whole AV setup. But at $140, does it justify the price?"
+description: "Amazon's flagship box packs an octa-core chip, hands-free Alexa, and an HDMI input to run your whole AV setup. But at $140, does it justify the price?"
 publishDate: "2025-10-05"
 rating: 4.3
 featured: false
