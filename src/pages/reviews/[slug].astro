@@ -34,18 +34,21 @@ const related = allReviews
   <Content />
   <div slot="related">
     {related.length > 0 && (
-      <section class="max-w-3xl mx-auto px-4 pb-16">
-        <h2 class="text-xl font-bold text-white mb-6">Related Reviews</h2>
+      <section class="max-w-3xl mx-auto px-4 pb-20">
+        <div class="smpte-bars h-px w-full mb-8 opacity-50"></div>
+        <span class="label text-signal">// Also on the bench</span>
+        <h2 class="font-display font-800 text-2xl mt-1 mb-6">Related Reviews</h2>
         <div class="grid sm:grid-cols-3 gap-4">
           {related.map(r => (
-            <a href={`/reviews/${r.slug}`} class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors flex flex-col">
+            <a href={`/reviews/${r.slug}`} class="bench-card frame group p-4 flex flex-col">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-yellow-400 text-xs font-bold">{r.data.rating}/5 ★</span>
+                <span class="font-display font-900 text-lg text-signal leading-none">{r.data.rating.toFixed(1)}</span>
+                <span class="label text-dim">/ 5.0</span>
               </div>
-              <h3 class="text-sm font-semibold text-white group-hover:text-brand transition-colors leading-snug flex-1">
+              <h3 class="font-display font-700 text-sm text-ink group-hover:text-signal transition-colors leading-snug flex-1">
                 {r.data.title.replace(/ Review.*$/i, '').trim()}
               </h3>
-              <p class="text-gray-500 text-xs mt-2 line-clamp-2">{r.data.description}</p>
+              <p class="text-muted text-xs mt-2 line-clamp-2">{r.data.description}</p>
             </a>
           ))}
         </div>
