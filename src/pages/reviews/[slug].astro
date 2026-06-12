@@ -1,6 +1,7 @@
 ---
 import ReviewLayout from '../../layouts/ReviewLayout.astro';
 import { getCollection } from 'astro:content';
+import { getDealsByDevice } from '../../lib/deals';
 
 export async function getStaticPaths() {
   const reviews = await getCollection('reviews');
@@ -12,6 +13,8 @@ export async function getStaticPaths() {
 
 const { review, allReviews } = Astro.props;
 const { Content } = await review.render();
+
+const deal = (await getDealsByDevice()).get(review.slug);
 
 const related = allReviews
   .filter(r => r.slug !== review.slug)
@@ -30,6 +33,10 @@ const related = allReviews
   rating={review.data.rating}
   image={review.data.image}
   affiliate={review.data.affiliate}
+  updatedDate={review.data.updatedDate}
+  price={review.data.price}
+  specs={review.data.specs}
+  deal={deal}
   ogImage={`/og/reviews/${review.slug}.png`}
 >
   <Content />

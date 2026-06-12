@@ -6,6 +6,21 @@ rating: 4.4
 featured: true
 tags: ["google tv", "4k", "ethernet", "android", "premium"]
 affiliate: "https://www.amazon.com/dp/B0CX2XF9ZF?tag=fulltvbox-20"
+price: 99
+specs:
+  releaseYear: 2024
+  price: 99
+  soc: "MediaTek MT8696"
+  ram: "4 GB"
+  storage: "32 GB"
+  os: "Google TV (Android TV 14)"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+", "HLG"]
+  audio: ["Dolby Atmos"]
+  connectivity: ["Wi-Fi 5", "Bluetooth 5.1", "Ethernet", "Thread / Matter"]
+  ports: ["HDMI 2.1", "Gigabit Ethernet", "USB-C (power)"]
+  remote: "Voice remote with finder button"
+  weight: "151 g"
 ---
 
 ## Overview

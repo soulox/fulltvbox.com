@@ -1,12 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { getLiveDeals } from '../lib/deals';
+import { freshness, latestDate } from '../lib/freshness';
 
 const allReviews = await getCollection('reviews');
 const featured = allReviews.filter(r => r.data.featured).slice(0, 3);
-const recent = allReviews.sort((a, b) =>
-  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+const recent = [...allReviews].sort((a, b) =>
+  new Date(latestDate(b.data.publishDate, b.data.updatedDate)).getTime() -
+  new Date(latestDate(a.data.publishDate, a.data.updatedDate)).getTime()
 ).slice(0, 6);
+
+const deals = (await getLiveDeals()).slice(0, 3);
 
 // hero "monitor" feed = highest-rated featured (or highest-rated overall)
 const top = [...allReviews].sort((a, b) => b.data.rating - a.data.rating)[0];
@@ -30,6 +35,8 @@ function meter(rating: number) {
     return 'off';
   });
 }
+
+const fresh = (r: typeof allReviews[number]) => freshness(r.data.publishDate, r.data.updatedDate);
 ---
 <BaseLayout title="TV Box Reviews & Comparisons">
 
@@ -146,6 +153,41 @@ function meter(rating: number) {
     </div>
   </section>
 
+  <!-- ─── LIVE DEALS ────────────────────────────────────────── -->
+  {deals.length > 0 && (
+    <section class="max-w-6xl mx-auto px-4 pt-16">
+      <div class="flex items-end justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <span class="tally tally-sm"></span>
+          <div>
+            <span class="label text-signal">// Live deals</span>
+            <h2 class="font-display font-800 text-2xl mt-1">Price Drops Now</h2>
+          </div>
+        </div>
+        <a href="/deals" class="label text-muted hover:text-signal transition-colors">All deals →</a>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4">
+        {deals.map(deal => {
+          const device = deal.review?.data.title.replace(/ Review.*$/i, '').trim() ?? deal.device;
+          return (
+            <a href={deal.url} target="_blank" rel="noopener sponsored" class="bench-card frame group p-5 flex flex-col">
+              <div class="flex items-center justify-between mb-3">
+                <span class="chip">{deal.retailer}</span>
+                {deal.discountPct && <span class="font-mono text-xs font-semibold text-void bg-signal px-2 py-0.5">-{deal.discountPct}%</span>}
+              </div>
+              <div class="font-display font-700 text-ink leading-snug mb-3 flex-1 group-hover:text-signal transition-colors">{device}</div>
+              <div class="flex items-end gap-2">
+                <span class="font-display font-900 text-2xl text-signal leading-none">${deal.price}</span>
+                {deal.wasPrice && <span class="font-mono text-xs text-dim line-through mb-0.5">${deal.wasPrice}</span>}
+                <span class="label text-dim ml-auto">Get deal →</span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
   <!-- ─── FEATURED ──────────────────────────────────────────── -->
   <section class="max-w-6xl mx-auto px-4 py-20">
     <div class="flex items-end justify-between mb-9">
@@ -161,6 +203,8 @@ function meter(rating: number) {
         <a href={`/reviews/${review.slug}`} class="bench-card frame group p-6 flex flex-col">
           <div class="flex items-start justify-between mb-5">
             <div class="flex flex-wrap gap-1.5">
+              {fresh(review) === 'updated' && <span class="chip text-scope border-scope/40">◆ UPDATED</span>}
+              {fresh(review) === 'new' && <span class="chip text-signal border-signal/40">◆ NEW</span>}
               {review.data.tags.slice(0, 2).map(tag => <span class="chip">{tag}</span>)}
             </div>
             <div class="text-right shrink-0">
@@ -218,11 +262,14 @@ function meter(rating: number) {
         <a href={`/reviews/${review.slug}`} class="log-row group flex items-center gap-4 px-5 py-4">
           <span class="font-mono text-xs text-dim w-7 shrink-0">{String(i + 1).padStart(2, '0')}</span>
           <div class="flex-1 min-w-0">
-            <h3 class="font-display font-700 text-ink group-hover:text-signal transition-colors truncate">
+            <h3 class="font-display font-700 text-ink group-hover:text-signal transition-colors truncate flex items-center gap-2">
               {review.data.title.replace(/ Review.*$/i, '').trim()}
+              {fresh(review) === 'updated' && <span class="chip text-scope border-scope/40 shrink-0">UPDATED</span>}
+              {fresh(review) === 'new' && <span class="chip text-signal border-signal/40 shrink-0">NEW</span>}
             </h3>
             <time class="label text-dim block mt-0.5">
-              {new Date(review.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
+              {new Date(review.data.updatedDate ?? review.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
+              {review.data.updatedDate && <span class="text-dim"> · updated</span>}
             </time>
           </div>
           <div class="hidden sm:block meter shrink-0">

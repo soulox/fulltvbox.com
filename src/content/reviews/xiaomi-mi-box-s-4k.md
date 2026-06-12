@@ -7,6 +7,20 @@ featured: false
 image: "/images/reviews/xiaomi-mi-box-s-4k.jpg"
 tags: ["android tv", "4k", "budget", "xiaomi"]
 affiliate: "https://www.amazon.com/dp/B07KLWGGYS?tag=fulltvbox-20"
+price: 49
+specs:
+  releaseYear: 2023
+  price: 49
+  soc: "Amlogic quad-core"
+  ram: "2 GB"
+  storage: "8 GB"
+  os: "Google TV"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+"]
+  audio: ["Dolby Atmos"]
+  connectivity: ["Wi-Fi 5", "Bluetooth"]
+  ports: ["HDMI 2.1", "USB 2.0"]
+  remote: "Google Assistant voice remote"
 ---
 
 ## Overview

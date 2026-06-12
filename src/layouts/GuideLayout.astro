@@ -1,14 +1,17 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { freshness } from '../lib/freshness';
 
 interface Props {
   title: string;
   description: string;
   publishDate: string;
+  updatedDate?: string;
   image?: string;
   ogImage?: string;
 }
-const { title, description, publishDate, image, ogImage } = Astro.props;
+const { title, description, publishDate, updatedDate, image, ogImage } = Astro.props;
+const fresh = freshness(publishDate, updatedDate);
 
 const site = Astro.site;
 const pageUrl = new URL(Astro.url.pathname, site).href;
@@ -19,6 +22,7 @@ const jsonLd = [
     headline: title,
     description,
     datePublished: publishDate,
+    ...(updatedDate ? { dateModified: updatedDate } : {}),
     author: { '@type': 'Organization', name: 'FullTVBox', url: site?.href },
     publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/favicon.svg', site).href } },
     mainEntityOfPage: pageUrl,
@@ -39,7 +43,7 @@ const jsonLd = [
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
   <!-- Breadcrumbs -->
-  <nav class="max-w-3xl mx-auto px-4 pt-8 label flex items-center gap-2">
+  <nav class="max-w-3xl mx-auto px-4 pt-8 label flex items-center gap-2" data-pagefind-ignore>
     <a href="/" class="hover:text-signal transition-colors">Home</a>
     <span class="text-line-bright">/</span>
     <a href="/guides" class="hover:text-signal transition-colors">Guides</a>
@@ -47,15 +51,20 @@ const jsonLd = [
     <span class="text-muted truncate">{title}</span>
   </nav>
 
-  <article class="max-w-3xl mx-auto px-4 py-8">
+  <article class="max-w-3xl mx-auto px-4 py-8" data-pagefind-body data-pagefind-filter="type:guide">
     {image && (
       <img src={image} alt={title} width="960" height="288" class="w-full h-72 mb-8 object-contain bg-panel border border-line" onerror="this.style.display='none';" />
     )}
 
-    <div class="label mb-3 flex items-center gap-2">
+    <div class="label mb-3 flex items-center gap-2 flex-wrap">
       <span class="text-signal">GUIDE</span>
+      {fresh === 'updated' && <span class="chip text-scope border-scope/40">◆ UPDATED</span>}
+      {fresh === 'new' && <span class="chip text-signal border-signal/40">◆ NEW</span>}
       <span class="text-line-bright">·</span>
       <time>{new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      {updatedDate && (
+        <span class="text-dim">· updated {new Date(updatedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+      )}
     </div>
 
     <h1 class="font-display font-900 text-4xl sm:text-5xl leading-[0.95] tracking-tight text-ink mb-4">{title}</h1>

@@ -7,6 +7,23 @@ featured: false
 image: "/images/reviews/apple-tv-4k-3rd-gen.jpg"
 tags: ["apple", "4k", "premium", "airplay", "homekit"]
 affiliate: "https://www.amazon.com/dp/B0BJLW4GHR?tag=fulltvbox-20"
+updatedDate: "2026-06-05"
+price: 129
+specs:
+  releaseYear: 2022
+  price: 129
+  soc: "Apple A15 Bionic"
+  ram: "4 GB"
+  storage: "64 / 128 GB"
+  os: "tvOS"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+", "HLG"]
+  audio: ["Dolby Atmos"]
+  connectivity: ["Wi-Fi 6", "Bluetooth 5.0", "Ethernet (128GB)", "Thread"]
+  ports: ["HDMI 2.1", "Gigabit Ethernet (128GB)"]
+  remote: "Siri Remote (2nd gen, USB-C)"
+  dimensions: "93 x 93 x 31 mm"
+  weight: "208 g"
 ---
 
 ## Overview

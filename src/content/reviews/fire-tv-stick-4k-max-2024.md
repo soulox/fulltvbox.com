@@ -7,6 +7,22 @@ featured: true
 image: "/images/reviews/fire-tv-stick-4k-max-2024.jpg"
 tags: ["amazon", "fire tv", "4k", "budget", "alexa"]
 affiliate: "https://www.amazon.com/dp/B0CFJ4Y5XD?tag=fulltvbox-20"
+updatedDate: "2026-06-02"
+price: 59
+specs:
+  releaseYear: 2023
+  price: 59
+  soc: "MediaTek MT7921LS quad-core 1.8 GHz"
+  ram: "2 GB"
+  storage: "16 GB"
+  os: "Fire OS"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+", "HLG"]
+  audio: ["Dolby Atmos"]
+  connectivity: ["Wi-Fi 6E", "Bluetooth 5.2"]
+  ports: ["HDMI 2.1", "Micro-USB (power)"]
+  remote: "Alexa Voice Remote Enhanced"
+  weight: "48.4 g"
 ---
 
 ## Overview

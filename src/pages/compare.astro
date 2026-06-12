@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDevices } from '../lib/devices';
+
+const devices = await getDevices();
+---
+<BaseLayout title="Compare TV Boxes" description="Side-by-side spec and score comparison of the streaming boxes and sticks we've tested.">
+  <div class="max-w-6xl mx-auto px-4 py-14">
+    <span class="label text-signal">// Compare</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">Compare TV Boxes</h1>
+    <p class="text-muted mb-8 max-w-2xl">
+      Pick up to three devices to see specs, bench scores, and prices side by side.
+      The best value in each row is highlighted in <span class="text-signal">signal green</span>.
+    </p>
+
+    <!-- pickers -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+      {[0, 1, 2].map((i) => (
+        <select data-slot={i} class="compare-select" aria-label={`Device slot ${i + 1}`}>
+          <option value="">+ Add device</option>
+          {devices.map((d) => <option value={d.slug}>{d.name}</option>)}
+        </select>
+      ))}
+    </div>
+
+    <div id="compare-table" class="overflow-x-auto"></div>
+    <p id="compare-empty" class="panel frame px-6 py-16 text-center label text-dim hidden">
+      Select at least one device above to start comparing.
+    </p>
+
+    <script type="application/json" id="devices-data" set:html={JSON.stringify(devices)}></script>
+  </div>
+
+  <style>
+    .compare-select {
+      width: 100%; font-family: "IBM Plex Mono", monospace; font-size: 0.85rem;
+      color: var(--ink); background: var(--panel); border: 1px solid var(--line-bright);
+      padding: 0.7rem 0.9rem; cursor: pointer; appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--signal) 50%), linear-gradient(135deg, var(--signal) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 1.2rem, calc(100% - 13px) 1.2rem;
+      background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+    }
+    .compare-select:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+    :global(.cmp) { width: 100%; border-collapse: collapse; min-width: 640px; }
+    :global(.cmp th), :global(.cmp td) {
+      border: 1px solid var(--line); padding: 0.65rem 0.85rem; text-align: left; vertical-align: top;
+    }
+    :global(.cmp thead th) { background: var(--panel); vertical-align: bottom; }
+    :global(.cmp .row-label) {
+      font-family: "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: 0.1em;
+      font-size: 0.62rem; color: var(--dim); white-space: nowrap; background: var(--panel); width: 9rem;
+    }
+    :global(.cmp td) { font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; color: var(--ink); }
+    :global(.cmp .cmp-best) { color: var(--signal); position: relative; }
+    :global(.cmp .cmp-best::before) { content: "● "; font-size: 0.7em; }
+    :global(.cmp .dev-name) { font-family: "Archivo", sans-serif; font-weight: 800; font-size: 1rem; color: var(--ink); }
+    :global(.cmp .dev-name:hover) { color: var(--signal); }
+    :global(.cmp .dev-score) { font-family: "Archivo", sans-serif; font-weight: 900; font-size: 1.4rem; color: var(--signal); line-height: 1; }
+    :global(.cmp .dev-img) { width: 100%; height: 80px; object-fit: contain; background: var(--panel2); border: 1px solid var(--line); margin-bottom: 0.6rem; }
+    :global(.cmp .dev-cta) { display: inline-flex; gap: 0.4rem; font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+    :global(.cmp .dev-cta:hover) { color: var(--signal); }
+  </style>
+
+  <script>
+    type Device = {
+      slug: string; name: string; rating: number; price: number | null;
+      image: string | null; affiliate: string | null; specs: Record<string, any>;
+    };
+    const DEVICES: Device[] = JSON.parse(document.getElementById('devices-data')!.textContent || '[]');
+    const bySlug = new Map(DEVICES.map((d) => [d.slug, d]));
+    const selects = Array.from(document.querySelectorAll<HTMLSelectElement>('.compare-select'));
+    const tableEl = document.getElementById('compare-table')!;
+    const emptyEl = document.getElementById('compare-empty')!;
+
+    type Row = { key: string; label: string; better?: 'max' | 'min' | 'maxnum' | 'maxlen'; meter?: boolean };
+    const ROWS: Row[] = [
+      { key: 'rating', label: 'Bench score', better: 'max', meter: true },
+      { key: 'price', label: 'Price', better: 'min' },
+      { key: 'releaseYear', label: 'Released', better: 'max' },
+      { key: 'soc', label: 'Chipset' },
+      { key: 'ram', label: 'RAM', better: 'maxnum' },
+      { key: 'storage', label: 'Storage', better: 'maxnum' },
+      { key: 'os', label: 'OS' },
+      { key: 'maxResolution', label: 'Max output' },
+      { key: 'hdr', label: 'HDR', better: 'maxlen' },
+      { key: 'audio', label: 'Audio', better: 'maxlen' },
+      { key: 'connectivity', label: 'Connectivity', better: 'maxlen' },
+      { key: 'ports', label: 'Ports' },
+      { key: 'remote', label: 'Remote' },
+      { key: 'weight', label: 'Weight' },
+    ];
+
+    const esc = (s: any) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+    const getVal = (d: Device, key: string) => (key === 'rating' ? d.rating : key === 'price' ? d.price : d.specs?.[key]);
+    const fmt = (key: string, v: any) =>
+      v == null || v === '' ? '—' : Array.isArray(v) ? esc(v.join(', ')) : key === 'price' ? `$${v}` : key === 'rating' ? Number(v).toFixed(1) : esc(v);
+
+    function meterHTML(rating: number) {
+      let s = '';
+      for (let i = 0; i < 5; i++) s += `<span class="seg ${rating >= i + 1 ? 'on' : rating >= i + 0.5 ? 'half' : ''}"></span>`;
+      return `<span class="meter">${s}</span>`;
+    }
+
+    function bestSet(devs: Device[], row: Row): Set<number> {
+      if (!row.better) return new Set();
+      const score = (d: Device): number | null => {
+        const v = getVal(d, row.key);
+        if (v == null || v === '') return null;
+        if (row.better === 'maxlen') return Array.isArray(v) ? v.length : null;
+        const n = parseFloat(String(v));
+        return isNaN(n) ? null : n;
+      };
+      const scores = devs.map(score).filter((n): n is number => n != null);
+      if (scores.length < 2) return new Set();
+      const target = row.better === 'min' ? Math.min(...scores) : Math.max(...scores);
+      if (scores.every((n) => n === target)) return new Set(); // all tied → no highlight
+      const set = new Set<number>();
+      devs.forEach((d, i) => { const s = score(d); if (s != null && s === target) set.add(i); });
+      return set;
+    }
+
+    function currentIds(): string[] {
+      return selects.map((s) => s.value).filter(Boolean);
+    }
+
+    function render() {
+      const ids = currentIds();
+      const devs = ids.map((id) => bySlug.get(id)).filter(Boolean) as Device[];
+      if (!devs.length) {
+        tableEl.innerHTML = '';
+        emptyEl.classList.remove('hidden');
+        return;
+      }
+      emptyEl.classList.add('hidden');
+
+      const head = devs.map((d) => `
+        <th>
+          ${d.image ? `<img class="dev-img" src="${esc(d.image)}" alt="${esc(d.name)}" loading="lazy">` : ''}
+          <a class="dev-name" href="/reviews/${esc(d.slug)}">${esc(d.name)}</a>
+          <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0">
+            <span class="dev-score">${d.rating.toFixed(1)}</span>${meterHTML(d.rating)}
+          </div>
+          <div style="display:flex;gap:1rem">
+            <a class="dev-cta" href="/reviews/${esc(d.slug)}">Review →</a>
+            ${d.affiliate ? `<a class="dev-cta" href="${esc(d.affiliate)}" target="_blank" rel="noopener sponsored">Buy →</a>` : ''}
+          </div>
+        </th>`).join('');
+
+      const body = ROWS.map((row) => {
+        const best = bestSet(devs, row);
+        const cells = devs.map((d, i) => {
+          const v = getVal(d, row.key);
+          const html = row.meter && v != null ? `${Number(v).toFixed(1)} ${meterHTML(Number(v))}` : fmt(row.key, v);
+          return `<td class="${best.has(i) ? 'cmp-best' : ''}">${html}</td>`;
+        }).join('');
+        return `<tr><th class="row-label">${row.label}</th>${cells}</tr>`;
+      }).join('');
+
+      tableEl.innerHTML = `<table class="cmp"><thead><tr><th class="row-label"></th>${head}</tr></thead><tbody>${body}</tbody></table>`;
+    }
+
+    function syncUrl() {
+      const ids = currentIds();
+      const url = new URL(location.href);
+      if (ids.length) url.searchParams.set('ids', ids.join(',')); else url.searchParams.delete('ids');
+      history.replaceState(null, '', url);
+    }
+
+    selects.forEach((s) => s.addEventListener('change', () => { syncUrl(); render(); }));
+
+    // init from ?ids=, else default to the two highest-rated devices
+    const initial = (new URL(location.href).searchParams.get('ids') || '')
+      .split(',').map((s) => s.trim()).filter((id) => bySlug.has(id)).slice(0, 3);
+    const ids = initial.length ? initial : [...DEVICES].sort((a, b) => b.rating - a.rating).slice(0, 2).map((d) => d.slug);
+    ids.forEach((id, i) => { if (selects[i]) selects[i].value = id; });
+    syncUrl();
+    render();
+  </script>
+</BaseLayout>

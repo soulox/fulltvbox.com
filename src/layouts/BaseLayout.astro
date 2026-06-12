@@ -1,4 +1,6 @@
 ---
+import SearchModal from '../components/SearchModal.astro';
+
 interface Props {
   title: string;
   description?: string;
@@ -17,10 +19,11 @@ const path = Astro.url.pathname;
 
 const nav = [
   { href: '/reviews', label: 'Reviews', ch: '02' },
-  { href: '/best-picks', label: 'Best Picks', ch: '03' },
-  { href: '/guides', label: 'Guides', ch: '04' },
-  { href: '/tutorials', label: 'Tutorials', ch: '05' },
-  { href: '/about', label: 'About', ch: '06' },
+  { href: '/deals', label: 'Deals', ch: '03' },
+  { href: '/compare', label: 'Compare', ch: '04' },
+  { href: '/best-picks', label: 'Best Picks', ch: '05' },
+  { href: '/guides', label: 'Guides', ch: '06' },
+  { href: '/tutorials', label: 'Tutorials', ch: '07' },
 ];
 
 function isActive(href: string) {
@@ -69,7 +72,7 @@ function isActive(href: string) {
   <div class="smpte-bars h-1 w-full relative z-[60]"></div>
 
   <!-- ─── header / broadcast bar ──────────────────────────────── -->
-  <header class="sticky top-0 z-50 border-b border-line bg-void/85 backdrop-blur-md">
+  <header class="sticky top-0 z-50 border-b border-line bg-void/85 backdrop-blur-md" data-pagefind-ignore>
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="/" class="group flex items-center gap-3" aria-label="FullTVBox home">
         <span class="tally" aria-hidden="true"></span>
@@ -79,18 +82,26 @@ function isActive(href: string) {
         <span class="hidden md:inline label text-[0.6rem] text-dim pl-2 border-l border-line">CH·01 / AV TEST LAB</span>
       </a>
 
-      <!-- Desktop nav -->
-      <nav class="hidden sm:flex items-center gap-1 text-sm">
-        {nav.map(item => (
-          <a
-            href={item.href}
-            class={`nav-link ${isActive(item.href) ? 'is-active' : ''}`}
-          >
-            <span class="nav-ch">{item.ch}</span>
-            {item.label}
-          </a>
-        ))}
-      </nav>
+      <div class="flex items-center gap-2">
+        <!-- Desktop nav -->
+        <nav class="hidden sm:flex items-center gap-1 text-sm">
+          {nav.map(item => (
+            <a
+              href={item.href}
+              class={`nav-link ${isActive(item.href) ? 'is-active' : ''}`}
+            >
+              <span class="nav-ch">{item.ch}</span>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <!-- Search trigger -->
+        <button data-search-open type="button" aria-label="Search (press /)"
+          class="inline-flex items-center gap-2 text-muted hover:text-signal hover:border-signal border border-line px-2.5 py-1.5 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span class="hidden md:inline label">/</span>
+        </button>
 
       <!-- Mobile hamburger -->
       <button id="menu-btn" class="sm:hidden text-muted hover:text-signal p-1 transition-colors" aria-label="Toggle menu">
@@ -101,6 +112,7 @@ function isActive(href: string) {
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
+      </div>
     </div>
 
     <!-- Mobile menu -->
@@ -120,7 +132,7 @@ function isActive(href: string) {
   </main>
 
   <!-- ─── footer / instrument panel ───────────────────────────── -->
-  <footer class="relative z-10 border-t border-line mt-24">
+  <footer class="relative z-10 border-t border-line mt-24" data-pagefind-ignore>
     <div class="smpte-bars h-0.5 w-full opacity-60"></div>
     <div class="max-w-6xl mx-auto px-4 py-10">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -135,6 +147,8 @@ function isActive(href: string) {
         <div class="grid grid-cols-2 gap-x-10 gap-y-1.5 text-sm">
           <div class="label text-dim mb-1 col-span-2">// Index</div>
           <a href="/reviews" class="text-muted hover:text-signal transition-colors">Reviews</a>
+          <a href="/deals" class="text-muted hover:text-signal transition-colors">Deals</a>
+          <a href="/compare" class="text-muted hover:text-signal transition-colors">Compare</a>
           <a href="/best-picks" class="text-muted hover:text-signal transition-colors">Best Picks</a>
           <a href="/guides" class="text-muted hover:text-signal transition-colors">Guides</a>
           <a href="/tutorials" class="text-muted hover:text-signal transition-colors">Tutorials</a>
@@ -153,6 +167,8 @@ function isActive(href: string) {
       </div>
     </div>
   </footer>
+
+  <SearchModal />
 
   <script>
     const btn = document.getElementById('menu-btn');

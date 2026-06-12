@@ -7,6 +7,23 @@ featured: false
 image: "/images/reviews/chromecast-google-tv-4k.jpg"
 tags: ["google tv", "4k", "chromecast", "budget", "android"]
 affiliate: "https://www.amazon.com/dp/B08KRV7NRD?tag=fulltvbox-20"
+price: 49
+specs:
+  releaseYear: 2020
+  price: 49
+  soc: "Amlogic S905X3"
+  cpu: "Quad-core Cortex-A55"
+  ram: "2 GB"
+  storage: "8 GB"
+  os: "Google TV (Android TV 12)"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+", "HLG"]
+  audio: ["Dolby Atmos"]
+  connectivity: ["Wi-Fi 5", "Bluetooth 4.2"]
+  ports: ["HDMI 2.0", "USB-C (power)"]
+  remote: "Google TV voice remote"
+  dimensions: "162 x 61 x 12.5 mm"
+  weight: "55 g"
 ---
 
 ## Overview

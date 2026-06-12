@@ -24,12 +24,15 @@ Requires Node ≥ 20.19.
 ```
 src/
   content/
-    reviews/      # product reviews   (rating 1–5, affiliate, tags, featured)
+    reviews/      # product reviews   (rating 1–5, price, specs, affiliate, tags, featured)
     guides/       # buying / setup guides
     tutorials/    # Raspberry Pi & home-lab how-tos (difficulty, duration)
+    deals/        # curated price drops (YAML, one per file)
     config.ts     # collection schemas
+  components/     # SearchModal (Pagefind UI)
   layouts/        # BaseLayout + Review/Guide/Tutorial layouts
-  pages/          # routes (incl. /og/** OG image endpoints)
+  lib/            # freshness, deals, devices helpers
+  pages/          # routes (incl. /deals, /compare, /devices.json, /og/**)
   og/             # build-time OG card renderer + vendored fonts
 public/
   images/reviews/ # self-hosted product photos
@@ -37,6 +40,36 @@ public/
 
 Add content by dropping a Markdown file into the relevant `src/content/<collection>/`
 folder with the frontmatter its schema requires (see `src/content/config.ts`).
+
+### Freshness
+
+Set `updatedDate: "YYYY-MM-DD"` on any review/guide/tutorial when you re-test or refresh it.
+Content published or updated within 30 days shows a **NEW** / **UPDATED** badge and floats to
+the top of "Latest" lists (logic in `src/lib/freshness.ts`).
+
+### Deals
+
+Each deal is one YAML file in `src/content/deals/`:
+
+```yaml
+device: nvidia-shield-tv-pro-2025   # must match a review slug
+retailer: Amazon
+price: 169
+wasPrice: 199            # optional — drives the discount %
+url: "https://…?tag=fulltvbox-20"  # affiliate link
+badge: Lowest in 6 months           # optional
+expires: "2026-06-22"               # optional — auto-hidden once past
+featured: true                      # optional — surfaces on the homepage strip
+```
+
+Expired deals disappear automatically at the next build. A live deal also replaces the
+"Check Price" CTA on its review and adds `Offer` JSON-LD.
+
+### Specs & comparison
+
+Reviews carry an optional `specs` object (SoC, RAM, storage, OS, resolution, HDR/audio/ports,
+price, year). It renders a spec sheet on the review page, powers `/compare` (side-by-side with
+best-in-row highlighting), and is exposed as a JSON feed at `/devices.json`.
 
 ## Design system — "Test Bench"
 
@@ -48,6 +81,15 @@ SMPTE color bars, VU-meter scores, and mono instrument labels. Tokens live in
 
 - **Fonts:** Archivo (display), IBM Plex Sans (body), IBM Plex Mono (labels).
 - **Accessibility:** WCAG 2.1 AA — verified 0 violations via axe-core.
+
+## Search
+
+Site-wide search is powered by [Pagefind](https://pagefind.app) via the `astro-pagefind`
+integration. The index is built during `astro build` into `dist/pagefind/` (so the existing
+`wrangler pages deploy dist` ships it). Only article pages are indexed — they carry
+`data-pagefind-body`; chrome carries `data-pagefind-ignore`. The Test Bench-styled modal
+(`src/components/SearchModal.astro`) opens from the header button, the `/` key, or `Cmd/Ctrl-K`.
+Search works in `astro dev`/`preview` only after at least one build.
 
 ## Social / OG images
 

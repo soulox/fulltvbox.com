@@ -6,6 +6,20 @@ rating: 4.5
 featured: false
 tags: ["roku", "4k", "streaming", "ethernet"]
 affiliate: "https://www.amazon.com/dp/B0CXJL61S5?tag=fulltvbox-20"
+price: 99
+specs:
+  releaseYear: 2024
+  price: 99
+  soc: "Quad-core"
+  ram: "2 GB"
+  storage: "8 GB"
+  os: "Roku OS"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+", "HLG"]
+  audio: ["Dolby Atmos", "DTS"]
+  connectivity: ["Wi-Fi 6", "Bluetooth", "Ethernet"]
+  ports: ["HDMI 2.1", "Gigabit Ethernet", "USB-A"]
+  remote: "Roku Voice Remote Pro (2nd gen)"
 ---
 
 ## Overview

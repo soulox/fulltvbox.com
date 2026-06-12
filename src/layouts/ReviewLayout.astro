@@ -1,17 +1,31 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { freshness } from '../lib/freshness';
+import type { LiveDeal } from '../lib/deals';
 
+interface Specs {
+  releaseYear?: number; price?: number; soc?: string; cpu?: string; gpu?: string;
+  ram?: string; storage?: string; os?: string; maxResolution?: string;
+  hdr?: string[]; audio?: string[]; connectivity?: string[]; ports?: string[];
+  remote?: string; dimensions?: string; weight?: string;
+}
 interface Props {
   title: string;
   description: string;
   publishDate: string;
+  updatedDate?: string;
   rating: number;
+  price?: number;
   image?: string;
   affiliate?: string;
+  specs?: Specs;
+  deal?: LiveDeal;
   ogImage?: string;
 }
-const { title, description, publishDate, rating, image, affiliate, ogImage } = Astro.props;
+const { title, description, publishDate, updatedDate, rating, price, image, affiliate, specs, deal, ogImage } = Astro.props;
 const device = title.replace(/ Review.*$/i, '').trim();
+const slug = Astro.url.pathname.replace(/\/$/, '').split('/').pop();
+const fresh = freshness(publishDate, updatedDate);
 
 const segments = Array.from({ length: 5 }, (_, i) => {
   if (rating >= i + 1) return 'on';
@@ -19,19 +33,38 @@ const segments = Array.from({ length: 5 }, (_, i) => {
   return 'off';
 });
 
+const specRows: [string, string][] = [
+  ['releaseYear', 'Released'], ['price', 'Launch price'], ['soc', 'Chipset'], ['cpu', 'CPU'],
+  ['gpu', 'GPU'], ['ram', 'RAM'], ['storage', 'Storage'], ['os', 'OS'],
+  ['maxResolution', 'Max output'], ['hdr', 'HDR'], ['audio', 'Audio'],
+  ['connectivity', 'Connectivity'], ['ports', 'Ports'], ['remote', 'Remote'],
+  ['dimensions', 'Dimensions'], ['weight', 'Weight'],
+];
+const fmtSpec = (k: string, v: unknown) =>
+  Array.isArray(v) ? v.join(', ') : k === 'price' ? `$${v}` : String(v);
+const specEntries = specs
+  ? specRows.filter(([k]) => specs[k as keyof Specs] != null).map(([k, label]) => [label, fmtSpec(k, specs[k as keyof Specs])] as [string, string])
+  : [];
+
+const site = Astro.site;
+const pageUrl = new URL(Astro.url.pathname, site).href;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Review',
   name: title,
   description,
   datePublished: publishDate,
+  ...(updatedDate ? { dateModified: updatedDate } : {}),
   author: { '@type': 'Organization', name: 'FullTVBox', url: 'https://fulltvbox.com' },
   reviewRating: { '@type': 'Rating', ratingValue: rating, bestRating: 5, worstRating: 1 },
-  itemReviewed: { '@type': 'Product', name: device },
+  itemReviewed: {
+    '@type': 'Product',
+    name: device,
+    ...(deal
+      ? { offers: { '@type': 'Offer', price: deal.price, priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: deal.url } }
+      : {}),
+  },
 };
-
-const site = Astro.site;
-const pageUrl = new URL(Astro.url.pathname, site).href;
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -48,7 +81,7 @@ const breadcrumb = {
   </Fragment>
 
   <!-- Breadcrumbs -->
-  <nav class="max-w-3xl mx-auto px-4 pt-8 label flex items-center gap-2">
+  <nav class="max-w-3xl mx-auto px-4 pt-8 label flex items-center gap-2" data-pagefind-ignore>
     <a href="/" class="hover:text-signal transition-colors">Home</a>
     <span class="text-line-bright">/</span>
     <a href="/reviews" class="hover:text-signal transition-colors">Reviews</a>
@@ -56,7 +89,7 @@ const breadcrumb = {
     <span class="text-muted truncate">{device}</span>
   </nav>
 
-  <article class="max-w-3xl mx-auto px-4 py-8">
+  <article class="max-w-3xl mx-auto px-4 py-8" data-pagefind-body data-pagefind-filter="type:review">
 
     {image && (
       <img
@@ -78,17 +111,22 @@ const breadcrumb = {
       </div>
     </div>
 
-    <div class="label mb-3 flex items-center gap-2">
+    <div class="label mb-3 flex items-center gap-2 flex-wrap">
       <span class="text-signal">REVIEW</span>
+      {fresh === 'updated' && <span class="chip text-scope border-scope/40">◆ UPDATED</span>}
+      {fresh === 'new' && <span class="chip text-signal border-signal/40">◆ NEW</span>}
       <span class="text-line-bright">·</span>
       <time>{new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      {updatedDate && (
+        <span class="text-dim">· updated {new Date(updatedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+      )}
     </div>
 
     <h1 class="font-display font-900 text-4xl sm:text-5xl leading-[0.95] tracking-tight text-ink mb-4">{title}</h1>
     <p class="text-muted text-lg mb-8 leading-relaxed">{description}</p>
 
     <!-- verdict panel -->
-    <div class="panel frame mb-10">
+    <div class="panel frame mb-6">
       <div class="px-5 sm:px-6 py-5 flex items-center gap-6 flex-wrap">
         <div>
           <div class="label mb-2">Bench score</div>
@@ -100,14 +138,51 @@ const breadcrumb = {
           <span class="font-display font-900 text-5xl text-signal leading-none glow-text">{rating.toFixed(1)}</span>
           <span class="label mb-1">/ 5.0</span>
         </div>
-        {affiliate && (
-          <a href={affiliate} target="_blank" rel="noopener sponsored" class="btn-signal ml-auto">
-            Check Price →
-          </a>
-        )}
+
+        <div class="ml-auto flex items-center gap-4 flex-wrap">
+          {deal ? (
+            <div class="flex items-center gap-4">
+              <div class="text-right">
+                <div class="flex items-end gap-1.5">
+                  <span class="font-display font-900 text-2xl text-signal leading-none">${deal.price}</span>
+                  {deal.wasPrice && <span class="font-mono text-xs text-dim line-through mb-0.5">${deal.wasPrice}</span>}
+                </div>
+                <div class="label text-dim mt-0.5">{deal.retailer}{deal.discountPct ? ` · -${deal.discountPct}%` : ''}</div>
+              </div>
+              <a href={deal.url} target="_blank" rel="noopener sponsored" class="btn-signal">Get deal →</a>
+            </div>
+          ) : affiliate ? (
+            <a href={affiliate} target="_blank" rel="noopener sponsored" class="btn-signal">
+              Check Price →{price ? ` $${price}` : ''}
+            </a>
+          ) : null}
+        </div>
       </div>
       <div class="smpte-bars h-1 w-full opacity-70"></div>
     </div>
+
+    <!-- compare affordance -->
+    <div class="flex items-center gap-3 mb-10">
+      <a href={`/compare?ids=${slug}`} class="btn-ghost !px-4 !py-2" data-compare-add={slug}>+ Add to compare</a>
+      {deal && <span class="label text-dim">Live deal active · prices change fast</span>}
+    </div>
+
+    {specEntries.length > 0 && (
+      <section id="specs" class="panel frame mb-10" aria-label="Specifications">
+        <div class="px-5 sm:px-6 py-4 border-b border-line flex items-center gap-2">
+          <span class="tally tally-sm"></span>
+          <span class="label text-signal">// Spec sheet</span>
+        </div>
+        <dl class="divide-y divide-line">
+          {specEntries.map(([label, value]) => (
+            <div class="px-5 sm:px-6 py-3 grid grid-cols-[8rem_1fr] gap-4 items-baseline">
+              <dt class="label text-dim">{label}</dt>
+              <dd class="text-ink/90 text-sm font-mono">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
 
     <div class="prose prose-invert prose-lg max-w-none prose-bench
       prose-headings:font-display prose-headings:text-ink

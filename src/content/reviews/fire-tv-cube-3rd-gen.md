@@ -7,6 +7,22 @@ featured: false
 image: "/images/reviews/fire-tv-cube-3rd-gen.jpg"
 tags: ["amazon", "fire tv", "4k", "alexa", "ethernet"]
 affiliate: "https://www.amazon.com/dp/B09BZZ3MM7?tag=fulltvbox-20"
+price: 139
+specs:
+  releaseYear: 2022
+  price: 139
+  soc: "Octa-core 2.0 GHz"
+  ram: "2 GB"
+  storage: "16 GB"
+  os: "Fire OS"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+", "HLG"]
+  audio: ["Dolby Atmos"]
+  connectivity: ["Wi-Fi 6E", "Bluetooth", "Ethernet"]
+  ports: ["HDMI 2.1 out", "HDMI in", "Ethernet", "USB-A"]
+  remote: "Alexa Voice Remote Enhanced"
+  dimensions: "86 x 86 x 77 mm"
+  weight: "513 g"
 ---
 
 ## Overview

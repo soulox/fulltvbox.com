@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLiveDeals } from '../lib/deals';
+import { daysUntil } from '../lib/freshness';
+
+const liveDeals = await getLiveDeals();
+
+function endsLabel(expires?: string) {
+  if (!expires) return null;
+  const d = daysUntil(expires);
+  if (d <= 0) return 'Ends today';
+  if (d === 1) return 'Ends tomorrow';
+  return `Ends in ${d} days`;
+}
+
+const deals = liveDeals.map((deal) => {
+  const d = deal.expires ? daysUntil(deal.expires) : null;
+  return {
+    ...deal,
+    name: deal.review?.data.title.replace(/ Review.*$/i, '').trim() ?? deal.device,
+    hasReview: !!deal.review,
+    ends: endsLabel(deal.expires),
+    urgent: d !== null && d <= 3,
+  };
+});
+
+// AggregateOffer JSON-LD across live deals
+const prices = deals.map((d) => d.price);
+const jsonLd = prices.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'OfferCatalog',
+      name: 'FullTVBox Live TV Box Deals',
+      numberOfItems: deals.length,
+    }
+  : null;
+---
+<BaseLayout title="Live TV Box Deals" description="Current deals and price drops on the streaming boxes and sticks we've tested.">
+  {jsonLd && (
+    <Fragment slot="head">
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    </Fragment>
+  )}
+
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <div class="flex items-center gap-3">
+      <span class="tally tally-sm"></span>
+      <span class="label text-signal">// Live feed — Deals</span>
+    </div>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">TV Box Deals</h1>
+    <p class="text-muted mb-10 max-w-2xl">
+      Current price drops on devices we've actually tested. Prices and availability change fast —
+      we verify against the retailer, but always confirm at checkout. Affiliate links fund the bench.
+    </p>
+
+    {deals.length === 0 ? (
+      <div class="panel frame px-6 py-16 text-center">
+        <div class="label text-signal mb-2 flex items-center justify-center gap-2"><span class="tally tally-sm"></span> NO SIGNAL</div>
+        <p class="text-muted">No live deals right now — check back soon.</p>
+      </div>
+    ) : (
+      <div class="grid sm:grid-cols-2 gap-5">
+        {deals.map((deal) => (
+          <div class="bench-card frame p-6 flex flex-col">
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="chip">{deal.retailer}</span>
+                {deal.badge && <span class="chip text-signal border-signal/40">★ {deal.badge}</span>}
+              </div>
+              {deal.discountPct && (
+                <span class="font-mono text-xs font-semibold text-void bg-signal px-2 py-1 shrink-0">-{deal.discountPct}%</span>
+              )}
+            </div>
+
+            {deal.hasReview ? (
+              <a href={`/reviews/${deal.device}`} class="font-display font-700 text-lg leading-snug text-ink hover:text-signal transition-colors mb-3">
+                {deal.name}
+              </a>
+            ) : (
+              <div class="font-display font-700 text-lg leading-snug text-ink mb-3">{deal.name}</div>
+            )}
+
+            <div class="flex items-end gap-3 mb-4">
+              <span class="font-display font-900 text-3xl text-signal leading-none">${deal.price}</span>
+              {deal.wasPrice && <span class="font-mono text-sm text-dim line-through mb-0.5">${deal.wasPrice}</span>}
+            </div>
+
+            <div class="flex items-center justify-between gap-3 mt-auto pt-3 border-t border-line">
+              {deal.ends && (
+                <span class={`label ${deal.urgent ? 'text-amber' : 'text-dim'}`}>{deal.urgent ? '⚠ ' : ''}{deal.ends}</span>
+              )}
+              <a href={deal.url} target="_blank" rel="noopener sponsored" class="btn-signal ml-auto !px-4 !py-2">
+                Get deal →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <p class="label text-dim mt-10">
+      Spotted a better price? Tell us at <a href="mailto:hello@fulltvbox.com" class="text-muted hover:text-signal underline">hello@fulltvbox.com</a>.
+    </p>
+  </div>
+</BaseLayout>

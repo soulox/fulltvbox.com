@@ -7,6 +7,21 @@ featured: false
 image: "/images/reviews/roku-streaming-stick-4k-2023.jpg"
 tags: ["roku", "4k", "budget", "streaming"]
 affiliate: "https://www.amazon.com/dp/B09BKCDXZC?tag=fulltvbox-20"
+price: 49
+specs:
+  releaseYear: 2023
+  price: 49
+  soc: "Quad-core"
+  ram: "1 GB"
+  storage: "4 GB"
+  os: "Roku OS"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+", "HLG"]
+  audio: ["Dolby Atmos (passthrough)"]
+  connectivity: ["Wi-Fi 5 (dual-band)"]
+  ports: ["HDMI 2.0", "USB (power)"]
+  remote: "Roku Voice Remote"
+  weight: "24.5 g"
 ---
 
 ## Overview

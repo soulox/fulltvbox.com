@@ -6,6 +6,20 @@ rating: 4.2
 featured: false
 tags: ["google tv", "4k", "budget", "ethernet", "android"]
 affiliate: "https://www.amazon.com/dp/B0CQKPGQ63?tag=fulltvbox-20"
+price: 49
+specs:
+  releaseYear: 2023
+  price: 49
+  soc: "Amlogic S905Y4"
+  ram: "2 GB"
+  storage: "32 GB"
+  os: "Google TV"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10+", "HLG"]
+  audio: ["Dolby Atmos"]
+  connectivity: ["Wi-Fi 6", "Bluetooth 5.2", "Ethernet"]
+  ports: ["HDMI 2.1", "Ethernet", "USB-A"]
+  remote: "Backlit remote with finder"
 ---
 
 ## Overview

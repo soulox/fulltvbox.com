@@ -1,10 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { freshness, latestDate } from '../../lib/freshness';
 
 const reviews = await getCollection('reviews');
 const sorted = reviews.sort((a, b) =>
-  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+  new Date(latestDate(b.data.publishDate, b.data.updatedDate)).getTime() -
+  new Date(latestDate(a.data.publishDate, a.data.updatedDate)).getTime()
 );
 
 const allTags = [...new Set(reviews.flatMap(r => r.data.tags))].sort();
@@ -40,6 +42,8 @@ function meter(rating: number) {
         >
           <div class="flex items-start justify-between mb-4">
             <div class="flex flex-wrap gap-1.5">
+              {freshness(review.data.publishDate, review.data.updatedDate) === 'updated' && <span class="chip text-scope border-scope/40">◆ UPDATED</span>}
+              {freshness(review.data.publishDate, review.data.updatedDate) === 'new' && <span class="chip text-signal border-signal/40">◆ NEW</span>}
               {review.data.tags.slice(0, 2).map(tag => <span class="chip">{tag}</span>)}
             </div>
             <span class="font-display font-900 text-2xl text-signal leading-none shrink-0">{review.data.rating.toFixed(1)}</span>

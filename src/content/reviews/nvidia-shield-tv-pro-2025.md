@@ -7,6 +7,23 @@ featured: true
 image: "/images/reviews/nvidia-shield-tv-pro-2025.jpg"
 tags: ["android tv", "4k", "gaming", "plex", "nvidia"]
 affiliate: "https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20"
+updatedDate: "2026-06-08"
+price: 199
+specs:
+  releaseYear: 2019
+  price: 199
+  soc: "Nvidia Tegra X1+"
+  ram: "3 GB"
+  storage: "16 GB"
+  os: "Android TV"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10"]
+  audio: ["Dolby Atmos", "DTS-X"]
+  connectivity: ["Wi-Fi 5", "Bluetooth 5.0", "Ethernet"]
+  ports: ["HDMI 2.0b", "Gigabit Ethernet", "2x USB 3.0"]
+  remote: "Motion-activated backlit remote"
+  dimensions: "159 x 98 x 26 mm"
+  weight: "250 g"
 ---
 
 ## Overview

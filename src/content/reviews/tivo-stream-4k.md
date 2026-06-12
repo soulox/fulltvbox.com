@@ -6,6 +6,21 @@ rating: 3.8
 featured: false
 tags: ["4k", "streaming", "android tv", "budget"]
 affiliate: "https://www.amazon.com/dp/B08FBM9GZT?tag=fulltvbox-20"
+price: 49
+specs:
+  releaseYear: 2020
+  price: 49
+  soc: "Amlogic S905Y2"
+  ram: "2 GB"
+  storage: "8 GB"
+  os: "Android TV 9"
+  maxResolution: "4K @ 60fps"
+  hdr: ["Dolby Vision", "HDR10", "HLG"]
+  audio: ["Dolby Atmos (passthrough)"]
+  connectivity: ["Wi-Fi 5", "Bluetooth"]
+  ports: ["HDMI 2.1", "USB-C (power)"]
+  remote: "TiVo voice remote"
+  weight: "44 g"
 ---
 
 ## Overview
