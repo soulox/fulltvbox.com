@@ -9,8 +9,9 @@ interface Props {
   duration: string;
   tags: string[];
   image?: string;
+  ogImage?: string;
 }
-const { title, description, publishDate, difficulty, duration, tags, image } = Astro.props;
+const { title, description, publishDate, difficulty, duration, tags, image, ogImage } = Astro.props;
 
 const difficultyColor = {
   beginner: 'text-signal border-signal/40',
@@ -18,7 +19,7 @@ const difficultyColor = {
   advanced: 'text-magenta border-magenta/40',
 };
 ---
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout title={title} description={description} ogImage={ogImage}>
   <!-- Breadcrumbs -->
   <nav class="max-w-3xl mx-auto px-4 pt-8 label flex items-center gap-2">
     <a href="/" class="hover:text-signal transition-colors">Home</a>

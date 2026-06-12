@@ -6,10 +6,11 @@ interface Props {
   description: string;
   publishDate: string;
   image?: string;
+  ogImage?: string;
 }
-const { title, description, publishDate, image } = Astro.props;
+const { title, description, publishDate, image, ogImage } = Astro.props;
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} ogImage={ogImage}>
   <!-- Breadcrumbs -->
   <nav class="max-w-3xl mx-auto px-4 pt-8 label flex items-center gap-2">
     <a href="/" class="hover:text-signal transition-colors">Home</a>

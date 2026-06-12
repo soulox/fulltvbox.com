@@ -18,6 +18,7 @@ const { Content } = await guide.render();
   description={guide.data.description}
   publishDate={guide.data.publishDate}
   image={guide.data.image}
+  ogImage={`/og/guides/${guide.slug}.png`}
 >
   <Content />
 </GuideLayout>

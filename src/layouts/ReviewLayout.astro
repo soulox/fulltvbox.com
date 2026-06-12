@@ -8,8 +8,9 @@ interface Props {
   rating: number;
   image?: string;
   affiliate?: string;
+  ogImage?: string;
 }
-const { title, description, publishDate, rating, image, affiliate } = Astro.props;
+const { title, description, publishDate, rating, image, affiliate, ogImage } = Astro.props;
 const device = title.replace(/ Review.*$/i, '').trim();
 
 const segments = Array.from({ length: 5 }, (_, i) => {
@@ -29,7 +30,7 @@ const jsonLd = {
   itemReviewed: { '@type': 'Product', name: device },
 };
 ---
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout title={title} description={description} ogImage={ogImage}>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
