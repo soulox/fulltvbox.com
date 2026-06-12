@@ -46,6 +46,7 @@ const guides = defineCollection({
     publishDate: z.string(),
     updatedDate: z.string().optional(),
     image: z.string().optional(),
+    faq: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
   }),
 });
 

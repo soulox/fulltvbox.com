@@ -1,0 +1,46 @@
+---
+interface Props {
+  items: { question: string; answer: string }[];
+  heading?: string;
+}
+const { items, heading = 'FAQ' } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((i) => ({
+    '@type': 'Question',
+    name: i.question,
+    acceptedAnswer: { '@type': 'Answer', text: i.answer },
+  })),
+};
+---
+{items.length > 0 && (
+  <section class="max-w-3xl mx-auto" aria-label="Frequently asked questions">
+    <div class="label text-signal mb-4">// {heading}</div>
+    <div class="panel divide-y divide-line">
+      {items.map((i) => (
+        <details class="faq-item">
+          <summary class="faq-q">{i.question}</summary>
+          <div class="faq-a">{i.answer}</div>
+        </details>
+      ))}
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </section>
+)}
+
+<style>
+  .faq-q {
+    list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; padding: 1rem 1.25rem; font-family: "Archivo", sans-serif; font-weight: 700;
+    color: var(--ink); transition: color 0.15s;
+  }
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-q::after { content: "+"; font-family: "IBM Plex Mono", monospace; color: var(--signal); font-size: 1.2rem; flex-shrink: 0; }
+  details[open] > .faq-q { color: var(--signal); }
+  details[open] > .faq-q::after { content: "−"; }
+  .faq-q:hover { color: var(--signal); }
+  .faq-a { padding: 0 1.25rem 1.1rem; color: var(--muted); line-height: 1.6; font-size: 0.95rem; }
+  .faq-q:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
+</style>

@@ -2,6 +2,17 @@
 title: "Is Cutting the Cord Still Worth It in 2026?"
 description: "Streaming prices keep climbing toward cable territory. Here's the real math on cord-cutting in 2026 — and how to make sure you actually save."
 publishDate: "2026-06-10"
+faq:
+  - question: "Is cutting the cord cheaper than cable in 2026?"
+    answer: "For most households, yes. On-demand streaming (one or two services) runs about $15–40/month versus the ~$83 average cable bill. The savings shrink if you need a full live-TV streaming package, which can cost $80–90/month on its own."
+  - question: "How much does the average streaming stack cost per month?"
+    answer: "A typical household with two or three on-demand services pays roughly $45–55/month ad-free, or less on ad-supported tiers. Add a live-TV service and the total can exceed a cable bill. Use our streaming cost calculator to total your own stack."
+  - question: "What's the cheapest way to cut the cord?"
+    answer: "Start with a one-time streaming box or stick ($40–60), lean on free ad-supported services like Tubi and Pluto TV, and use ad-supported tiers of paid services. Rotate subscriptions instead of keeping them all year."
+  - question: "Do I need a streaming box to cut the cord?"
+    answer: "Not if your TV already has a good built-in smart platform, but a dedicated streaming box or stick is faster, gets updates longer, and gives a consistent interface across TVs. It's a one-time cost that pays for itself within a month or two of cable savings."
+  - question: "Is live-TV streaming worth it over cable?"
+    answer: "Live-TV streaming (YouTube TV, Fubo, Sling) costs about the same as cable but adds flexibility: no contracts, no equipment rental, and you can cancel anytime. The savings come from dropping it in the off-season or sticking to on-demand instead."
 ---
 
 Cord-cutting used to be a no-brainer. Cancel a $130 cable bill, sign up for Netflix, buy a $50 streaming stick, and pocket the difference. In 2026 the math is murkier: streaming services have raised prices nearly every year, ad-free tiers creep upward, and a full live-TV streaming package can cost as much as the cable it replaced.

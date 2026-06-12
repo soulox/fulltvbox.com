@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Faq from '../components/Faq.astro';
 import { freshness } from '../lib/freshness';
 
 interface Props {
@@ -9,8 +10,9 @@ interface Props {
   updatedDate?: string;
   image?: string;
   ogImage?: string;
+  faq?: { question: string; answer: string }[];
 }
-const { title, description, publishDate, updatedDate, image, ogImage } = Astro.props;
+const { title, description, publishDate, updatedDate, image, ogImage, faq } = Astro.props;
 const fresh = freshness(publishDate, updatedDate);
 
 const site = Astro.site;
@@ -77,5 +79,11 @@ const jsonLd = [
       prose-p:text-ink/85 prose-li:text-ink/85 prose-img:border prose-img:border-line">
       <slot />
     </div>
+
+    {faq && faq.length > 0 && (
+      <div class="mt-14">
+        <Faq items={faq} />
+      </div>
+    )}
   </article>
 </BaseLayout>

@@ -10,7 +10,7 @@ const boxes = [...reviews].sort((a, b) => b.data.rating - a.data.rating).slice(0
 const services = (await getServices()).filter((s) => s.featured).slice(0, 6);
 const deals = (await getLiveDeals()).slice(0, 3);
 ---
-<BaseLayout title="Cut the Cord" description="Everything you need to ditch cable: a streaming cost calculator, the best TV boxes, top services, and live deals.">
+<BaseLayout title="Cut the Cord in 2026" description="Everything you need to ditch cable in 2026: a streaming cost calculator, the best TV boxes, top services compared, and live deals — in one place.">
   <!-- hero -->
   <section class="max-w-6xl mx-auto px-4 pt-16 sm:pt-24 pb-10" data-pagefind-body>
     <div class="flex items-center gap-3 mb-6">

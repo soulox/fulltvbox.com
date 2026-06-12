@@ -1,10 +1,34 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CostCalculator from '../components/CostCalculator.astro';
+import Faq from '../components/Faq.astro';
 
 const verified = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+const faq = [
+  {
+    question: 'How much does streaming cost per month?',
+    answer:
+      'It depends on how many services you stack. One or two on-demand services run about $15–40/month; add a live-TV service like YouTube TV and you can pass $80/month. Tick your services above to see your exact total.',
+  },
+  {
+    question: 'Is streaming cheaper than cable?',
+    answer:
+      'On-demand streaming is almost always cheaper than the ~$83 average U.S. cable bill. Once you add a full live-TV streaming package plus several ad-free services, the cost can match or exceed cable.',
+  },
+  {
+    question: 'How do I lower my streaming bill?',
+    answer:
+      'Switch to ad-supported tiers (often half price), pay annually where it is offered to save 15–20%, use free services like Tubi and Pluto TV, and rotate subscriptions instead of paying for all of them year-round.',
+  },
+  {
+    question: 'Does this calculator include taxes and fees?',
+    answer:
+      'No — it uses each service’s list price. Your final bill may be slightly higher with local sales tax, but there are no equipment-rental or hidden cable-style fees with streaming.',
+  },
+];
 ---
-<BaseLayout title="Streaming Cost Calculator" description="Add up your streaming subscriptions and see what your stack really costs per month and per year — versus cable.">
+<BaseLayout title="Streaming Cost Calculator" description="Free calculator: add up your streaming subscriptions and see what your stack really costs per month and per year — and how it compares to cable.">
   <div class="max-w-6xl mx-auto px-4 py-14">
     <span class="label text-signal">// Tool — Streaming cost</span>
     <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">Streaming Cost Calculator</h1>
@@ -15,5 +39,9 @@ const verified = new Date().toLocaleDateString('en-US', { month: 'long', year: '
     <p class="label text-dim mb-9">Prices verified {verified} · list prices, subject to change</p>
 
     <CostCalculator />
+
+    <div class="mt-16">
+      <Faq items={faq} />
+    </div>
   </div>
 </BaseLayout>
