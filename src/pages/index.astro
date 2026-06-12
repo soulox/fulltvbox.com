@@ -7,85 +7,261 @@ const featured = allReviews.filter(r => r.data.featured).slice(0, 3);
 const recent = allReviews.sort((a, b) =>
   new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
 ).slice(0, 6);
+
+// hero "monitor" feed = highest-rated featured (or highest-rated overall)
+const top = [...allReviews].sort((a, b) => b.data.rating - a.data.rating)[0];
+
+// ticker feed
+const ticker = [...allReviews]
+  .sort((a, b) => b.data.rating - a.data.rating)
+  .slice(0, 8)
+  .map(r => ({
+    name: r.data.title.replace(/ Review.*$/i, '').replace(/\s*\(.*\)\s*$/, '').trim(),
+    rating: r.data.rating,
+  }));
+
+const totalReviews = allReviews.length;
+
+// 1–5 rating → 5 meter segments
+function meter(rating: number) {
+  return Array.from({ length: 5 }, (_, i) => {
+    if (rating >= i + 1) return 'on';
+    if (rating >= i + 0.5) return 'half';
+    return 'off';
+  });
+}
 ---
 <BaseLayout title="TV Box Reviews & Comparisons">
-  <!-- Hero -->
-  <section class="bg-gradient-to-b from-gray-900 to-gray-950 py-28 px-4 text-center">
-    <h1 class="text-5xl sm:text-7xl font-bold text-white mb-6 leading-tight">
-      Find the Best <span class="text-brand">TV Box</span><br />for Your Setup
-    </h1>
-    <p class="text-gray-400 text-xl sm:text-2xl max-w-2xl mx-auto mb-10">
-      Independent reviews, head-to-head comparisons, and setup guides — no manufacturer bias.
-    </p>
-    <div class="flex gap-3 justify-center flex-wrap">
-      <a href="/reviews" class="bg-brand hover:bg-brand-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors">
-        Browse Reviews
-      </a>
-      <a href="/best-picks" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
-        Best Picks 2025
-      </a>
+
+  <!-- ─── HERO ──────────────────────────────────────────────── -->
+  <section class="relative max-w-6xl mx-auto px-4 pt-16 sm:pt-24 pb-12">
+    <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
+
+      <!-- left: headline -->
+      <div class="reveal">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="label text-signal">// AV Hardware Lab — Est. 2025</span>
+          <span class="h-px flex-1 bg-line"></span>
+        </div>
+
+        <h1 class="font-display font-900 leading-[0.92] tracking-tight text-[3.1rem] sm:text-[4.6rem] text-ink">
+          TESTED ON<br />
+          THE BENCH.<br />
+          <span class="text-signal glow-text">RATED</span> WITHOUT<br />
+          MERCY.
+        </h1>
+
+        <p class="text-muted text-lg mt-7 max-w-md leading-relaxed">
+          Every streaming box and stick runs two weeks of daily use on our test bench —
+          boot speed, 4K HDR, Atmos passthrough, Wi-Fi, the lot. No freebies. No bias.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mt-9">
+          <a href="/reviews" class="btn-signal">Browse Reviews →</a>
+          <a href="/best-picks" class="btn-ghost">Best Picks 2025</a>
+        </div>
+
+        <div class="flex items-center gap-7 mt-10 pt-7 border-t border-line">
+          <div>
+            <div class="font-display font-900 text-2xl text-ink">{totalReviews}</div>
+            <div class="label mt-0.5">Devices tested</div>
+          </div>
+          <div>
+            <div class="font-display font-900 text-2xl text-ink">14<span class="text-dim text-base font-mono">days</span></div>
+            <div class="label mt-0.5">Min. test cycle</div>
+          </div>
+          <div>
+            <div class="font-display font-900 text-2xl text-signal">0</div>
+            <div class="label mt-0.5">Sponsored ranks</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- right: faux broadcast monitor -->
+      {top && (
+        <a href={`/reviews/${top.slug}`} class="monitor frame reveal reveal-2 group block">
+          <div class="monitor-bezel">
+            <div class="monitor-screen">
+              <!-- header strip -->
+              <div class="flex items-center justify-between mb-5">
+                <span class="label text-signal flex items-center gap-2">
+                  <span class="tally tally-sm"></span> REC · TOP RATED
+                </span>
+                <span class="label">INPUT · HDMI 1</span>
+              </div>
+
+              <!-- device name -->
+              <div class="label text-dim mb-1">Now testing</div>
+              <h2 class="font-display font-800 text-2xl sm:text-3xl leading-tight text-ink mb-1 group-hover:text-signal transition-colors">
+                {top.data.title.replace(/ Review.*$/i, '').trim()}
+              </h2>
+              <p class="text-muted text-sm mb-6 line-clamp-2">{top.data.description}</p>
+
+              <!-- score readout -->
+              <div class="flex items-end justify-between mb-5">
+                <div>
+                  <div class="label mb-2">Bench score</div>
+                  <div class="meter">
+                    {meter(top.data.rating).map(s => <span class={`seg ${s}`}></span>)}
+                  </div>
+                </div>
+                <div class="text-right">
+                  <div class="font-display font-900 text-5xl text-signal leading-none glow-text">{top.data.rating.toFixed(1)}</div>
+                  <div class="label mt-1">/ 5.0 rated</div>
+                </div>
+              </div>
+
+              <!-- mono spec ticks -->
+              <div class="grid grid-cols-3 gap-px bg-line border border-line">
+                {[['SIGNAL','LOCKED'],['4K HDR','PASS'],['ATMOS','PASS']].map(([k,v]) => (
+                  <div class="bg-panel px-3 py-2">
+                    <div class="label text-[0.58rem]">{k}</div>
+                    <div class="font-mono text-xs text-signal mt-0.5">{v}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div class="smpte-bars h-1.5 w-full mt-5 opacity-80"></div>
+            </div>
+          </div>
+        </a>
+      )}
     </div>
   </section>
 
-  <!-- Featured Reviews -->
-  <section class="max-w-6xl mx-auto px-4 py-16">
-    <h2 class="text-2xl font-bold text-white mb-8">Featured Reviews</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- ─── TICKER ────────────────────────────────────────────── -->
+  <section class="border-y border-line bg-panel/40 overflow-hidden py-3" aria-hidden="true">
+    <div class="ticker-track">
+      {[0,1].map(() => (
+        <div class="flex items-center">
+          {ticker.map(t => (
+            <span class="inline-flex items-center gap-2.5 px-6 font-mono text-sm">
+              <span class="text-dim">◆</span>
+              <span class="text-muted uppercase tracking-wide text-xs">{t.name}</span>
+              <span class="text-signal font-semibold">{t.rating.toFixed(1)}</span>
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ─── FEATURED ──────────────────────────────────────────── -->
+  <section class="max-w-6xl mx-auto px-4 py-20">
+    <div class="flex items-end justify-between mb-9">
+      <div>
+        <span class="label text-signal">// 01</span>
+        <h2 class="font-display font-800 text-3xl mt-1">Featured Reviews</h2>
+      </div>
+      <a href="/reviews" class="hidden sm:inline label text-muted hover:text-signal transition-colors">All reviews →</a>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {featured.map(review => (
-        <a href={`/reviews/${review.slug}`} class="group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors">
-          <div class="flex items-start justify-between mb-3">
-            <div class="flex flex-wrap gap-1">
-              {review.data.tags.slice(0, 2).map(tag => (
-                <span class="text-xs bg-gray-800 text-gray-400 px-2 py-0.5 rounded">{tag}</span>
-              ))}
+        <a href={`/reviews/${review.slug}`} class="bench-card frame group p-6 flex flex-col">
+          <div class="flex items-start justify-between mb-5">
+            <div class="flex flex-wrap gap-1.5">
+              {review.data.tags.slice(0, 2).map(tag => <span class="chip">{tag}</span>)}
             </div>
-            <span class="text-yellow-400 font-bold text-sm">{review.data.rating}/5 ★</span>
+            <div class="text-right shrink-0">
+              <div class="font-display font-900 text-2xl text-signal leading-none">{review.data.rating.toFixed(1)}</div>
+            </div>
           </div>
-          <h3 class="font-semibold text-white group-hover:text-brand transition-colors leading-snug mb-2">
-            {review.data.title}
+          <h3 class="font-display font-700 text-lg leading-snug text-ink group-hover:text-signal transition-colors mb-2">
+            {review.data.title.replace(/ Review.*$/i, '').trim()}
           </h3>
-          <p class="text-gray-400 text-sm line-clamp-2">{review.data.description}</p>
+          <p class="text-muted text-sm line-clamp-2 mb-5 flex-1">{review.data.description}</p>
+          <div class="meter">
+            {meter(review.data.rating).map(s => <span class={`seg ${s}`}></span>)}
+          </div>
         </a>
       ))}
     </div>
   </section>
 
-  <!-- Categories -->
-  <section class="bg-gray-900/50 py-12">
+  <!-- ─── CATEGORIES (input select) ─────────────────────────── -->
+  <section class="border-y border-line bg-panel/30 py-16">
     <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl font-bold text-white mb-8">Browse by Category</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="mb-9">
+        <span class="label text-signal">// 02</span>
+        <h2 class="font-display font-800 text-3xl mt-1">Select Input</h2>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-px bg-line border border-line">
         {[
-          { label: 'Android TV', icon: '📺', href: '/reviews?tag=android+tv' },
-          { label: 'Budget Picks', icon: '💰', href: '/reviews?tag=budget' },
-          { label: '4K Streaming', icon: '🎬', href: '/reviews?tag=4k' },
-          { label: 'Gaming Boxes', icon: '🎮', href: '/reviews?tag=gaming' },
+          { label: 'Android TV', code: 'IN-1', href: '/reviews?tag=android+tv' },
+          { label: 'Budget Picks', code: 'IN-2', href: '/reviews?tag=budget' },
+          { label: '4K Streaming', code: 'IN-3', href: '/reviews?tag=4k' },
+          { label: 'Gaming Boxes', code: 'IN-4', href: '/reviews?tag=gaming' },
         ].map(cat => (
-          <a href={cat.href} class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-center hover:border-gray-600 transition-colors">
-            <div class="text-3xl mb-2">{cat.icon}</div>
-            <div class="text-sm font-medium text-gray-300">{cat.label}</div>
+          <a href={cat.href} class="input-cell group bg-panel px-5 py-7">
+            <span class="label text-dim group-hover:text-signal transition-colors">{cat.code}</span>
+            <div class="font-display font-700 text-lg mt-3 text-ink group-hover:text-signal transition-colors">{cat.label}</div>
+            <span class="block mt-3 text-dim font-mono text-xs group-hover:text-signal transition-colors">→ tune in</span>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Recent Reviews -->
-  <section class="max-w-6xl mx-auto px-4 py-16">
-    <div class="flex items-center justify-between mb-8">
-      <h2 class="text-2xl font-bold text-white">Recent Reviews</h2>
-      <a href="/reviews" class="text-brand hover:underline text-sm font-medium">View all →</a>
+  <!-- ─── RECENT (test log) ─────────────────────────────────── -->
+  <section class="max-w-6xl mx-auto px-4 py-20">
+    <div class="flex items-end justify-between mb-9">
+      <div>
+        <span class="label text-signal">// 03</span>
+        <h2 class="font-display font-800 text-3xl mt-1">Latest from the Bench</h2>
+      </div>
+      <a href="/reviews" class="label text-muted hover:text-signal transition-colors">View all →</a>
     </div>
-    <div class="divide-y divide-gray-800">
-      {recent.map(review => (
-        <a href={`/reviews/${review.slug}`} class="group flex items-center justify-between py-4 hover:pl-2 transition-all">
-          <div>
-            <h3 class="font-medium text-white group-hover:text-brand transition-colors">{review.data.title}</h3>
-            <p class="text-gray-500 text-sm mt-0.5">{new Date(review.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+
+    <div class="panel divide-y divide-line">
+      {recent.map((review, i) => (
+        <a href={`/reviews/${review.slug}`} class="log-row group flex items-center gap-4 px-5 py-4">
+          <span class="font-mono text-xs text-dim w-7 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-display font-700 text-ink group-hover:text-signal transition-colors truncate">
+              {review.data.title.replace(/ Review.*$/i, '').trim()}
+            </h3>
+            <time class="label text-dim block mt-0.5">
+              {new Date(review.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
+            </time>
           </div>
-          <span class="text-yellow-400 font-semibold text-sm shrink-0 ml-4">{review.data.rating} ★</span>
+          <div class="hidden sm:block meter shrink-0">
+            {meter(review.data.rating).map(s => <span class={`seg ${s}`}></span>)}
+          </div>
+          <span class="font-display font-900 text-xl text-signal w-12 text-right shrink-0">{review.data.rating.toFixed(1)}</span>
         </a>
       ))}
     </div>
   </section>
+
+  <style>
+    .monitor-bezel {
+      background: linear-gradient(160deg, #1a2128, #0a0d11);
+      border: 1px solid var(--line-bright);
+      padding: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 30px 70px -30px rgba(0,0,0,0.95);
+    }
+    .monitor-screen {
+      background:
+        radial-gradient(120% 100% at 50% 0%, rgba(168,232,77,0.05), transparent 60%),
+        #080b0f;
+      border: 1px solid #05070a;
+      padding: 1.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .monitor-screen::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0,0,0,0.22) 2px 3px);
+    }
+    .input-cell { transition: background 0.2s; }
+    .input-cell:hover { background: var(--panel2); }
+    .log-row { transition: background 0.18s, padding-left 0.18s; }
+    .log-row:hover { background: var(--panel2); padding-left: 1.6rem; }
+
+    .reveal { opacity: 0; transform: translateY(16px); animation: rise 0.7s cubic-bezier(0.2,0.7,0.2,1) forwards; }
+    .reveal-2 { animation-delay: 0.14s; }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .reveal { animation: none; opacity: 1; transform: none; } }
+  </style>
 </BaseLayout>

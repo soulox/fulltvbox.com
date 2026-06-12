@@ -9,7 +9,6 @@ const picks = [
     rank: 1,
     slug: 'nvidia-shield-tv-pro-2025',
     badge: 'Best Overall',
-    badgeColor: 'bg-brand',
     category: 'Power Users & Plex',
     highlights: ['AI upscaling for 1080p content', 'Run Plex Media Server directly', 'Fastest Android TV performance', 'GeForce NOW cloud gaming'],
   },
@@ -17,7 +16,6 @@ const picks = [
     rank: 2,
     slug: 'fire-tv-stick-4k-max-2024',
     badge: 'Best Value',
-    badgeColor: 'bg-green-700',
     category: 'Most Households',
     highlights: ['4K Dolby Vision + Atmos at $59', 'Wi-Fi 6E on any streaming stick', 'Alexa voice search', 'Huge app library'],
   },
@@ -25,7 +23,6 @@ const picks = [
     rank: 3,
     slug: 'apple-tv-4k-3rd-gen',
     badge: 'Best Premium',
-    badgeColor: 'bg-gray-600',
     category: 'Apple Ecosystem',
     highlights: ['Cleanest streaming interface', 'AirPlay from iPhone/Mac', 'Deep HomeKit integration', 'No ads anywhere'],
   },
@@ -33,7 +30,6 @@ const picks = [
     rank: 4,
     slug: 'roku-streaming-stick-4k-2023',
     badge: 'Best Neutral',
-    badgeColor: 'bg-purple-700',
     category: 'No Ecosystem Lock-in',
     highlights: ['No ecosystem required', 'Clean, minimal interface', 'Universal remote included', '4K Dolby Vision at $49'],
   },
@@ -41,7 +37,6 @@ const picks = [
     rank: 5,
     slug: 'chromecast-google-tv-4k',
     badge: 'Best for Discovery',
-    badgeColor: 'bg-blue-700',
     category: 'Android & Google Users',
     highlights: ['Aggregates all your watchlists', 'Best-in-class Google Assistant', 'Seamless casting from Chrome', '4K Dolby Vision + Atmos at $49'],
   },
@@ -51,79 +46,79 @@ const picksWithData = picks.map(pick => ({
   ...pick,
   review: reviews.find(r => r.slug === pick.slug),
 }));
+
+function meter(rating: number) {
+  return Array.from({ length: 5 }, (_, i) => {
+    if (rating >= i + 1) return 'on';
+    if (rating >= i + 0.5) return 'half';
+    return 'off';
+  });
+}
 ---
 <BaseLayout title="Best TV Boxes 2025" description="Our top picks for streaming boxes and sticks in 2025 — tested, rated, and honestly recommended.">
-  <div class="max-w-4xl mx-auto px-4 py-12">
+  <div class="max-w-4xl mx-auto px-4 py-14">
 
-    <h1 class="text-3xl font-bold text-white mb-2">Best TV Boxes of 2025</h1>
-    <p class="text-gray-400 mb-10">
+    <span class="label text-signal">// Channel 03 — Leaderboard</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-3">Best TV Boxes of 2025</h1>
+    <p class="text-muted mb-10 max-w-2xl">
       Hands-on tested. Updated {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}.
-      Affiliate links help fund the site — no extra cost to you.
+      Affiliate links help fund the bench — no extra cost to you.
     </p>
 
     <div class="flex flex-col gap-5">
       {picksWithData.map(pick => pick.review && (
-        <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-
+        <div class="panel frame">
           <!-- Header bar -->
-          <div class="flex items-center gap-3 px-6 pt-5 pb-4 border-b border-gray-800">
-            <span class="text-3xl font-black text-gray-700">#{pick.rank}</span>
-            <span class={`text-xs font-bold text-white px-2.5 py-1 rounded-full ${pick.badgeColor}`}>
-              {pick.badge}
-            </span>
-            <span class="text-gray-500 text-sm">{pick.category}</span>
-            <div class="ml-auto text-right">
-              <div class="text-yellow-400 text-sm">{'★'.repeat(Math.round(pick.review.data.rating))}{'☆'.repeat(5 - Math.round(pick.review.data.rating))}</div>
-              <div class="text-white font-bold text-sm">{pick.review.data.rating}/5</div>
+          <div class="flex items-center gap-3 px-5 sm:px-6 py-4 border-b border-line flex-wrap">
+            <span class="font-display font-900 text-4xl text-line-bright leading-none">{String(pick.rank).padStart(2, '0')}</span>
+            <span class="chip text-signal border-signal/40">★ {pick.badge}</span>
+            <span class="label text-dim">{pick.category}</span>
+            <div class="ml-auto flex items-center gap-3">
+              <div class="hidden sm:block meter">
+                {meter(pick.review.data.rating).map(s => <span class={`seg ${s}`}></span>)}
+              </div>
+              <span class="font-display font-900 text-2xl text-signal leading-none">{pick.review.data.rating.toFixed(1)}</span>
             </div>
           </div>
 
           <!-- Body -->
-          <div class="px-6 py-5">
-            <h2 class="text-lg font-bold text-white mb-1">{pick.review.data.title}</h2>
-            <p class="text-gray-400 text-sm mb-4">{pick.review.data.description}</p>
+          <div class="px-5 sm:px-6 py-5">
+            <h2 class="font-display font-700 text-xl text-ink mb-1">{pick.review.data.title.replace(/ Review.*$/i, '').trim()}</h2>
+            <p class="text-muted text-sm mb-5">{pick.review.data.description}</p>
 
-            <!-- Highlights -->
-            <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-1.5 mb-5">
+            <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2 mb-6">
               {pick.highlights.map(h => (
-                <li class="flex items-start gap-2 text-sm text-gray-300">
-                  <span class="text-brand mt-0.5 shrink-0">✓</span>
+                <li class="flex items-start gap-2.5 text-sm text-ink/85">
+                  <span class="text-signal mt-0.5 shrink-0 font-mono">+</span>
                   {h}
                 </li>
               ))}
             </ul>
 
-            <!-- CTAs -->
-            <div class="flex items-center gap-3 flex-wrap">
+            <div class="flex items-center gap-4 flex-wrap">
               {pick.review.data.affiliate && (
-                <a
-                  href={pick.review.data.affiliate}
-                  target="_blank"
-                  rel="noopener sponsored"
-                  class="bg-brand hover:bg-brand-dark text-white font-semibold px-5 py-2 rounded-lg transition-colors text-sm"
-                >
+                <a href={pick.review.data.affiliate} target="_blank" rel="noopener sponsored" class="btn-signal">
                   Check Price →
                 </a>
               )}
-              <a href={`/reviews/${pick.review.slug}`} class="text-brand hover:underline text-sm font-medium">
+              <a href={`/reviews/${pick.review.slug}`} class="label text-muted hover:text-signal transition-colors">
                 Read full review →
               </a>
             </div>
           </div>
-
         </div>
       ))}
     </div>
 
     <!-- Methodology -->
-    <div class="mt-12 bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-      <h2 class="text-base font-bold text-white mb-2">How We Pick</h2>
-      <p class="text-gray-400 text-sm leading-relaxed">
+    <div class="mt-12 panel frame px-6 py-6">
+      <div class="label text-signal mb-3 flex items-center gap-2"><span class="tally tally-sm"></span> Test protocol</div>
+      <h2 class="font-display font-700 text-lg text-ink mb-2">How We Pick</h2>
+      <p class="text-muted text-sm leading-relaxed">
         Every device is tested for at least two weeks of daily use. We evaluate boot speed, app load times,
         4K HDR and Dolby Vision playback, audio passthrough, Wi-Fi reliability, remote usability, and
         long-term reliability after updates. We buy or borrow all devices — no manufacturer sponsorships.
       </p>
     </div>
-
   </div>
 </BaseLayout>

@@ -10,52 +10,47 @@ const sorted = tutorials.sort((a, b) =>
 const allTags = [...new Set(tutorials.flatMap(t => t.data.tags))].sort();
 
 const difficultyColor = {
-  beginner: 'bg-green-800 text-green-200',
-  intermediate: 'bg-yellow-800 text-yellow-200',
-  advanced: 'bg-red-900 text-red-200',
+  beginner: 'text-signal border-signal/40',
+  intermediate: 'text-amber border-amber/40',
+  advanced: 'text-magenta border-magenta/40',
 };
 ---
 <BaseLayout title="Tutorials" description="Step-by-step tutorials for Raspberry Pi, new gadgets, home automation, and more.">
-  <div class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-white mb-2">Tutorials</h1>
-    <p class="text-gray-400 mb-6">Raspberry Pi, home automation, retro gaming, and more — hands-on guides for tinkerers.</p>
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <span class="label text-signal">// Channel 05</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">Tutorials</h1>
+    <p class="text-muted mb-8">Raspberry Pi, home automation, retro gaming — hands-on builds for tinkerers.</p>
 
     <!-- Tag filters -->
     <div class="flex flex-wrap gap-2 mb-10">
-      <button data-tag="" class="tag-btn bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors">
-        All
-      </button>
+      <button data-tag="" class="tag-btn is-on">All</button>
       {allTags.map(tag => (
-        <button data-tag={tag} class="tag-btn bg-gray-800 text-gray-400 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-colors">
-          {tag}
-        </button>
+        <button data-tag={tag} class="tag-btn">{tag}</button>
       ))}
     </div>
 
-    <div id="tutorials-grid" class="grid sm:grid-cols-2 gap-6">
+    <div id="tutorials-grid" class="grid sm:grid-cols-2 gap-5">
       {sorted.map(tutorial => (
         <a
           href={`/tutorials/${tutorial.slug}`}
           data-tags={tutorial.data.tags.join(',')}
-          class="tutorial-card group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors flex flex-col"
+          class="tutorial-card bench-card frame group p-6 flex flex-col"
         >
-          <div class="flex items-center gap-2 mb-3 flex-wrap">
-            <span class={`text-xs font-bold px-2.5 py-1 rounded-full ${difficultyColor[tutorial.data.difficulty]}`}>
-              {tutorial.data.difficulty.charAt(0).toUpperCase() + tutorial.data.difficulty.slice(1)}
+          <div class="flex items-center gap-2 mb-4 flex-wrap">
+            <span class={`chip ${difficultyColor[tutorial.data.difficulty]}`}>
+              ◆ {tutorial.data.difficulty}
             </span>
-            <span class="text-gray-500 text-xs">⏱ {tutorial.data.duration}</span>
+            <span class="chip">⏱ {tutorial.data.duration}</span>
           </div>
-          <h2 class="font-semibold text-white group-hover:text-brand transition-colors leading-snug mb-2 flex-1">
+          <h2 class="font-display font-700 text-lg leading-snug text-ink group-hover:text-signal transition-colors mb-2 flex-1">
             {tutorial.data.title}
           </h2>
-          <p class="text-gray-400 text-sm line-clamp-2 mb-4">{tutorial.data.description}</p>
+          <p class="text-muted text-sm line-clamp-2 mb-5">{tutorial.data.description}</p>
           <div class="flex items-center justify-between">
-            <div class="flex flex-wrap gap-1">
-              {tutorial.data.tags.slice(0, 2).map(tag => (
-                <span class="text-xs bg-gray-800 text-gray-500 px-2 py-0.5 rounded">{tag}</span>
-              ))}
+            <div class="flex flex-wrap gap-1.5">
+              {tutorial.data.tags.slice(0, 2).map(tag => <span class="chip">{tag}</span>)}
             </div>
-            <time class="text-xs text-gray-600 shrink-0">
+            <time class="label text-dim shrink-0">
               {new Date(tutorial.data.publishDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
             </time>
           </div>
@@ -63,8 +58,18 @@ const difficultyColor = {
       ))}
     </div>
 
-    <p id="no-results" class="hidden text-gray-500 text-center py-12">No tutorials found for this tag.</p>
+    <p id="no-results" class="hidden text-dim text-center py-12 label">// No tutorials found for this input.</p>
   </div>
+
+  <style>
+    .tag-btn {
+      font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted); background: var(--panel);
+      border: 1px solid var(--line); padding: 0.4rem 0.8rem; transition: all 0.16s; cursor: pointer;
+    }
+    .tag-btn:hover { color: var(--ink); border-color: var(--line-bright); }
+    .tag-btn.is-on { color: #0a1206; background: var(--signal); border-color: var(--signal); }
+  </style>
 </BaseLayout>
 
 <script>
@@ -83,20 +88,13 @@ const difficultyColor = {
       if (match) visible++;
     });
 
-    buttons.forEach(btn => {
-      const isActive = btn.dataset.tag === tag;
-      btn.classList.toggle('bg-brand', isActive);
-      btn.classList.toggle('text-white', isActive);
-      btn.classList.toggle('bg-gray-800', !isActive);
-      btn.classList.toggle('text-gray-400', !isActive);
-    });
+    buttons.forEach(btn => btn.classList.toggle('is-on', btn.dataset.tag === tag));
 
     const noResults = document.getElementById('no-results');
     if (noResults) noResults.classList.toggle('hidden', visible > 0);
   }
 
   applyFilter(initialTag);
-
   document.querySelectorAll<HTMLElement>('.tag-btn').forEach(btn => {
     btn.addEventListener('click', () => applyFilter(btn.dataset.tag ?? ''));
   });

@@ -6,26 +6,24 @@ interface Props {
 }
 const {
   title,
-  description = 'Expert TV box reviews, comparisons, and setup guides.',
+  description = 'Independent TV box reviews, head-to-head comparisons, and setup guides — tested on the bench, rated without mercy.',
   image,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = `${title} | FullTVBox`;
+const fullTitle = `${title} · FULLTVBOX`;
 const path = Astro.url.pathname;
 
-function navClass(href: string) {
-  const active = href === '/' ? path === '/' : path.startsWith(href);
-  return active
-    ? 'text-white transition-colors'
-    : 'text-gray-400 hover:text-white transition-colors';
-}
+const nav = [
+  { href: '/reviews', label: 'Reviews', ch: '02' },
+  { href: '/best-picks', label: 'Best Picks', ch: '03' },
+  { href: '/guides', label: 'Guides', ch: '04' },
+  { href: '/tutorials', label: 'Tutorials', ch: '05' },
+  { href: '/about', label: 'About', ch: '06' },
+];
 
-function mobileNavClass(href: string) {
-  const active = href === '/' ? path === '/' : path.startsWith(href);
-  return active
-    ? 'text-white bg-gray-900 px-3 py-2 rounded-lg font-medium'
-    : 'text-gray-300 hover:text-white hover:bg-gray-900 px-3 py-2 rounded-lg transition-colors font-medium';
+function isActive(href: string) {
+  return href === '/' ? path === '/' : path.startsWith(href);
 }
 ---
 <!DOCTYPE html>
@@ -34,6 +32,7 @@ function mobileNavClass(href: string) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
+  <meta name="theme-color" content="#06080b" />
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title="FullTVBox Reviews" href="/rss.xml" />
@@ -56,57 +55,97 @@ function mobileNavClass(href: string) {
   <slot name="head" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
-<body class="bg-gray-950 text-gray-100 font-sans min-h-screen flex flex-col">
-  <header class="border-b border-gray-800 sticky top-0 z-50 bg-gray-950/95 backdrop-blur">
+<body class="bg-void text-ink font-sans min-h-screen flex flex-col antialiased">
+
+  <!-- ─── atmosphere ─────────────────────────────────────────── -->
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <!-- ─── signal rail (SMPTE bars) ────────────────────────────── -->
+  <div class="smpte-bars h-1 w-full relative z-[60]"></div>
+
+  <!-- ─── header / broadcast bar ──────────────────────────────── -->
+  <header class="sticky top-0 z-50 border-b border-line bg-void/85 backdrop-blur-md">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="/" class="text-2xl font-bold text-white">
-        Full<span class="text-brand">TV</span>Box
+      <a href="/" class="group flex items-center gap-3" aria-label="FullTVBox home">
+        <span class="tally" aria-hidden="true"></span>
+        <span class="font-display font-900 text-xl tracking-tight text-ink leading-none">
+          FULL<span class="text-signal glow-text">TV</span>BOX
+        </span>
+        <span class="hidden md:inline label text-[0.6rem] text-dim pl-2 border-l border-line">CH·01 / AV TEST LAB</span>
       </a>
 
       <!-- Desktop nav -->
-      <nav class="hidden sm:flex gap-6 text-sm font-medium">
-        <a href="/reviews" class={navClass('/reviews')}>Reviews</a>
-        <a href="/best-picks" class={navClass('/best-picks')}>Best Picks</a>
-        <a href="/guides" class={navClass('/guides')}>Guides</a>
-        <a href="/tutorials" class={navClass('/tutorials')}>Tutorials</a>
-        <a href="/about" class={navClass('/about')}>About</a>
+      <nav class="hidden sm:flex items-center gap-1 text-sm">
+        {nav.map(item => (
+          <a
+            href={item.href}
+            class={`nav-link ${isActive(item.href) ? 'is-active' : ''}`}
+          >
+            <span class="nav-ch">{item.ch}</span>
+            {item.label}
+          </a>
+        ))}
       </nav>
 
       <!-- Mobile hamburger -->
-      <button id="menu-btn" class="sm:hidden text-gray-400 hover:text-white p-1" aria-label="Toggle menu">
-        <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <button id="menu-btn" class="sm:hidden text-muted hover:text-signal p-1 transition-colors" aria-label="Toggle menu">
+        <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24">
           <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
-        <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" class="hidden">
+        <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" class="hidden">
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
     </div>
 
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden sm:hidden border-t border-gray-800 bg-gray-950">
-      <nav class="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-1">
-        <a href="/reviews" class={mobileNavClass('/reviews')}>Reviews</a>
-        <a href="/best-picks" class={mobileNavClass('/best-picks')}>Best Picks</a>
-        <a href="/guides" class={mobileNavClass('/guides')}>Guides</a>
-        <a href="/tutorials" class={mobileNavClass('/tutorials')}>Tutorials</a>
-        <a href="/about" class={mobileNavClass('/about')}>About</a>
+    <div id="mobile-menu" class="hidden sm:hidden border-t border-line bg-void">
+      <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col">
+        {nav.map(item => (
+          <a href={item.href} class={`mnav-link ${isActive(item.href) ? 'is-active' : ''}`}>
+            <span class="nav-ch">{item.ch}</span>{item.label}
+          </a>
+        ))}
       </nav>
     </div>
   </header>
 
-  <main class="flex-1">
+  <main class="flex-1 relative z-10">
     <slot />
   </main>
 
-  <footer class="border-t border-gray-800 mt-16">
-    <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-gray-500 flex flex-col sm:flex-row justify-between gap-4">
-      <p>&copy; {new Date().getFullYear()} FullTVBox.com — Independent reviews, no manufacturer bias.</p>
-      <div class="flex items-center gap-4">
-        <p>Links may earn us a commission at no extra cost to you.</p>
-        <a href="/rss.xml" class="hover:text-gray-300 transition-colors" title="RSS Feed">RSS</a>
+  <!-- ─── footer / instrument panel ───────────────────────────── -->
+  <footer class="relative z-10 border-t border-line mt-24">
+    <div class="smpte-bars h-0.5 w-full opacity-60"></div>
+    <div class="max-w-6xl mx-auto px-4 py-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div>
+          <div class="font-display font-900 text-2xl tracking-tight">
+            FULL<span class="text-signal">TV</span>BOX
+          </div>
+          <p class="text-muted text-sm mt-2 max-w-sm leading-relaxed">
+            Independent reviews — no manufacturer bias, no freebies, no sponsored rankings.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-10 gap-y-1.5 text-sm">
+          <div class="label text-dim mb-1 col-span-2">// Index</div>
+          <a href="/reviews" class="text-muted hover:text-signal transition-colors">Reviews</a>
+          <a href="/best-picks" class="text-muted hover:text-signal transition-colors">Best Picks</a>
+          <a href="/guides" class="text-muted hover:text-signal transition-colors">Guides</a>
+          <a href="/tutorials" class="text-muted hover:text-signal transition-colors">Tutorials</a>
+          <a href="/about" class="text-muted hover:text-signal transition-colors">About</a>
+          <a href="/rss.xml" class="text-muted hover:text-signal transition-colors">RSS</a>
+        </div>
+      </div>
+
+      <div class="mt-10 pt-5 border-t border-line flex flex-col sm:flex-row justify-between gap-3 label text-dim">
+        <span class="flex items-center gap-2">
+          <span class="tally tally-sm" aria-hidden="true"></span>
+          SIGNAL LOCKED · &copy; {new Date().getFullYear()} FULLTVBOX.COM
+        </span>
+        <span>Affiliate links may earn a commission — no extra cost to you.</span>
       </div>
     </div>
   </footer>
@@ -122,5 +161,209 @@ function mobileNavClass(href: string) {
       iconClose?.classList.toggle('hidden', isHidden);
     });
   </script>
+
+  <style is:global>
+    :root {
+      --void:#06080b; --panel:#0d1117; --panel2:#131b23;
+      --line:#1d2731; --line-bright:#2c3b47;
+      --ink:#e8eae3; --muted:#8b97a1; --dim:#566069;
+      --signal:#a8e84d; --signal-dim:#6f9a33; --signal-glow:#c7ff6e;
+      --scope:#3ad6e6; --amber:#ffb43a; --magenta:#ff5d8f;
+    }
+
+    html { scroll-behavior: smooth; }
+    ::selection { background: var(--signal); color: #0a1206; }
+
+    .font-900 { font-weight: 900; }
+
+    /* ── atmosphere: glow + engineering grid ───────────────────── */
+    .atmosphere {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(70rem 40rem at 12% -8%, rgba(168,232,77,0.09), transparent 60%),
+        radial-gradient(60rem 36rem at 100% 0%, rgba(58,214,230,0.07), transparent 55%),
+        linear-gradient(transparent 0 0);
+    }
+    .atmosphere::before {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 75%);
+      -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 75%);
+    }
+    /* faint scanlines + grain */
+    .atmosphere::after {
+      content: ""; position: absolute; inset: 0; opacity: 0.5;
+      background-image: repeating-linear-gradient(
+        to bottom, rgba(0,0,0,0) 0 2px, rgba(0,0,0,0.18) 2px 3px
+      );
+      mix-blend-mode: multiply;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .atmosphere::after { animation: drift 14s linear infinite; }
+    }
+    @keyframes drift { to { background-position: 0 3px; } }
+
+    /* ── SMPTE color bars ──────────────────────────────────────── */
+    .smpte-bars {
+      background: linear-gradient(90deg,
+        #b9b9b9 0 14.285%, #c9c40e 0 28.57%, #1fbcc9 0 42.857%,
+        #1faf3a 0 57.14%, #c92191 0 71.42%, #c92121 0 85.71%, #2433c0 0 100%);
+    }
+
+    /* ── tally light ───────────────────────────────────────────── */
+    .tally {
+      width: 9px; height: 9px; border-radius: 999px; display: inline-block;
+      background: var(--signal);
+      box-shadow: 0 0 10px 1px rgba(168,232,77,0.8);
+      animation: blink 2.4s steps(1) infinite;
+    }
+    .tally-sm { width: 7px; height: 7px; }
+    @keyframes blink { 0%,72% { opacity: 1; } 73%,100% { opacity: 0.25; } }
+
+    .glow-text { text-shadow: 0 0 18px rgba(168,232,77,0.55); }
+
+    /* ── nav links ─────────────────────────────────────────────── */
+    .nav-link {
+      position: relative; display: inline-flex; align-items: center; gap: 0.45rem;
+      font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--muted); padding: 0.5rem 0.7rem; transition: color 0.18s;
+    }
+    .nav-link .nav-ch {
+      font-size: 0.6rem; color: var(--dim); transition: color 0.18s;
+    }
+    .nav-link::after {
+      content: ""; position: absolute; left: 0.7rem; right: 0.7rem; bottom: 0.25rem;
+      height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.22s ease; box-shadow: 0 0 8px rgba(168,232,77,0.7);
+    }
+    .nav-link:hover { color: var(--ink); }
+    .nav-link:hover .nav-ch { color: var(--signal); }
+    .nav-link:hover::after { transform: scaleX(1); }
+    .nav-link.is-active { color: var(--ink); }
+    .nav-link.is-active .nav-ch { color: var(--signal); }
+    .nav-link.is-active::after { transform: scaleX(1); }
+
+    .mnav-link {
+      display: flex; align-items: center; gap: 0.6rem; padding: 0.75rem 0.5rem;
+      font-family: "IBM Plex Mono", monospace; font-size: 0.85rem; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--muted); border-bottom: 1px solid var(--line);
+    }
+    .mnav-link:last-child { border-bottom: 0; }
+    .mnav-link.is-active { color: var(--signal); }
+
+    /* ── reusable component classes ────────────────────────────── */
+    .label {
+      font-family: "IBM Plex Mono", monospace; text-transform: uppercase;
+      letter-spacing: 0.2em; font-size: 0.68rem; color: var(--dim);
+    }
+    .panel { background: var(--panel); border: 1px solid var(--line); }
+
+    /* corner-bracket frame for cards */
+    .frame { position: relative; }
+    .frame::before, .frame::after {
+      content: ""; position: absolute; width: 12px; height: 12px; pointer-events: none;
+      border-color: var(--line-bright); transition: border-color 0.2s;
+    }
+    .frame::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
+    .frame::after { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
+    .frame:hover::before, .frame:hover::after { border-color: var(--signal); }
+
+    .bench-card {
+      background: linear-gradient(180deg, var(--panel) 0%, #0a0e13 100%);
+      border: 1px solid var(--line);
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .bench-card:hover {
+      border-color: var(--line-bright);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px -18px rgba(0,0,0,0.9), 0 0 0 1px rgba(168,232,77,0.08);
+    }
+
+    /* buttons */
+    .btn-signal {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      background: var(--signal); color: #0a1206; padding: 0.7rem 1.2rem;
+      border: 1px solid var(--signal); transition: box-shadow 0.2s, transform 0.1s, background 0.2s;
+    }
+    .btn-signal:hover { background: var(--signal-glow); box-shadow: 0 0 24px -2px rgba(168,232,77,0.6); }
+    .btn-signal:active { transform: translateY(1px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      background: transparent; color: var(--ink); padding: 0.7rem 1.2rem;
+      border: 1px solid var(--line-bright); transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--signal); color: var(--signal); }
+
+    /* mono chip / tag */
+    .chip {
+      font-family: "IBM Plex Mono", monospace; font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted); background: var(--panel2);
+      border: 1px solid var(--line); padding: 0.18rem 0.5rem;
+    }
+
+    /* segmented VU meter */
+    .meter { display: inline-flex; gap: 3px; }
+    .meter .seg {
+      width: 9px; height: 18px; background: #131a20; border: 1px solid var(--line);
+    }
+    .meter .seg.on { background: var(--signal); box-shadow: 0 0 8px rgba(168,232,77,0.5); border-color: var(--signal); }
+    .meter .seg.half {
+      background: linear-gradient(90deg, var(--signal) 50%, #131a20 50%);
+      border-color: var(--signal-dim);
+    }
+
+    /* ticker / marquee */
+    .ticker-track { display: inline-flex; white-space: nowrap; will-change: transform; }
+    @media (prefers-reduced-motion: no-preference) {
+      .ticker-track { animation: ticker 38s linear infinite; }
+    }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* scrollbar */
+    * { scrollbar-width: thin; scrollbar-color: var(--line-bright) var(--void); }
+    *::-webkit-scrollbar { width: 11px; height: 11px; }
+    *::-webkit-scrollbar-track { background: var(--void); }
+    *::-webkit-scrollbar-thumb { background: var(--line-bright); border: 3px solid var(--void); }
+
+    /* ── prose (article body) ──────────────────────────────────── */
+    .prose-bench :where(h2):not(:where([class~="not-prose"] *)) {
+      font-family: "Archivo", sans-serif; font-weight: 800; letter-spacing: -0.01em;
+      border-left: 3px solid var(--signal); padding-left: 0.65rem; margin-top: 2.4em;
+    }
+    .prose-bench :where(h3):not(:where([class~="not-prose"] *)) {
+      font-family: "Archivo", sans-serif; font-weight: 700; color: var(--ink);
+    }
+    .prose-bench :where(a):not(:where([class~="not-prose"] *)) {
+      color: var(--signal); text-decoration: none; border-bottom: 1px solid rgba(168,232,77,0.3);
+    }
+    .prose-bench :where(a):hover:not(:where([class~="not-prose"] *)) { border-bottom-color: var(--signal); }
+    .prose-bench :where(blockquote):not(:where([class~="not-prose"] *)) {
+      border-left-color: var(--scope); color: var(--muted); font-style: normal;
+    }
+    .prose-bench :where(code):not(:where([class~="not-prose"] *)):not(pre code) {
+      color: var(--signal); background: var(--panel2); border: 1px solid var(--line);
+      padding: 0.1em 0.35em; border-radius: 2px; font-size: 0.85em;
+    }
+    .prose-bench :where(pre):not(:where([class~="not-prose"] *)) {
+      background: #080b0f; border: 1px solid var(--line);
+    }
+    .prose-bench :where(strong):not(:where([class~="not-prose"] *)) { color: var(--ink); }
+    .prose-bench :where(hr):not(:where([class~="not-prose"] *)) { border-color: var(--line); }
+    .prose-bench :where(table):not(:where([class~="not-prose"] *)) { font-size: 0.9em; }
+    .prose-bench :where(th):not(:where([class~="not-prose"] *)) {
+      font-family: "IBM Plex Mono", monospace; text-transform: uppercase; font-size: 0.72em;
+      letter-spacing: 0.06em; color: var(--muted); border-bottom: 1px solid var(--line-bright);
+    }
+    .prose-bench :where(td):not(:where([class~="not-prose"] *)) { border-bottom: 1px solid var(--line); }
+  </style>
 </body>
 </html>
