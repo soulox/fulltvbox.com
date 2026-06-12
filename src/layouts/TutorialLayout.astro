@@ -30,7 +30,7 @@ const difficultyColor = {
 
   <article class="max-w-3xl mx-auto px-4 py-8">
     {image && (
-      <img src={image} alt={title} class="w-full mb-8 object-cover max-h-72 border border-line" />
+      <img src={image} alt={title} class="w-full mb-8 object-cover max-h-72 border border-line" onerror="this.style.display='none';" />
     )}
 
     <div class="label mb-3 flex items-center gap-2">

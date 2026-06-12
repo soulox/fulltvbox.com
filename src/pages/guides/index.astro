@@ -17,7 +17,7 @@ const sorted = guides.sort((a, b) =>
       {sorted.map((guide, i) => (
         <a href={`/guides/${guide.slug}`} class="bench-card frame group p-6 flex flex-col">
           {guide.data.image && (
-            <img src={guide.data.image} alt={guide.data.title} class="w-full mb-5 object-cover h-40 border border-line" />
+            <img src={guide.data.image} alt={guide.data.title} class="w-full mb-5 object-cover h-40 border border-line" onerror="this.style.display='none';" />
           )}
           <span class="label text-dim mb-3">DOC·{String(i + 1).padStart(2, '0')}</span>
           <h2 class="font-display font-700 text-lg leading-snug text-ink group-hover:text-signal transition-colors mb-2 flex-1">

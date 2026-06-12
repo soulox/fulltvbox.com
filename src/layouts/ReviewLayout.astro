@@ -45,17 +45,23 @@ const jsonLd = {
 
   <article class="max-w-3xl mx-auto px-4 py-8">
 
-    {image ? (
-      <img src={image} alt={title} class="w-full mb-8 object-cover max-h-72 border border-line" />
-    ) : (
-      <div class="w-full mb-8 h-52 panel frame flex items-center justify-center relative overflow-hidden">
-        <div class="absolute inset-0 smpte-bars opacity-[0.07]"></div>
-        <div class="relative text-center px-6">
-          <div class="label text-signal mb-2 flex items-center justify-center gap-2"><span class="tally tally-sm"></span> NO SIGNAL — STANDBY</div>
-          <div class="font-display font-800 text-2xl text-ink leading-snug">{device}</div>
-        </div>
-      </div>
+    {image && (
+      <img
+        src={image}
+        alt={title}
+        class="w-full mb-8 object-cover max-h-72 border border-line"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+      />
     )}
+    <div
+      class:list={['w-full mb-8 h-52 panel frame items-center justify-center relative overflow-hidden', image ? 'hidden' : 'flex']}
+    >
+      <div class="absolute inset-0 smpte-bars opacity-[0.07]"></div>
+      <div class="relative text-center px-6">
+        <div class="label text-signal mb-2 flex items-center justify-center gap-2"><span class="tally tally-sm"></span> NO SIGNAL — STANDBY</div>
+        <div class="font-display font-800 text-2xl text-ink leading-snug">{device}</div>
+      </div>
+    </div>
 
     <div class="label mb-3 flex items-center gap-2">
       <span class="text-signal">REVIEW</span>
