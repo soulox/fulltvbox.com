@@ -1,0 +1,6 @@
+name: "Prime Video"
+category: on-demand
+monthlyPrice: 8.99
+hasAds: true
+highlights: ["Included with Amazon Prime", "Ads by default ($2.99 to remove)", "Thursday Night Football"]
+url: "https://www.amazon.com/primevideo"

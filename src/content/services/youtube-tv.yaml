@@ -1,0 +1,7 @@
+name: "YouTube TV"
+category: live-tv
+monthlyPrice: 82.99
+hasLiveTV: true
+highlights: ["100+ live channels", "Unlimited DVR", "4K Plus add-on"]
+url: "https://tv.youtube.com"
+featured: true

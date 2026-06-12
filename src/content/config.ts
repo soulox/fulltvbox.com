@@ -63,18 +63,40 @@ const tutorials = defineCollection({
   }),
 });
 
-const deals = defineCollection({
+const services = defineCollection({
   type: 'data',
   schema: z.object({
-    device: z.string(), // review slug this deal points to
-    retailer: z.string(),
-    price: z.number(),
-    wasPrice: z.number().optional(),
+    name: z.string(),
+    category: z.enum(['on-demand', 'live-tv', 'free', 'sports', 'extra']),
+    monthlyPrice: z.number(),
+    annualPrice: z.number().optional(),
+    adTierPrice: z.number().optional(),
+    hasAds: z.boolean().default(false),
+    hasLiveTV: z.boolean().default(false),
+    freeTrial: z.string().optional(),
+    highlights: z.array(z.string()).default([]),
     url: z.string(),
-    badge: z.string().optional(),
-    expires: z.string().optional(),
     featured: z.boolean().default(false),
   }),
 });
 
-export const collections = { reviews, guides, tutorials, deals };
+const deals = defineCollection({
+  type: 'data',
+  schema: z
+    .object({
+      device: z.string().optional(), // review slug
+      service: z.string().optional(), // service slug
+      retailer: z.string(),
+      price: z.number(),
+      wasPrice: z.number().optional(),
+      url: z.string(),
+      badge: z.string().optional(),
+      expires: z.string().optional(),
+      featured: z.boolean().default(false),
+    })
+    .refine((d) => !!d.device !== !!d.service, {
+      message: 'A deal must reference exactly one of `device` or `service`.',
+    }),
+});
+
+export const collections = { reviews, guides, tutorials, deals, services };

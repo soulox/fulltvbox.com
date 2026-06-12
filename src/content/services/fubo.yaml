@@ -1,0 +1,6 @@
+name: "Fubo"
+category: live-tv
+monthlyPrice: 84.99
+hasLiveTV: true
+highlights: ["Sports-first live TV", "180+ channels", "4K on select events"]
+url: "https://www.fubo.tv"

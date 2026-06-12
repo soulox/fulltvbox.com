@@ -27,12 +27,14 @@ src/
     reviews/      # product reviews   (rating 1–5, price, specs, affiliate, tags, featured)
     guides/       # buying / setup guides
     tutorials/    # Raspberry Pi & home-lab how-tos (difficulty, duration)
-    deals/        # curated price drops (YAML, one per file)
+    deals/        # curated price drops — hardware OR streaming service (YAML)
+    services/     # streaming services (price, ad tier, live-tv, free trial)
     config.ts     # collection schemas
-  components/     # SearchModal (Pagefind UI)
+  components/     # SearchModal (Pagefind), CostCalculator
   layouts/        # BaseLayout + Review/Guide/Tutorial layouts
-  lib/            # freshness, deals, devices helpers
-  pages/          # routes (incl. /deals, /compare, /devices.json, /og/**)
+  lib/            # freshness, deals, devices, services helpers
+  pages/          # routes (incl. /deals, /compare, /cut-the-cord,
+                  #   /cost-calculator, /streaming-services, /devices.json, /og/**)
   og/             # build-time OG card renderer + vendored fonts
 public/
   images/reviews/ # self-hosted product photos
@@ -62,14 +64,29 @@ expires: "2026-06-22"               # optional — auto-hidden once past
 featured: true                      # optional — surfaces on the homepage strip
 ```
 
-Expired deals disappear automatically at the next build. A live deal also replaces the
-"Check Price" CTA on its review and adds `Offer` JSON-LD.
+A deal references **exactly one** of `device` (a review slug) or `service` (a service slug) —
+the `.refine` in `config.ts` enforces it. Expired deals disappear automatically at the next
+build. A hardware deal also replaces the "Check Price" CTA on its review and adds `Offer`
+JSON-LD; service deals surface on `/deals`, the homepage strip, and the cord-cutting hub.
 
 ### Specs & comparison
 
 Reviews carry an optional `specs` object (SoC, RAM, storage, OS, resolution, HDR/audio/ports,
 price, year). It renders a spec sheet on the review page, powers `/compare` (side-by-side with
 best-in-row highlighting), and is exposed as a JSON feed at `/devices.json`.
+
+### Streaming cost & cord-cutting
+
+Each streaming service is one YAML file in `src/content/services/` (`name`, `category`,
+`monthlyPrice`, optional `annualPrice`/`adTierPrice`, `hasAds`, `hasLiveTV`, `freeTrial`,
+`highlights`, `url`). The data powers three pages, all reusing the static client-side pattern:
+
+- **`/cost-calculator`** — `CostCalculator.astro`: tick services → live monthly/annual total
+  vs. the average cable bill, ad-tier toggles, deep-linkable via `?s=netflix,hulu.ads`.
+- **`/streaming-services`** — category-filterable directory.
+- **`/cut-the-cord`** — hub tying the calculator, top boxes, services, deals, and the guide.
+
+Prices are curated — keep the "verified \<date\>" note current when you edit them.
 
 ## Design system — "Test Bench"
 

@@ -1,0 +1,8 @@
+name: "ESPN (Unlimited)"
+category: sports
+monthlyPrice: 29.99
+annualPrice: 299.99
+hasLiveTV: true
+highlights: ["All ESPN networks streaming", "Live sports & studio shows", "ESPN+ library included"]
+url: "https://www.espn.com/espnplus"
+featured: true

@@ -168,14 +168,13 @@ const fresh = (r: typeof allReviews[number]) => freshness(r.data.publishDate, r.
       </div>
       <div class="grid sm:grid-cols-3 gap-4">
         {deals.map(deal => {
-          const device = deal.review?.data.title.replace(/ Review.*$/i, '').trim() ?? deal.device;
           return (
             <a href={deal.url} target="_blank" rel="noopener sponsored" class="bench-card frame group p-5 flex flex-col">
               <div class="flex items-center justify-between mb-3">
                 <span class="chip">{deal.retailer}</span>
                 {deal.discountPct && <span class="font-mono text-xs font-semibold text-void bg-signal px-2 py-0.5">-{deal.discountPct}%</span>}
               </div>
-              <div class="font-display font-700 text-ink leading-snug mb-3 flex-1 group-hover:text-signal transition-colors">{device}</div>
+              <div class="font-display font-700 text-ink leading-snug mb-3 flex-1 group-hover:text-signal transition-colors">{deal.name}</div>
               <div class="flex items-end gap-2">
                 <span class="font-display font-900 text-2xl text-signal leading-none">${deal.price}</span>
                 {deal.wasPrice && <span class="font-mono text-xs text-dim line-through mb-0.5">${deal.wasPrice}</span>}

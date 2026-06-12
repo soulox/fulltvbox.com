@@ -1,0 +1,7 @@
+name: "Sling TV"
+category: live-tv
+monthlyPrice: 45.99
+hasAds: true
+hasLiveTV: true
+highlights: ["Cheapest live TV", "Orange / Blue à la carte", "50 hours DVR"]
+url: "https://www.sling.com"

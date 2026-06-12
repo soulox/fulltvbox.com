@@ -1,0 +1,8 @@
+service: paramount-plus
+retailer: Annual plan
+price: 24.99
+wasPrice: 59.99
+url: "https://www.paramountplus.com"
+badge: Annual promo
+expires: "2026-06-28"
+featured: true

@@ -1,0 +1,8 @@
+service: peacock
+retailer: Annual plan
+price: 29.99
+wasPrice: 79.99
+url: "https://www.peacocktv.com"
+badge: Annual deal
+expires: "2026-06-24"
+featured: false

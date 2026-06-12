@@ -1,0 +1,9 @@
+name: "Disney+"
+category: on-demand
+monthlyPrice: 15.99
+adTierPrice: 9.99
+annualPrice: 159.99
+hasAds: true
+highlights: ["Disney, Marvel, Star Wars, Pixar", "4K HDR included", "Bundle with Hulu"]
+url: "https://www.disneyplus.com"
+featured: true

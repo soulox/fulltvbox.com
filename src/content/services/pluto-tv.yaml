@@ -1,0 +1,7 @@
+name: "Pluto TV"
+category: free
+monthlyPrice: 0
+hasAds: true
+hasLiveTV: true
+highlights: ["Free live channels", "No account required", "On-demand library"]
+url: "https://pluto.tv"

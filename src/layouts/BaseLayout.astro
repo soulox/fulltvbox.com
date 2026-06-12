@@ -19,9 +19,9 @@ const path = Astro.url.pathname;
 
 const nav = [
   { href: '/reviews', label: 'Reviews', ch: '02' },
-  { href: '/deals', label: 'Deals', ch: '03' },
-  { href: '/compare', label: 'Compare', ch: '04' },
-  { href: '/best-picks', label: 'Best Picks', ch: '05' },
+  { href: '/cut-the-cord', label: 'Cut the Cord', ch: '03' },
+  { href: '/deals', label: 'Deals', ch: '04' },
+  { href: '/compare', label: 'Compare', ch: '05' },
   { href: '/guides', label: 'Guides', ch: '06' },
   { href: '/tutorials', label: 'Tutorials', ch: '07' },
 ];
@@ -147,6 +147,9 @@ function isActive(href: string) {
         <div class="grid grid-cols-2 gap-x-10 gap-y-1.5 text-sm">
           <div class="label text-dim mb-1 col-span-2">// Index</div>
           <a href="/reviews" class="text-muted hover:text-signal transition-colors">Reviews</a>
+          <a href="/cut-the-cord" class="text-muted hover:text-signal transition-colors">Cut the Cord</a>
+          <a href="/cost-calculator" class="text-muted hover:text-signal transition-colors">Cost Calculator</a>
+          <a href="/streaming-services" class="text-muted hover:text-signal transition-colors">Services</a>
           <a href="/deals" class="text-muted hover:text-signal transition-colors">Deals</a>
           <a href="/compare" class="text-muted hover:text-signal transition-colors">Compare</a>
           <a href="/best-picks" class="text-muted hover:text-signal transition-colors">Best Picks</a>

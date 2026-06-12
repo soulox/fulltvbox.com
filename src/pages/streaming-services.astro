@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getServices } from '../lib/services';
+
+const services = await getServices();
+const verified = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+const catLabel: Record<string, string> = {
+  'on-demand': 'On-demand', 'live-tv': 'Live TV', free: 'Free', sports: 'Sports', extra: 'Add-on',
+};
+const cats = [...new Set(services.map((s) => s.category))];
+---
+<BaseLayout title="Streaming Services & Prices" description="Every major streaming service compared by price, ad tier, free trial, and live TV — pick the ones worth paying for.">
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <span class="label text-signal">// Directory — Services</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">Streaming Services</h1>
+    <p class="text-muted mb-3 max-w-2xl">
+      What each service costs, whether it has ads or a free tier, and what it's best for.
+      Build a running total with the <a href="/cost-calculator" class="text-signal border-b border-signal/30 hover:border-signal">cost calculator</a>.
+    </p>
+    <p class="label text-dim mb-8">Prices verified {verified} · subject to change</p>
+
+    <div class="flex flex-wrap gap-2 mb-10">
+      <button data-cat="" class="cat-btn is-on">All</button>
+      {cats.map((c) => <button data-cat={c} class="cat-btn">{catLabel[c] ?? c}</button>)}
+    </div>
+
+    <div id="svc-grid" class="grid sm:grid-cols-2 gap-5">
+      {services.map((s) => (
+        <div class="svc-card bench-card frame p-6 flex flex-col" data-cat={s.category}>
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h2 class="font-display font-800 text-xl text-ink">{s.name}</h2>
+            <div class="text-right shrink-0">
+              <div class="font-display font-900 text-2xl text-signal leading-none">{s.monthlyPrice === 0 ? 'Free' : `$${s.monthlyPrice}`}</div>
+              {s.monthlyPrice > 0 && <div class="label text-dim mt-0.5">/mo</div>}
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="chip text-signal border-signal/40">{catLabel[s.category] ?? s.category}</span>
+            {s.hasLiveTV && <span class="chip">live tv</span>}
+            {s.hasAds && <span class="chip">has ads</span>}
+            {s.adTierPrice != null && <span class="chip">ads from ${s.adTierPrice}</span>}
+            {s.annualPrice != null && <span class="chip">${s.annualPrice}/yr</span>}
+            {s.freeTrial && <span class="chip text-scope border-scope/40">{s.freeTrial} trial</span>}
+          </div>
+
+          <ul class="space-y-1.5 mb-5 flex-1">
+            {s.highlights.map((h) => (
+              <li class="flex items-start gap-2 text-sm text-ink/85">
+                <span class="text-signal mt-0.5 shrink-0 font-mono">+</span>{h}
+              </li>
+            ))}
+          </ul>
+
+          <div class="flex items-center gap-4 pt-3 border-t border-line">
+            <a href={s.url} target="_blank" rel="noopener sponsored" class="btn-signal !px-4 !py-2">Sign up →</a>
+            <a href={`/cost-calculator?s=${s.slug}`} class="label text-muted hover:text-signal transition-colors">+ Calculator</a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p id="svc-empty" class="hidden text-dim text-center py-12 label">// No services in this category.</p>
+  </div>
+
+  <style>
+    .cat-btn {
+      font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted); background: var(--panel);
+      border: 1px solid var(--line); padding: 0.4rem 0.8rem; transition: all 0.16s; cursor: pointer;
+    }
+    .cat-btn:hover { color: var(--ink); border-color: var(--line-bright); }
+    .cat-btn.is-on { color: #0a1206; background: var(--signal); border-color: var(--signal); }
+  </style>
+</BaseLayout>
+
+<script>
+  function applyFilter(cat: string) {
+    const cards = document.querySelectorAll<HTMLElement>('.svc-card');
+    let visible = 0;
+    cards.forEach((card) => {
+      const match = !cat || card.dataset.cat === cat;
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    document.querySelectorAll<HTMLElement>('.cat-btn').forEach((b) => b.classList.toggle('is-on', b.dataset.cat === cat));
+    document.getElementById('svc-empty')?.classList.toggle('hidden', visible > 0);
+  }
+  applyFilter('');
+  document.querySelectorAll<HTMLElement>('.cat-btn').forEach((b) => b.addEventListener('click', () => applyFilter(b.dataset.cat ?? '')));
+</script>

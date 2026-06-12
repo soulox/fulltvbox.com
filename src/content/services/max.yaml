@@ -1,0 +1,9 @@
+name: "Max"
+category: on-demand
+monthlyPrice: 16.99
+adTierPrice: 9.99
+annualPrice: 169.99
+hasAds: true
+highlights: ["HBO originals", "4K on Premium", "Day-and-date WB films"]
+url: "https://www.max.com"
+featured: true

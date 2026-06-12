@@ -15,13 +15,7 @@ function endsLabel(expires?: string) {
 
 const deals = liveDeals.map((deal) => {
   const d = deal.expires ? daysUntil(deal.expires) : null;
-  return {
-    ...deal,
-    name: deal.review?.data.title.replace(/ Review.*$/i, '').trim() ?? deal.device,
-    hasReview: !!deal.review,
-    ends: endsLabel(deal.expires),
-    urgent: d !== null && d <= 3,
-  };
+  return { ...deal, ends: endsLabel(deal.expires), urgent: d !== null && d <= 3 };
 });
 
 // AggregateOffer JSON-LD across live deals
@@ -72,13 +66,9 @@ const jsonLd = prices.length
               )}
             </div>
 
-            {deal.hasReview ? (
-              <a href={`/reviews/${deal.device}`} class="font-display font-700 text-lg leading-snug text-ink hover:text-signal transition-colors mb-3">
-                {deal.name}
-              </a>
-            ) : (
-              <div class="font-display font-700 text-lg leading-snug text-ink mb-3">{deal.name}</div>
-            )}
+            <a href={deal.href} class="font-display font-700 text-lg leading-snug text-ink hover:text-signal transition-colors mb-3">
+              {deal.name}
+            </a>
 
             <div class="flex items-end gap-3 mb-4">
               <span class="font-display font-900 text-3xl text-signal leading-none">${deal.price}</span>

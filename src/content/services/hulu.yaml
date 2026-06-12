@@ -1,0 +1,8 @@
+name: "Hulu"
+category: on-demand
+monthlyPrice: 18.99
+adTierPrice: 9.99
+hasAds: true
+highlights: ["Next-day network TV", "FX & Hulu originals", "Bundle with Disney+"]
+url: "https://www.hulu.com"
+featured: true

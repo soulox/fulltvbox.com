@@ -1,0 +1,9 @@
+name: "Paramount+"
+category: on-demand
+monthlyPrice: 12.99
+adTierPrice: 7.99
+annualPrice: 119.99
+hasAds: true
+hasLiveTV: true
+highlights: ["CBS live + Showtime", "NFL on CBS & UEFA", "Star Trek universe"]
+url: "https://www.paramountplus.com"

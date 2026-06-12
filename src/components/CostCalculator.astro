@@ -1,0 +1,176 @@
+---
+import { getServices } from '../lib/services';
+
+const services = await getServices();
+const CATS: [string, string][] = [
+  ['free', 'Free · ad-supported'],
+  ['on-demand', 'On-demand'],
+  ['live-tv', 'Live TV'],
+  ['sports', 'Sports'],
+  ['extra', 'Add-ons'],
+];
+const grouped = CATS.map(([cat, label]) => ({ cat, label, items: services.filter((s) => s.category === cat) })).filter(
+  (g) => g.items.length,
+);
+---
+<div class="grid lg:grid-cols-[1fr_21rem] gap-8 items-start">
+  <!-- service toggles -->
+  <div>
+    {grouped.map((g) => (
+      <section class="mb-6">
+        <div class="label text-signal mb-3">// {g.label}</div>
+        <div class="panel divide-y divide-line">
+          {g.items.map((s) => (
+            <label class="calc-row flex items-center gap-3 px-4 py-3 cursor-pointer">
+              <input
+                type="checkbox"
+                class="calc-check"
+                data-slug={s.slug}
+                data-monthly={s.monthlyPrice}
+                data-ads={s.adTierPrice ?? ''}
+                data-annual={s.annualPrice ?? ''}
+                aria-label={`Add ${s.name}`}
+              />
+              <span class="flex-1 min-w-0">
+                <span class="font-display font-700 text-ink">{s.name}</span>
+                {s.freeTrial && <span class="chip ml-2">{s.freeTrial} trial</span>}
+              </span>
+              {s.adTierPrice != null ? (
+                <select class="calc-tier" data-slug={s.slug} aria-label={`${s.name} plan`}>
+                  <option value="std">Ad-free ${s.monthlyPrice}</option>
+                  <option value="ads">With ads ${s.adTierPrice}</option>
+                </select>
+              ) : (
+                <span class="font-mono text-sm text-signal shrink-0">{s.monthlyPrice === 0 ? 'Free' : `$${s.monthlyPrice}/mo`}</span>
+              )}
+            </label>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <!-- readout -->
+  <aside class="lg:sticky lg:top-24 panel frame">
+    <div class="smpte-bars h-1 w-full"></div>
+    <div class="p-5">
+      <div class="flex items-center justify-between">
+        <span class="label text-signal">// Your stack</span>
+        <button id="calc-clear" type="button" class="label text-dim hover:text-signal transition-colors">Clear</button>
+      </div>
+      <div class="flex items-end gap-2 mt-3">
+        <span id="calc-monthly" class="font-display font-900 text-5xl text-signal leading-none glow-text">$0</span>
+        <span class="label mb-1">/mo</span>
+      </div>
+      <div id="calc-annual" class="label text-muted mt-2">$0 / yr</div>
+      <div id="calc-save" class="label text-dim mt-1"></div>
+      <div id="calc-bench" class="text-sm mt-4 pt-4 border-t border-line text-muted"></div>
+      <ul id="calc-breakdown" class="mt-4 space-y-1.5"></ul>
+    </div>
+  </aside>
+</div>
+
+<script type="application/json" id="calc-data" set:html={JSON.stringify(services)}></script>
+
+<style>
+  .calc-row { transition: background 0.12s; }
+  .calc-row:hover { background: var(--panel2); }
+  .calc-check { width: 18px; height: 18px; accent-color: var(--signal); flex-shrink: 0; cursor: pointer; }
+  .calc-tier {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--ink);
+    background: var(--panel2); border: 1px solid var(--line-bright); padding: 0.35rem 0.5rem; cursor: pointer;
+    flex-shrink: 0;
+  }
+  .calc-tier:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  :global(#calc-breakdown li) {
+    display: flex; justify-content: space-between; gap: 0.5rem;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; color: var(--muted);
+  }
+  :global(#calc-breakdown li .b-price) { color: var(--ink); }
+</style>
+
+<script>
+  type Svc = { slug: string; name: string; monthlyPrice: number; annualPrice: number | null; adTierPrice: number | null };
+  const DATA: Svc[] = JSON.parse(document.getElementById('calc-data')!.textContent || '[]');
+  const bySlug = new Map(DATA.map((s) => [s.slug, s]));
+  const CABLE = 83; // avg US cable TV bill, $/mo
+
+  const checks = Array.from(document.querySelectorAll<HTMLInputElement>('.calc-check'));
+  const tiers = new Map(
+    Array.from(document.querySelectorAll<HTMLSelectElement>('.calc-tier')).map((el) => [el.dataset.slug!, el]),
+  );
+  const $monthly = document.getElementById('calc-monthly')!;
+  const $annual = document.getElementById('calc-annual')!;
+  const $save = document.getElementById('calc-save')!;
+  const $bench = document.getElementById('calc-bench')!;
+  const $break = document.getElementById('calc-breakdown')!;
+  const money = (n: number) => '$' + (Number.isInteger(n) ? n : n.toFixed(2));
+
+  function effMonthly(s: Svc, tier: string) {
+    return tier === 'ads' && s.adTierPrice != null ? s.adTierPrice : s.monthlyPrice;
+  }
+
+  function selected(): { s: Svc; tier: string }[] {
+    return checks
+      .filter((c) => c.checked)
+      .map((c) => ({ s: bySlug.get(c.dataset.slug!)!, tier: tiers.get(c.dataset.slug!)?.value ?? 'std' }));
+  }
+
+  function render() {
+    const sel = selected();
+    let monthly = 0;
+    let annual = 0; // best annual cost (annualPrice where offered, else monthly*12)
+    $break.innerHTML = '';
+    for (const { s, tier } of sel) {
+      const m = effMonthly(s, tier);
+      monthly += m;
+      annual += s.annualPrice != null && tier !== 'ads' ? s.annualPrice : m * 12;
+      const li = document.createElement('li');
+      li.innerHTML = `<span>${s.name}</span><span class="b-price">${m === 0 ? 'Free' : money(m) + '/mo'}</span>`;
+      $break.appendChild(li);
+    }
+    $monthly.textContent = money(monthly);
+    $annual.textContent = money(annual) + ' / yr';
+    const annualSave = monthly * 12 - annual;
+    $save.textContent = annualSave > 0.5 ? `Save ${money(annualSave)}/yr paying annually where offered` : '';
+
+    if (!sel.length) {
+      $bench.textContent = `Add services to total your monthly bill. The average U.S. cable TV bill is about ${money(CABLE)}/mo.`;
+    } else if (monthly < CABLE) {
+      $bench.innerHTML = `That's <span class="text-signal">${money(CABLE - monthly)}/mo less</span> than the average ${money(CABLE)} cable bill.`;
+    } else {
+      $bench.innerHTML = `Your stack now costs <span class="text-amber">${money(monthly - CABLE)}/mo more</span> than the average ${money(CABLE)} cable bill — time to trim.`;
+    }
+    syncUrl();
+  }
+
+  function syncUrl() {
+    const parts = selected().map(({ s, tier }) => (tier === 'ads' ? `${s.slug}.ads` : s.slug));
+    const url = new URL(location.href);
+    if (parts.length) url.searchParams.set('s', parts.join(',')); else url.searchParams.delete('s');
+    history.replaceState(null, '', url);
+  }
+
+  checks.forEach((c) => c.addEventListener('change', render));
+  tiers.forEach((sel) => sel.addEventListener('change', render));
+  document.getElementById('calc-clear')!.addEventListener('click', () => {
+    checks.forEach((c) => (c.checked = false));
+    render();
+  });
+
+  // init from ?s=slug,slug.ads
+  (new URL(location.href).searchParams.get('s') || '')
+    .split(',')
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .forEach((p) => {
+      const [slug, t] = p.split('.');
+      const c = checks.find((x) => x.dataset.slug === slug);
+      if (c) {
+        c.checked = true;
+        const tier = tiers.get(slug);
+        if (tier) tier.value = t === 'ads' ? 'ads' : 'std';
+      }
+    });
+  render();
+</script>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CostCalculator from '../components/CostCalculator.astro';
+
+const verified = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+---
+<BaseLayout title="Streaming Cost Calculator" description="Add up your streaming subscriptions and see what your stack really costs per month and per year — versus cable.">
+  <div class="max-w-6xl mx-auto px-4 py-14">
+    <span class="label text-signal">// Tool — Streaming cost</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">Streaming Cost Calculator</h1>
+    <p class="text-muted mb-3 max-w-2xl">
+      Tick the services you pay for and watch the real monthly and annual total add up. Switch any
+      service to its ad-supported tier to see how much you'd save.
+    </p>
+    <p class="label text-dim mb-9">Prices verified {verified} · list prices, subject to change</p>
+
+    <CostCalculator />
+  </div>
+</BaseLayout>

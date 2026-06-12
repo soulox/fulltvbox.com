@@ -1,0 +1,7 @@
+name: "Tubi"
+category: free
+monthlyPrice: 0
+hasAds: true
+highlights: ["Completely free", "200,000+ movies & shows", "Ad-supported"]
+url: "https://tubitv.com"
+featured: true
