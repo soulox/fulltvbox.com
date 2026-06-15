@@ -34,7 +34,7 @@ src/
   layouts/        # BaseLayout + Review/Guide/Tutorial layouts
   lib/            # freshness, deals, devices, services helpers
   pages/          # routes (incl. /deals, /compare, /cut-the-cord,
-                  #   /cost-calculator, /streaming-services, /devices.json, /og/**)
+                  #   /cost-calculator, /streaming-services, /privacy, /devices.json, /og/**)
   og/             # build-time OG card renderer + vendored fonts
 public/
   images/reviews/ # self-hosted product photos
@@ -42,6 +42,17 @@ public/
 
 Add content by dropping a Markdown file into the relevant `src/content/<collection>/`
 folder with the frontmatter its schema requires (see `src/content/config.ts`).
+
+### FAQ blocks
+
+Reviews and guides accept an optional `faq` array in frontmatter. When present it renders an
+accordion at the foot of the article and emits `FAQPage` JSON-LD for rich results:
+
+```yaml
+faq:
+  - question: "Is it worth it in 2026?"
+    answer: "Yes, if you want the most powerful box…"
+```
 
 ### Freshness
 
@@ -96,7 +107,8 @@ SMPTE color bars, VU-meter scores, and mono instrument labels. Tokens live in
 (CSS variables + reusable classes: `.bench-card`, `.frame`, `.meter`, `.btn-signal`,
 `.chip`, `.label`, `.prose-bench`).
 
-- **Fonts:** Archivo (display), IBM Plex Sans (body), IBM Plex Mono (labels).
+- **Fonts:** Archivo (display), IBM Plex Sans (body), IBM Plex Mono (labels). Self-hosted via
+  `@fontsource` and imported in `BaseLayout.astro` — no Google Fonts CDN call (see Privacy below).
 - **Accessibility:** WCAG 2.1 AA — verified 0 violations via axe-core.
 
 ## Search
@@ -114,6 +126,24 @@ Branded 1200×630 cards are generated **at build time** (satori → resvg) per c
 plus a site default. Source: `src/og/card.ts`; endpoints under `src/pages/og/**` and
 `src/pages/og-default.png.ts`. Layouts set `og:image` automatically — nothing to maintain
 per page.
+
+## SEO & structured data
+
+`BaseLayout.astro` handles canonical URLs, Open Graph (incl. `og:type=article` +
+`article:*` timestamps for content pages, set via layout props), Twitter cards, and RSS.
+JSON-LD is emitted per page type: `Review` + `Product` + `BreadcrumbList` on reviews,
+`Article` / `TechArticle` on guides/tutorials, `FAQPage` where `faq` is present, `ItemList`
+on `/reviews` and `/best-picks`, and `Organization` + `WebSite` on the homepage.
+`robots.txt` and the `@astrojs/sitemap`-generated `sitemap-index.xml` round it out.
+
+## Privacy / GDPR
+
+The site sets **no cookies** and runs **no analytics, ads, or third-party trackers**, so
+there is no consent banner. Fonts are self-hosted (no Google Fonts CDN), so visitor IPs are
+not shared with third parties; the only outbound data flow is when a visitor clicks an
+affiliate link. The [`/privacy`](src/pages/privacy.astro) page documents this and the GDPR
+rights. If analytics or ads are ever added, update that page (and revisit the consent question)
+before the tracking goes live.
 
 ## Image attribution
 
