@@ -36,6 +36,7 @@ const reviews = defineCollection({
     featured: z.boolean().default(false),
     specs,
     faq: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
+    author: z.string().optional(),
   }),
 });
 
@@ -48,6 +49,7 @@ const guides = defineCollection({
     updatedDate: z.string().optional(),
     image: z.string().optional(),
     faq: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
+    author: z.string().optional(),
   }),
 });
 
@@ -62,6 +64,7 @@ const tutorials = defineCollection({
     duration: z.string(),
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
+    author: z.string().optional(),
   }),
 });
 

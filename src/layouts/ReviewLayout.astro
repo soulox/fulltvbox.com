@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Faq from '../components/Faq.astro';
 import { freshness } from '../lib/freshness';
+import { getAuthor, authorJsonLd } from '../data/authors';
 import type { LiveDeal } from '../lib/deals';
 
 interface Specs {
@@ -22,9 +23,11 @@ interface Props {
   specs?: Specs;
   deal?: LiveDeal;
   faq?: { question: string; answer: string }[];
+  author?: string;
   ogImage?: string;
 }
-const { title, description, publishDate, updatedDate, rating, price, image, affiliate, specs, deal, faq, ogImage } = Astro.props;
+const { title, description, publishDate, updatedDate, rating, price, image, affiliate, specs, deal, faq, author: authorSlug, ogImage } = Astro.props;
+const author = getAuthor(authorSlug);
 const device = title.replace(/ Review.*$/i, '').trim();
 const slug = Astro.url.pathname.replace(/\/$/, '').split('/').pop();
 const fresh = freshness(publishDate, updatedDate);
@@ -57,7 +60,7 @@ const jsonLd = {
   description,
   datePublished: publishDate,
   ...(updatedDate ? { dateModified: updatedDate } : {}),
-  author: { '@type': 'Organization', name: 'FullTVBox', url: 'https://fulltvbox.com' },
+  author: authorJsonLd(author, site),
   publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
   reviewRating: { '@type': 'Rating', ratingValue: rating, bestRating: 5, worstRating: 1 },
   itemReviewed: {
@@ -120,6 +123,8 @@ const breadcrumb = {
       <span class="text-signal">REVIEW</span>
       {fresh === 'updated' && <span class="chip text-scope border-scope/40">◆ UPDATED</span>}
       {fresh === 'new' && <span class="chip text-signal border-signal/40">◆ NEW</span>}
+      <span class="text-line-bright">·</span>
+      <span>By <a href={author.url} class="text-muted hover:text-signal transition-colors">{author.name}</a></span>
       <span class="text-line-bright">·</span>
       <time>{new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
       {updatedDate && (

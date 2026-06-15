@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Faq from '../components/Faq.astro';
 import { freshness } from '../lib/freshness';
+import { getAuthor, authorJsonLd } from '../data/authors';
 
 interface Props {
   title: string;
@@ -11,8 +12,10 @@ interface Props {
   image?: string;
   ogImage?: string;
   faq?: { question: string; answer: string }[];
+  author?: string;
 }
-const { title, description, publishDate, updatedDate, image, ogImage, faq } = Astro.props;
+const { title, description, publishDate, updatedDate, image, ogImage, faq, author: authorSlug } = Astro.props;
+const author = getAuthor(authorSlug);
 const fresh = freshness(publishDate, updatedDate);
 
 const site = Astro.site;
@@ -25,7 +28,7 @@ const jsonLd = [
     description,
     datePublished: publishDate,
     ...(updatedDate ? { dateModified: updatedDate } : {}),
-    author: { '@type': 'Organization', name: 'FullTVBox', url: site?.href },
+    author: authorJsonLd(author, site),
     publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
     mainEntityOfPage: pageUrl,
   },
@@ -62,6 +65,8 @@ const jsonLd = [
       <span class="text-signal">GUIDE</span>
       {fresh === 'updated' && <span class="chip text-scope border-scope/40">◆ UPDATED</span>}
       {fresh === 'new' && <span class="chip text-signal border-signal/40">◆ NEW</span>}
+      <span class="text-line-bright">·</span>
+      <span>By <a href={author.url} class="text-muted hover:text-signal transition-colors">{author.name}</a></span>
       <span class="text-line-bright">·</span>
       <time>{new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
       {updatedDate && (
