@@ -1,6 +1,19 @@
 ---
 import SearchModal from '../components/SearchModal.astro';
 
+// Self-hosted fonts (no Google CDN call — keeps visitor IPs off Google's servers, GDPR-friendly)
+import '@fontsource/archivo/600.css';
+import '@fontsource/archivo/700.css';
+import '@fontsource/archivo/800.css';
+import '@fontsource/archivo/900.css';
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/500.css';
+import '@fontsource/ibm-plex-sans/600.css';
+import '@fontsource/ibm-plex-sans/700.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+
 interface Props {
   title: string;
   description?: string;
@@ -73,9 +86,6 @@ function isActive(href: string) {
 
   <title>{fullTitle}</title>
   <slot name="head" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body class="bg-void text-ink font-sans min-h-screen flex flex-col antialiased">
 
@@ -171,6 +181,7 @@ function isActive(href: string) {
           <a href="/tutorials" class="text-muted hover:text-signal transition-colors">Tutorials</a>
           <a href="/about" class="text-muted hover:text-signal transition-colors">About</a>
           <a href="/credits" class="text-muted hover:text-signal transition-colors">Credits</a>
+          <a href="/privacy" class="text-muted hover:text-signal transition-colors">Privacy</a>
           <a href="/rss.xml" class="text-muted hover:text-signal transition-colors">RSS</a>
         </div>
       </div>

@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const updated = 'June 15, 2026';
+---
+<BaseLayout
+  title="Privacy Policy"
+  description="How FullTVBox handles your data — what we collect, what we don't, the third parties involved, and your rights under the GDPR."
+>
+  <div class="max-w-2xl mx-auto px-4 py-14">
+    <span class="label text-signal">// Legal — Data &amp; Privacy</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">Privacy Policy</h1>
+    <p class="label text-dim mb-8">Last updated: {updated}</p>
+
+    <div class="smpte-bars h-1 w-full mb-10 opacity-60"></div>
+
+    <div class="prose prose-invert prose-lg max-w-none prose-bench
+      prose-headings:font-display prose-headings:text-ink
+      prose-p:text-ink/85 prose-li:text-ink/85">
+
+      <p>
+        FullTVBox ("we", "us") is an independent review site. We believe a privacy policy should
+        describe what actually happens — so here is the short, honest version: <strong>we do not
+        run analytics, advertising trackers, or third-party cookies, and we do not ask you to log
+        in or hand over personal information.</strong> The detail below explains the limited data
+        that is unavoidably processed when you visit any website.
+      </p>
+
+      <h2>Who is responsible</h2>
+      <p>
+        FullTVBox is the data controller for this site. For any privacy question or to exercise
+        the rights described below, contact us at{' '}
+        <a href="mailto:privacy@fulltvbox.com">privacy@fulltvbox.com</a>.
+      </p>
+
+      <h2>Cookies and local storage</h2>
+      <p>
+        We do not set any cookies, and we do not use local or session storage to track you. There
+        is no analytics script, no advertising pixel, and no consent banner — because there is
+        nothing to consent to. Our on-site search runs entirely in your browser and sends no
+        queries to us or anyone else.
+      </p>
+
+      <h2>What is processed when you visit</h2>
+      <ul>
+        <li>
+          <strong>Server / hosting logs.</strong> Our host (Cloudflare Pages) automatically
+          processes technical data such as your IP address, browser type, and the pages requested.
+          This is standard for any web server and is used only to deliver the site and protect it
+          from abuse. The legal basis is our legitimate interest in operating a secure website
+          (GDPR Article 6(1)(f)).
+        </li>
+        <li>
+          <strong>Fonts and assets.</strong> All fonts and images are served from our own domain.
+          We do <em>not</em> load Google Fonts or other third-party assets, so your IP address is
+          not shared with font or asset providers.
+        </li>
+      </ul>
+
+      <h2>Affiliate links</h2>
+      <p>
+        Some product links are affiliate links (for example, the Amazon Associates programme). If
+        you click one and make a purchase, we may earn a commission at no extra cost to you. When
+        you follow such a link you leave FullTVBox and enter the retailer's own site, where that
+        retailer may set its own cookies and process your data under <em>its</em> privacy policy —
+        which we do not control. We never receive your payment details or personal information from
+        these purchases; we only receive aggregate, anonymous commission reports.
+      </p>
+
+      <h2>Third parties we rely on</h2>
+      <ul>
+        <li><strong>Cloudflare</strong> — hosting and content delivery (processes request logs as described above).</li>
+        <li><strong>Affiliate retailers</strong> (e.g. Amazon) — only when you click an outbound affiliate link.</li>
+      </ul>
+      <p>
+        Because our host operates a global network, technical data may be processed on servers
+        outside your country, including outside the EEA. Such transfers rely on the provider's
+        standard contractual clauses and equivalent safeguards.
+      </p>
+
+      <h2>Your rights under the GDPR</h2>
+      <p>
+        If you are in the EU/EEA or UK, you have the right to access, correct, erase, restrict, or
+        object to the processing of your personal data, and the right to data portability. As we
+        hold no account or profile data about you, in practice the only data tied to you is
+        transient server-log information. To make a request, or to lodge a complaint with your
+        local data protection authority, email{' '}
+        <a href="mailto:privacy@fulltvbox.com">privacy@fulltvbox.com</a>.
+      </p>
+
+      <h2>Data retention</h2>
+      <p>
+        Server logs are retained only for as long as needed for security and operational purposes
+        and are then deleted or anonymised. We keep no other personal data.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        FullTVBox is intended for a general audience and is not directed at children under 16. We
+        do not knowingly collect personal data from children.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        We may update this policy as the site evolves — for example, if we ever introduce analytics
+        or advertising. Material changes will be reflected in the "Last updated" date above, and any
+        new data collection will be described here before it begins.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
