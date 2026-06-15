@@ -1,0 +1,30 @@
+---
+interface Item {
+  href: string;
+  title: string;
+  description: string;
+}
+interface Props {
+  items: Item[];
+  heading?: string;
+  label?: string;
+}
+const { items, heading = 'Related', label = '// Related' } = Astro.props;
+---
+{items.length > 0 && (
+  <section class="max-w-3xl mx-auto px-4 pb-20">
+    <div class="smpte-bars h-px w-full mb-8 opacity-50"></div>
+    <span class="label text-signal">{label}</span>
+    <h2 class="font-display font-800 text-2xl mt-1 mb-6">{heading}</h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      {items.map((i) => (
+        <a href={i.href} class="bench-card frame group p-4 flex flex-col">
+          <h3 class="font-display font-700 text-sm text-ink group-hover:text-signal transition-colors leading-snug flex-1">
+            {i.title}
+          </h3>
+          <p class="text-muted text-xs mt-2 line-clamp-2">{i.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

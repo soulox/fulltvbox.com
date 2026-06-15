@@ -1,17 +1,28 @@
 ---
 import GuideLayout from '../../layouts/GuideLayout.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
 import { getCollection } from 'astro:content';
+import { latestDate } from '../../lib/freshness';
 
 export async function getStaticPaths() {
   const guides = await getCollection('guides');
   return guides.map(guide => ({
     params: { slug: guide.slug },
-    props: { guide },
+    props: { guide, allGuides: guides },
   }));
 }
 
-const { guide } = Astro.props;
+const { guide, allGuides } = Astro.props;
 const { Content } = await guide.render();
+
+const related = allGuides
+  .filter(g => g.slug !== guide.slug)
+  .sort((a, b) =>
+    new Date(latestDate(b.data.publishDate, b.data.updatedDate)).getTime() -
+    new Date(latestDate(a.data.publishDate, a.data.updatedDate)).getTime()
+  )
+  .slice(0, 3)
+  .map(g => ({ href: `/guides/${g.slug}`, title: g.data.title, description: g.data.description }));
 ---
 <GuideLayout
   title={guide.data.title}
@@ -23,4 +34,5 @@ const { Content } = await guide.render();
   ogImage={`/og/guides/${guide.slug}.png`}
 >
   <Content />
+  <RelatedLinks slot="related" items={related} heading="More Guides" label="// Keep reading" />
 </GuideLayout>

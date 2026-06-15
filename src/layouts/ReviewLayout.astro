@@ -125,6 +125,8 @@ const breadcrumb = {
       {updatedDate && (
         <span class="text-dim">· updated {new Date(updatedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
       )}
+      <span class="text-line-bright">·</span>
+      <a href="/about" class="text-dim hover:text-signal transition-colors">how we test</a>
     </div>
 
     <h1 class="font-display font-900 text-4xl sm:text-5xl leading-[0.95] tracking-tight text-ink mb-4">{title}</h1>

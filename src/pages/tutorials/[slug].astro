@@ -1,17 +1,28 @@
 ---
 import TutorialLayout from '../../layouts/TutorialLayout.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const tutorials = await getCollection('tutorials');
   return tutorials.map(tutorial => ({
     params: { slug: tutorial.slug },
-    props: { tutorial },
+    props: { tutorial, allTutorials: tutorials },
   }));
 }
 
-const { tutorial } = Astro.props;
+const { tutorial, allTutorials } = Astro.props;
 const { Content } = await tutorial.render();
+
+const related = allTutorials
+  .filter(t => t.slug !== tutorial.slug)
+  .map(t => ({
+    t,
+    score: t.data.tags.filter((tag: string) => tutorial.data.tags.includes(tag)).length,
+  }))
+  .sort((a, b) => b.score - a.score || new Date(b.t.data.publishDate).getTime() - new Date(a.t.data.publishDate).getTime())
+  .slice(0, 3)
+  .map(({ t }) => ({ href: `/tutorials/${t.slug}`, title: t.data.title, description: t.data.description }));
 ---
 <TutorialLayout
   title={tutorial.data.title}
@@ -25,4 +36,5 @@ const { Content } = await tutorial.render();
   ogImage={`/og/tutorials/${tutorial.slug}.png`}
 >
   <Content />
+  <RelatedLinks slot="related" items={related} heading="More Tutorials" label="// Next build" />
 </TutorialLayout>
