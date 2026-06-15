@@ -1,4 +1,41 @@
+# FullTVBox — crawler policy
+# Default: everyone is welcome to crawl everything.
 User-agent: *
+Allow: /
+
+# ── Search engines ──────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# ── AI search & answer engines ──────────────────────────────
+# Explicitly welcomed so the site can be surfaced and cited in
+# Google AI Overviews, ChatGPT Search, Perplexity, Gemini, Claude,
+# and Apple Intelligence.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://fulltvbox.com/sitemap-index.xml
