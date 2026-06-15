@@ -20,6 +20,15 @@ specs:
   connectivity: ["Wi-Fi 6", "Bluetooth", "Ethernet"]
   ports: ["HDMI 2.1", "Gigabit Ethernet", "USB-A"]
   remote: "Roku Voice Remote Pro (2nd gen)"
+faq:
+  - question: "Is the Roku Ultra worth it over the cheaper stick?"
+    answer: "The Ultra adds Ethernet, a USB port, a better remote with a headphone jack and lost-remote finder, and faster performance. If you want wired networking or local media it is worth the premium; otherwise the stick is enough."
+  - question: "Does the Roku Ultra have ads?"
+    answer: "Roku’s home screen shows a large ad tile and sponsored rows, but the interface is otherwise clean and uncluttered compared to Fire TV."
+  - question: "Does the Roku Ultra support Dolby Vision and Atmos?"
+    answer: "Yes — it outputs Dolby Vision HDR and passes through Dolby Atmos audio."
+  - question: "Does the Roku Ultra have an Ethernet port?"
+    answer: "Yes. It is one of the few streaming devices at its price with a built-in Ethernet port for a wired, buffer-free connection."
 ---
 
 ## Overview

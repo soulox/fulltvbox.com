@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Faq from '../components/Faq.astro';
 import { freshness } from '../lib/freshness';
 import type { LiveDeal } from '../lib/deals';
 
@@ -20,9 +21,10 @@ interface Props {
   affiliate?: string;
   specs?: Specs;
   deal?: LiveDeal;
+  faq?: { question: string; answer: string }[];
   ogImage?: string;
 }
-const { title, description, publishDate, updatedDate, rating, price, image, affiliate, specs, deal, ogImage } = Astro.props;
+const { title, description, publishDate, updatedDate, rating, price, image, affiliate, specs, deal, faq, ogImage } = Astro.props;
 const device = title.replace(/ Review.*$/i, '').trim();
 const slug = Astro.url.pathname.replace(/\/$/, '').split('/').pop();
 const fresh = freshness(publishDate, updatedDate);
@@ -189,6 +191,12 @@ const breadcrumb = {
       prose-p:text-ink/85 prose-li:text-ink/85 prose-img:border prose-img:border-line">
       <slot />
     </div>
+
+    {faq && faq.length > 0 && (
+      <div class="mt-14">
+        <Faq items={faq} />
+      </div>
+    )}
   </article>
 
   <slot name="related" />

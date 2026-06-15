@@ -24,6 +24,15 @@ specs:
   remote: "Motion-activated backlit remote"
   dimensions: "159 x 98 x 26 mm"
   weight: "250 g"
+faq:
+  - question: "Is the NVIDIA Shield TV Pro still worth it in 2026?"
+    answer: "Yes, if you want the most powerful Android TV box. It still gets regular updates, runs apps the smoothest, adds AI upscaling, and can host Plex — though at $199 it is overkill if you only stream Netflix and YouTube."
+  - question: "Can the Shield TV Pro run a Plex Media Server?"
+    answer: "Yes. The Pro model can host Plex Media Server directly and hardware-transcode multiple streams, which is its standout feature versus cheaper boxes."
+  - question: "Does the Shield support Dolby Vision and Dolby Atmos?"
+    answer: "Yes — it outputs Dolby Vision HDR and passes through Dolby Atmos and DTS-X audio to a compatible TV or receiver."
+  - question: "How long will the Shield keep getting updates?"
+    answer: "NVIDIA has supported the Shield with software updates since 2019, far longer than any competitor, and continues to release them — a big reason it stays relevant."
 ---
 
 ## Overview

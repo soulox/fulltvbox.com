@@ -23,6 +23,15 @@ specs:
   ports: ["HDMI 2.1", "Micro-USB (power)"]
   remote: "Alexa Voice Remote Enhanced"
   weight: "48.4 g"
+faq:
+  - question: "Is the Fire TV Stick 4K Max worth it?"
+    answer: "Yes for the price — it is fast, supports 4K Dolby Vision and Atmos, and adds Wi-Fi 6E. The main trade-off is Amazon’s ad-heavy interface."
+  - question: "Does the Fire TV Stick 4K Max have a lot of ads?"
+    answer: "The Fire OS home screen features large sponsored banners and rows. It is the busiest interface of the major platforms, though the hardware itself is excellent."
+  - question: "What is the difference between the 4K and 4K Max?"
+    answer: "The 4K Max has a faster processor, more RAM and storage, and Wi-Fi 6E. The standard 4K is cheaper and fine for casual use; the Max feels snappier long-term."
+  - question: "Does it support Wi-Fi 6E?"
+    answer: "Yes — the 2024 4K Max is the only mainstream streaming stick with Wi-Fi 6E, which helps on congested networks if you have a 6E router."
 ---
 
 ## Overview

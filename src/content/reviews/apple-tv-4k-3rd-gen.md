@@ -24,6 +24,15 @@ specs:
   remote: "Siri Remote (2nd gen, USB-C)"
   dimensions: "93 x 93 x 31 mm"
   weight: "208 g"
+faq:
+  - question: "Is the Apple TV 4K worth it?"
+    answer: "For Apple users, yes. It has the cleanest ad-free interface, the fastest chip, AirPlay, and deep HomeKit integration. Non-Apple households can save with a cheaper box."
+  - question: "Do I need the Ethernet (128GB) model?"
+    answer: "Only if you want a wired connection, Thread for HomeKit, or more local storage. The 64GB Wi-Fi model streams identically for most people."
+  - question: "Does the Apple TV 4K show ads?"
+    answer: "No. tvOS has no banner ads or sponsored rows on the home screen, which is a key reason people pick it over Fire TV or Google TV."
+  - question: "Does Apple TV 4K work without an iPhone?"
+    answer: "Yes. You can sign in with any Apple Account and use it as a standalone streamer, though features like AirPlay and HomeKit are better with other Apple devices."
 ---
 
 ## Overview

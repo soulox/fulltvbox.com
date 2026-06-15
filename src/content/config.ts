@@ -35,6 +35,7 @@ const reviews = defineCollection({
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     specs,
+    faq: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
   }),
 });
 
