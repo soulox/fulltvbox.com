@@ -2,7 +2,19 @@
 title: "TV Box Setup Guide: First Steps After Unboxing"
 description: "A step-by-step walkthrough for setting up any streaming box or stick — from plugging it in to optimizing your picture and audio settings."
 publishDate: "2025-09-05"
+updatedDate: "2026-06-15"
+faq:
+  - question: "How do I set up a new streaming box?"
+    answer: "Plug it into an HDMI port, switch your TV to that input, connect to Wi-Fi or Ethernet, sign in to the platform account, and install the software update first. Then set the resolution to 4K, enable HDR, and turn on frame-rate matching before installing your apps."
+  - question: "Should I use Wi-Fi or Ethernet for my TV box?"
+    answer: "Use Ethernet if the box and router are close enough. A wired connection is faster and far more reliable for 4K streaming and is the first fix for buffering. Wi-Fi is fine for casual HD viewing."
+  - question: "Why is my new streaming box buffering?"
+    answer: "Usually the network. Switch from Wi-Fi to Ethernet, confirm your internet is at least 25 Mbps (50+ recommended for 4K), restart your router, and temporarily lower the streaming quality to confirm."
+  - question: "How do I make my streaming remote control my TV's volume and power?"
+    answer: "Enable HDMI-CEC on your TV — manufacturers brand it differently (Samsung Anynet+, LG SimpLink, Sony BRAVIA Sync). With it on, the box's remote controls TV power and volume over the HDMI cable."
 ---
+
+> **Quick answer:** Plug into HDMI → switch to that input → connect Wi-Fi/Ethernet → sign in → **run the software update first** → set 4K, enable HDR, and turn on frame-rate matching → then install only the apps you use. The full walkthrough is below. New to the acronyms? See [4K, HDR &amp; Dolby Vision explained](/guides/4k-hdr-explained).
 
 ## Step 1: Physical Setup
 
