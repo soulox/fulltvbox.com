@@ -47,6 +47,22 @@ const picksWithData = picks.map(pick => ({
   review: reviews.find(r => r.slug === pick.slug),
 }));
 
+const site = Astro.site;
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Best TV Boxes 2025',
+  itemListOrder: 'https://schema.org/ItemListOrderAscending',
+  itemListElement: picksWithData
+    .filter(p => p.review)
+    .map(p => ({
+      '@type': 'ListItem',
+      position: p.rank,
+      url: new URL(`/reviews/${p.slug}`, site).href,
+      name: p.review!.data.title,
+    })),
+};
+
 function meter(rating: number) {
   return Array.from({ length: 5 }, (_, i) => {
     if (rating >= i + 1) return 'on';
@@ -56,6 +72,9 @@ function meter(rating: number) {
 }
 ---
 <BaseLayout title="Best TV Boxes 2025" description="Our top picks for streaming boxes and sticks in 2025 — tested, rated, and honestly recommended.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+  </Fragment>
   <div class="max-w-4xl mx-auto px-4 py-14">
 
     <span class="label text-signal">// Channel 03 — Leaderboard</span>

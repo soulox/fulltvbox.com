@@ -5,11 +5,17 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  ogType?: 'website' | 'article';
+  publishDate?: string;
+  modifiedDate?: string;
 }
 const {
   title,
   description = 'Independent TV box reviews, head-to-head comparisons, and setup guides — tested on the bench, rated without mercy.',
   ogImage = '/og-default.png',
+  ogType = 'website',
+  publishDate,
+  modifiedDate,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -42,7 +48,7 @@ function isActive(href: string) {
   <link rel="alternate" type="application/rss+xml" title="FullTVBox Reviews" href="/rss.xml" />
 
   <!-- Open Graph -->
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:site_name" content="FullTVBox" />
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
@@ -50,6 +56,12 @@ function isActive(href: string) {
   <meta property="og:image" content={ogImageURL} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  {ogType === 'article' && publishDate && (
+    <meta property="article:published_time" content={new Date(publishDate).toISOString()} />
+  )}
+  {ogType === 'article' && (modifiedDate || publishDate) && (
+    <meta property="article:modified_time" content={new Date(modifiedDate ?? publishDate!).toISOString()} />
+  )}
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />

@@ -26,7 +26,7 @@ const jsonLd = [
     datePublished: publishDate,
     ...(updatedDate ? { dateModified: updatedDate } : {}),
     author: { '@type': 'Organization', name: 'FullTVBox', url: site?.href },
-    publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/favicon.svg', site).href } },
+    publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
     mainEntityOfPage: pageUrl,
   },
   {
@@ -40,7 +40,7 @@ const jsonLd = [
   },
 ];
 ---
-<BaseLayout title={title} description={description} ogImage={ogImage}>
+<BaseLayout title={title} description={description} ogImage={ogImage} ogType="article" publishDate={publishDate} modifiedDate={updatedDate}>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>

@@ -58,6 +58,7 @@ const jsonLd = {
   datePublished: publishDate,
   ...(updatedDate ? { dateModified: updatedDate } : {}),
   author: { '@type': 'Organization', name: 'FullTVBox', url: 'https://fulltvbox.com' },
+  publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
   reviewRating: { '@type': 'Rating', ratingValue: rating, bestRating: 5, worstRating: 1 },
   itemReviewed: {
     '@type': 'Product',
@@ -77,7 +78,7 @@ const breadcrumb = {
   ],
 };
 ---
-<BaseLayout title={title} description={description} ogImage={ogImage}>
+<BaseLayout title={title} description={description} ogImage={ogImage} ogType="article" publishDate={publishDate} modifiedDate={updatedDate}>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify([jsonLd, breadcrumb])} />
   </Fragment>

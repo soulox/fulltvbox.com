@@ -11,6 +11,19 @@ const sorted = reviews.sort((a, b) =>
 
 const allTags = [...new Set(reviews.flatMap(r => r.data.tags))].sort();
 
+const site = Astro.site;
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'TV Box Reviews',
+  itemListElement: sorted.map((r, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/reviews/${r.slug}`, site).href,
+    name: r.data.title,
+  })),
+};
+
 function meter(rating: number) {
   return Array.from({ length: 5 }, (_, i) => {
     if (rating >= i + 1) return 'on';
@@ -20,6 +33,9 @@ function meter(rating: number) {
 }
 ---
 <BaseLayout title="TV Box Reviews" description="All TV box reviews on FullTVBox — ranked, rated, and honestly written.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+  </Fragment>
   <div class="max-w-5xl mx-auto px-4 py-14">
     <span class="label text-signal">// Channel 02</span>
     <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">TV Box Reviews</h1>

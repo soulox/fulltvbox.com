@@ -37,8 +37,28 @@ function meter(rating: number) {
 }
 
 const fresh = (r: typeof allReviews[number]) => freshness(r.data.publishDate, r.data.updatedDate);
+
+const site = Astro.site;
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'FullTVBox',
+  url: site?.href,
+  logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href },
+  description: 'Independent TV box reviews, head-to-head comparisons, and setup guides — tested on the bench, rated without mercy.',
+};
+const siteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'FullTVBox',
+  url: site?.href,
+  publisher: { '@type': 'Organization', name: 'FullTVBox' },
+};
 ---
 <BaseLayout title="TV Box Reviews & Comparisons">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify([orgSchema, siteSchema])} />
+  </Fragment>
 
   <!-- ─── HERO ──────────────────────────────────────────────── -->
   <section class="relative max-w-6xl mx-auto px-4 pt-16 sm:pt-24 pb-12">
