@@ -19,7 +19,18 @@ specs:
   ports: ["HDMI", "Micro-USB (power)"]
   remote: "Alexa Voice Remote"
   weight: "43 g"
+faq:
+  - question: "Is the Fire TV Stick 4K Select worth it?"
+    answer: "At $40 it's fine if you only use the major streaming apps. But its new Vega OS blocks sideloading, has a thinner app store, and drops Dolby Vision — so tinkerers should spend $20 more on the Fire TV Stick 4K Max."
+  - question: "Can you sideload apps or Kodi on the Fire TV Stick 4K Select?"
+    answer: "No. Vega OS is Amazon's Linux-based system and does not allow APK sideloading, so Kodi and third-party launchers can't be installed."
+  - question: "Does the Fire TV Stick 4K Select support Dolby Vision?"
+    answer: "No — it tops out at HDR10+ and HLG. Dolby Vision remains a Fire TV Stick 4K Max feature."
+  - question: "Fire TV Stick 4K Select vs 4K Max — which should I buy?"
+    answer: "The $59 4K Max keeps Android (so you can sideload), adds Dolby Vision and Wi-Fi 6E, and feels the same speed. The $40 Select is cheaper but locked down. Buy the Max unless you only ever use the big apps."
 ---
+
+> **Bottom line:** The Fire TV Stick 4K Select ($40) is a fast, cheap 4K streamer for people who only use the major apps — but its new Vega OS blocks sideloading, has a thinner app store, and drops Dolby Vision. Tinkerers should spend $20 more on the 4K Max.
 
 ## Overview
 

@@ -2,6 +2,7 @@
 title: "Amazon Fire TV Cube (3rd Gen) Review: The Fastest Fire TV, Period"
 description: "Amazon's flagship box packs an octa-core chip, hands-free Alexa, and an HDMI input to run your whole AV setup. But at $140, does it justify the price?"
 publishDate: "2025-10-05"
+updatedDate: "2026-06-15"
 rating: 4.3
 featured: false
 image: "/images/reviews/fire-tv-cube-3rd-gen.jpg"
@@ -23,7 +24,18 @@ specs:
   remote: "Alexa Voice Remote Enhanced"
   dimensions: "86 x 86 x 77 mm"
   weight: "513 g"
+faq:
+  - question: "Is the Fire TV Cube worth it over the Fire TV Stick 4K Max?"
+    answer: "Only if you want hands-free Alexa, the HDMI input, or built-in Ethernet. For pure streaming the $59 Fire TV Stick 4K Max delivers the same apps and HDR formats for far less money."
+  - question: "What does the HDMI input on the Fire TV Cube do?"
+    answer: "It lets the Cube sit between an external device (cable box, game console) and your TV, so you can switch to and control that device with Alexa voice commands."
+  - question: "Does the Fire TV Cube have hands-free Alexa?"
+    answer: "Yes. Far-field microphones let you say 'Alexa' from across the room without touching the remote, and some commands process locally."
+  - question: "Fire TV Cube vs NVIDIA Shield — which is faster?"
+    answer: "They're close, but the Cube is the better Amazon smart-home hub while the Shield is better for Plex hosting, gaming, and Android app flexibility."
 ---
+
+> **Bottom line:** The Fire TV Cube 3rd Gen ($140) is the fastest Fire TV and doubles as an Alexa smart-home hub with hands-free voice and an HDMI input. Overkill for pure streaming — the $59 Stick 4K Max does that — but the ultimate box for households deep in Amazon's ecosystem.
 
 ## Overview
 
@@ -49,6 +61,10 @@ This is the fastest Fire TV device Amazon makes. The octa-core processor handles
 - **Alexa can be noisy** — accidental activations happen more than you'd like
 - **Runs hot** — noticeably warm after extended use
 - **No Google Assistant** — Alexa only
+
+## How It Compares
+
+Within Fire TV, it's the flagship above the [Fire TV Stick 4K Max](/reviews/fire-tv-stick-4k-max-2024) — you're paying for hands-free Alexa, the HDMI input, and Ethernet rather than better streaming. For raw power and flexibility the [NVIDIA Shield TV Pro](/reviews/nvidia-shield-tv-pro-2025) is the closest rival, and it adds Plex hosting and Android sideloading the Cube can't match. Like all Fire TV devices, it's the right call mainly if you're an Amazon household — see [Android TV vs Fire TV vs Roku](/guides/android-tv-vs-fire-tv-vs-roku).
 
 ## Verdict
 
