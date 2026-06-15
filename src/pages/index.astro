@@ -55,7 +55,10 @@ const siteSchema = {
   publisher: { '@type': 'Organization', name: 'FullTVBox' },
 };
 ---
-<BaseLayout title="TV Box Reviews & Comparisons">
+<BaseLayout
+  title="TV Box Reviews & Comparisons"
+  description="Independent TV box and streaming-stick reviews, head-to-head comparisons, live deals, and setup guides — tested on the bench and rated without mercy."
+>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify([orgSchema, siteSchema])} />
   </Fragment>
