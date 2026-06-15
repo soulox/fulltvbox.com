@@ -2,6 +2,7 @@
 title: "Google TV Streamer (4K) Review: Google's Grown-Up Streaming Box"
 description: "Google replaced the Chromecast with a real streaming box in 2024 — adding Ethernet, more RAM, and a redesigned remote. Is the Google TV Streamer worth $99?"
 publishDate: "2025-11-20"
+updatedDate: "2026-06-15"
 rating: 4.4
 featured: true
 tags: ["google tv", "4k", "ethernet", "android", "premium"]
@@ -21,7 +22,18 @@ specs:
   ports: ["HDMI 2.1", "Gigabit Ethernet", "USB-C (power)"]
   remote: "Voice remote with finder button"
   weight: "151 g"
+faq:
+  - question: "Is the Google TV Streamer worth $99?"
+    answer: "Yes, if you want the best Google TV experience. The Ethernet port, 4GB of RAM, redesigned remote, and Matter/Thread smart-home hub justify the jump from the old Chromecast — and it's the lead device for Google's Gemini AI features."
+  - question: "What's the difference between the Google TV Streamer and the Chromecast?"
+    answer: "The Streamer is a shelf box, not a dongle. It adds an Ethernet port, more RAM and storage, a better backlit remote, and a built-in Matter/Thread smart-home hub. It's faster and more capable in every way."
+  - question: "Does the Google TV Streamer get Gemini AI?"
+    answer: "Yes. It's one of the first devices in line for Gemini on Google TV, which brings conversational content search and richer recommendations replacing the old Google Assistant."
+  - question: "Does it support Dolby Vision and Dolby Atmos?"
+    answer: "Yes — it outputs Dolby Vision HDR and HDR10+, and passes through Dolby Atmos audio to a compatible TV or receiver."
 ---
+
+> **Bottom line:** The Google TV Streamer ($99) is the best Google TV box ever made and the right upgrade from the Chromecast — Ethernet, 4GB of RAM, a proper remote, and a Matter/Thread hub. It's also the lead device for Gemini AI. Worth it if you're in Google's ecosystem; the Roku Ultra is the neutral alternative at the same price.
 
 ## Overview
 
@@ -47,6 +59,18 @@ This is the fastest Google TV device yet. The new processor paired with 4GB of R
 - **Promoted content on home screen** — Google surfaces paid placements in recommendations
 - **No Dolby Vision gaming** — Apple TV 4K has this, the Streamer doesn't
 - **Design is bland** — plain white puck sitting on your shelf
+
+## How It Compares
+
+At $99 it lines up directly against the [Roku Ultra](/reviews/roku-ultra-2024) and the [Apple TV 4K](/reviews/apple-tv-4k-3rd-gen). The Streamer wins on content aggregation and AI — Google TV pulls your watchlists across services into one feed, and it leads Google's [Gemini rollout](/guides/ai-on-tv-box-2026) — while Roku stays simpler and more neutral and Apple is faster and ad-free. If you want maximum power and Plex hosting, step up to the [NVIDIA Shield TV Pro](/reviews/nvidia-shield-tv-pro-2025); if you want to spend less, the locked-down [Fire TV Stick 4K Select](/reviews/fire-tv-stick-4k-select-vega-os) is cheaper but far more limited.
+
+## Who Should Buy It
+
+- **Google ecosystem users** who want watchlist aggregation and Google Assistant/Gemini.
+- **Multi-service streamers** who are tired of jumping between apps to find something to watch.
+- **Smart-home owners** who can use the built-in Matter/Thread hub.
+
+**Skip it if** you don't want to tie your TV to a Google account, or you only use one streaming service — a simpler [Roku](/reviews/roku-ultra-2024) will feel less busy.
 
 ## Verdict
 

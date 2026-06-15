@@ -6,6 +6,7 @@ rating: 4.5
 featured: false
 tags: ["roku", "4k", "streaming", "ethernet"]
 affiliate: "https://www.amazon.com/dp/B0CXJL61S5?tag=fulltvbox-20"
+updatedDate: "2026-06-15"
 price: 99
 specs:
   releaseYear: 2024
@@ -31,6 +32,8 @@ faq:
     answer: "Yes. It is one of the few streaming devices at its price with a built-in Ethernet port for a wired, buffer-free connection."
 ---
 
+> **Bottom line:** The Roku Ultra ($99) is the best Roku you can buy — Ethernet, USB local playback, and a headphone-jack remote with a lost-remote finder, all on Roku's clean, neutral platform. Most people are better served by the $49 Streaming Stick 4K, but cord-cutters who want wired reliability will appreciate the upgrade.
+
 ## Overview
 
 The Roku Ultra is the top of Roku's hardware lineup. At $99, it's a dedicated box (not a stick), which means it sits near your TV rather than plugging directly into an HDMI port. That distinction matters: it includes an Ethernet port, a USB port for local media, and Roku's best remote — complete with a headphone jack for private listening.
@@ -54,6 +57,18 @@ Performance is noticeably snappier than the Streaming Stick 4K. Apps launch fast
 - **Still no Dolby Atmos passthrough** — audio tops out at Dolby Digital Plus on some setups
 - **Box design is dated** — chunky plastic compared to sleeker competitors
 - **No voice remote Pro by default** — hands-free mic is an add-on
+
+## How It Compares
+
+The Ultra's closest rival is its own little brother, the [Roku Streaming Stick 4K](/reviews/roku-streaming-stick-4k-2023) ($49), which does about 90% of this for half the price — the Ultra justifies itself with Ethernet, USB, and the better remote. Against the [Google TV Streamer](/reviews/google-tv-streamer-4k-2024) and [Apple TV 4K](/reviews/apple-tv-4k-3rd-gen) at similar prices, Roku trades their smart recommendations and ecosystem features for a simpler, more neutral interface that doesn't push you toward any one service. For where Roku fits overall, see [Android TV vs Fire TV vs Roku](/guides/android-tv-vs-fire-tv-vs-roku).
+
+## Who Should Buy It
+
+- **Anyone burned by Wi-Fi buffering** who wants a rock-solid wired Ethernet connection.
+- **Late-night viewers** who'll use the remote's headphone jack for private listening.
+- **People who value simplicity** and a platform that stays neutral between streaming services.
+
+**Skip it if** you're happy on Wi-Fi and don't need USB or the fancier remote — the [Streaming Stick 4K](/reviews/roku-streaming-stick-4k-2023) is the smarter buy.
 
 ## Verdict
 
