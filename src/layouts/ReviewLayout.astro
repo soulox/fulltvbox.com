@@ -97,9 +97,11 @@ const breadcrumb = {
     {image && (
       <img
         src={image}
-        alt={title}
+        alt={`${device} — product photo`}
         width="960"
         height="288"
+        decoding="async"
+        fetchpriority="high"
         class="w-full h-72 mb-8 object-contain bg-panel border border-line"
         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
       />

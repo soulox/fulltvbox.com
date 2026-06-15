@@ -65,7 +65,7 @@ const difficultyColor = {
 
   <article class="max-w-3xl mx-auto px-4 py-8" data-pagefind-body data-pagefind-filter="type:tutorial">
     {image && (
-      <img src={image} alt={title} width="960" height="288" class="w-full h-72 mb-8 object-contain bg-panel border border-line" onerror="this.style.display='none';" />
+      <img src={image} alt={title} width="960" height="288" decoding="async" fetchpriority="high" class="w-full h-72 mb-8 object-contain bg-panel border border-line" onerror="this.style.display='none';" />
     )}
 
     <div class="label mb-3 flex items-center gap-2 flex-wrap">
