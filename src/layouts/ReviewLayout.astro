@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Faq from '../components/Faq.astro';
 import { freshness } from '../lib/freshness';
 import { getAuthor, authorJsonLd } from '../data/authors';
+import { cleanPathname } from '../lib/url';
 import type { LiveDeal } from '../lib/deals';
 
 interface Specs {
@@ -29,7 +30,8 @@ interface Props {
 const { title, description, publishDate, updatedDate, rating, price, image, affiliate, specs, deal, faq, author: authorSlug, ogImage } = Astro.props;
 const author = getAuthor(authorSlug);
 const device = title.replace(/ Review.*$/i, '').trim();
-const slug = Astro.url.pathname.replace(/\/$/, '').split('/').pop();
+const cleanPath = cleanPathname(Astro.url.pathname);
+const slug = cleanPath.split('/').pop();
 const fresh = freshness(publishDate, updatedDate);
 
 const segments = Array.from({ length: 5 }, (_, i) => {
@@ -52,7 +54,7 @@ const specEntries = specs
   : [];
 
 const site = Astro.site;
-const pageUrl = new URL(Astro.url.pathname, site).href;
+const pageUrl = new URL(cleanPath, site).href;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Review',

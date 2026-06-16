@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Faq from '../components/Faq.astro';
 import { freshness } from '../lib/freshness';
 import { getAuthor, authorJsonLd } from '../data/authors';
+import { cleanPathname } from '../lib/url';
 
 interface Props {
   title: string;
@@ -19,7 +20,7 @@ const author = getAuthor(authorSlug);
 const fresh = freshness(publishDate, updatedDate);
 
 const site = Astro.site;
-const pageUrl = new URL(Astro.url.pathname, site).href;
+const pageUrl = new URL(cleanPathname(Astro.url.pathname), site).href;
 const jsonLd = [
   {
     '@context': 'https://schema.org',

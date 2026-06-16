@@ -3,3 +3,6 @@ dist/
 .astro/
 .env
 fulltvbox/
+
+# Local Lighthouse audit output
+.lighthouse/
