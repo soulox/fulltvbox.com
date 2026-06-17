@@ -5,7 +5,6 @@ publishDate: "2025-10-10"
 updatedDate: "2026-06-15"
 rating: 4.3
 featured: false
-image: "/images/reviews/roku-streaming-stick-4k-2023.jpg"
 tags: ["roku", "4k", "budget", "streaming"]
 affiliate: "https://www.amazon.com/dp/B09BKCDXZC?tag=fulltvbox-20"
 price: 49

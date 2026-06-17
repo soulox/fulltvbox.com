@@ -5,7 +5,6 @@ publishDate: "2025-10-05"
 updatedDate: "2026-06-15"
 rating: 4.3
 featured: false
-image: "/images/reviews/fire-tv-cube-3rd-gen.jpg"
 tags: ["amazon", "fire tv", "4k", "alexa", "ethernet"]
 affiliate: "https://www.amazon.com/dp/B09BZZ3MM7?tag=fulltvbox-20"
 price: 139

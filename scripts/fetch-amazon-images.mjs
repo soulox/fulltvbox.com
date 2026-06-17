@@ -1,7 +1,11 @@
 /**
  * Fetch product images from the Amazon Product Advertising API (PA-API v5)
- * for any review that has an Amazon affiliate ASIN but no local image yet,
- * download them into public/images/reviews/, and patch the review frontmatter.
+ * for any review that has an Amazon affiliate ASIN but no local image yet, and
+ * download them into src/assets/reviews/<slug>.jpg.
+ *
+ * Images live in src/ (not public/) so astro:assets optimizes them. There is no
+ * frontmatter to patch — the layout, compare tool and /devices.json all resolve
+ * a review's image by slug, so dropping the file here is all that's needed.
  *
  * Images returned by PA-API are licensed for use by Amazon Associates, so —
  * unlike the Wikimedia Commons photos — they need no CC attribution and are
@@ -22,11 +26,12 @@
  *   node scripts/fetch-amazon-images.mjs --force    # also refetch existing
  */
 import crypto from 'node:crypto';
-import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const REVIEWS_DIR = join(process.cwd(), 'src', 'content', 'reviews');
-const IMG_DIR = join(process.cwd(), 'public', 'images', 'reviews');
+const IMG_DIR = join(process.cwd(), 'src', 'assets', 'reviews');
+const IMG_EXTS = ['.jpg', '.jpeg', '.png', '.webp'];
 const DRY = process.argv.includes('--dry-run');
 const FORCE = process.argv.includes('--force');
 
@@ -97,7 +102,6 @@ async function getItems(asins) {
 }
 
 // ── helpers ──────────────────────────────────────────────────────────────
-const readEol = (s) => (s.includes('\r\n') ? '\r\n' : '\n');
 const field = (fm, k) => {
   const m = fm.replace(/\r\n/g, '\n').match(new RegExp(`^${k}:\\s*"?(.*?)"?\\s*$`, 'm'));
   return m ? m[1] : null;
@@ -107,33 +111,20 @@ const asinFrom = (url) => {
   return m ? m[1].toUpperCase() : null;
 };
 
+const hasLocalImage = (slug) => IMG_EXTS.some((ext) => existsSync(join(IMG_DIR, `${slug}${ext}`)));
+
 function collectTargets() {
   const out = [];
   for (const file of readdirSync(REVIEWS_DIR).filter((f) => f.endsWith('.md'))) {
     const slug = file.replace(/\.md$/, '');
     const raw = readFileSync(join(REVIEWS_DIR, file), 'utf8');
     const fm = raw.replace(/\r\n/g, '\n').match(/^---\n([\s\S]*?)\n---/)?.[1] || '';
-    const hasImage = !!field(fm, 'image');
     const asin = asinFrom(field(fm, 'affiliate'));
     if (!asin) continue;
-    if (hasImage && !FORCE) continue;
+    if (hasLocalImage(slug) && !FORCE) continue;
     out.push({ slug, file, asin });
   }
   return out;
-}
-
-function patchFrontmatter(file, slug, imgPath) {
-  const full = join(REVIEWS_DIR, file);
-  const raw = readFileSync(full, 'utf8');
-  const eol = readEol(raw);
-  if (/^image:/m.test(raw)) {
-    const next = raw.replace(/^image:.*$/m, `image: "${imgPath}"`);
-    if (!DRY) writeFileSync(full, next);
-    return;
-  }
-  // insert after the rating: line (present in every review)
-  const next = raw.replace(/^(rating:.*)$/m, `$1${eol}image: "${imgPath}"`);
-  if (!DRY) writeFileSync(full, next);
 }
 
 async function download(url, dest) {
@@ -152,6 +143,8 @@ async function main() {
     return;
   }
   console.log(`${DRY ? '[dry-run] ' : ''}Reviews needing an image: ${targets.map((t) => `${t.slug}(${t.asin})`).join(', ')}`);
+
+  if (!DRY) mkdirSync(IMG_DIR, { recursive: true });
 
   if (!cfg.accessKey || !cfg.secretKey) {
     console.error('\n✗ Missing PA-API credentials. Set PAAPI_ACCESS_KEY and PAAPI_SECRET_KEY (and optionally PAAPI_PARTNER_TAG).');
@@ -177,7 +170,6 @@ async function main() {
       const dest = join(IMG_DIR, `${t.slug}.jpg`);
       try {
         const bytes = await download(url, dest);
-        patchFrontmatter(t.file, t.slug, `/images/reviews/${t.slug}.jpg`);
         console.log(`✓ ${t.slug} <- ${url} (${bytes}b)${DRY ? ' [dry-run, not written]' : ''}`);
         ok++;
       } catch (e) {
@@ -186,8 +178,8 @@ async function main() {
     }
     for (const e of result?.Errors || []) console.error(`! API: ${e.Code} ${e.Message}`);
   }
-  console.log(`\nDone: ${ok}/${targets.length} image(s)${DRY ? ' (dry-run)' : ' fetched + frontmatter patched'}.`);
-  if (ok && !DRY) console.log('Next: review the images, then `npm run build` and commit.');
+  console.log(`\nDone: ${ok}/${targets.length} image(s)${DRY ? ' (dry-run)' : ' saved to src/assets/reviews/'}.`);
+  if (ok && !DRY) console.log('Next: `npm run build` to optimize them, then commit.');
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

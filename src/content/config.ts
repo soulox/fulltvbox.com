@@ -30,7 +30,6 @@ const reviews = defineCollection({
     updatedDate: z.string().optional(),
     rating: z.number().min(1).max(5),
     price: z.number().optional(),
-    image: z.string().optional(),
     affiliate: z.string().optional(),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),

@@ -4,7 +4,6 @@ description: "Apple's latest TV box brings the A15 Bionic chip, Wi-Fi 6, and tig
 publishDate: "2025-08-05"
 rating: 4.5
 featured: false
-image: "/images/reviews/apple-tv-4k-3rd-gen.jpg"
 tags: ["apple", "4k", "premium", "airplay", "homekit"]
 affiliate: "https://www.amazon.com/dp/B0BJLW4GHR?tag=fulltvbox-20"
 updatedDate: "2026-06-15"

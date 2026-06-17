@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { reviewImage } from './reviewImages';
 
 export interface Device {
   slug: string;
@@ -20,7 +21,7 @@ export async function getDevices(): Promise<Device[]> {
       name: r.data.title.replace(/ Review.*$/i, '').trim(),
       rating: r.data.rating,
       price: r.data.price ?? r.data.specs?.price ?? null,
-      image: r.data.image ?? null,
+      image: reviewImage(r.slug)?.src ?? null,
       affiliate: r.data.affiliate ?? null,
       tags: r.data.tags ?? [],
       specs: r.data.specs ?? {},

@@ -5,7 +5,6 @@ publishDate: "2025-06-15"
 updatedDate: "2026-06-15"
 rating: 3.9
 featured: false
-image: "/images/reviews/xiaomi-mi-box-s-4k.jpg"
 tags: ["android tv", "4k", "budget", "xiaomi"]
 affiliate: "https://www.amazon.com/dp/B07KLWGGYS?tag=fulltvbox-20"
 price: 49

@@ -5,7 +5,6 @@ publishDate: "2025-07-18"
 updatedDate: "2026-06-15"
 rating: 4.1
 featured: false
-image: "/images/reviews/chromecast-google-tv-4k.jpg"
 tags: ["google tv", "4k", "chromecast", "budget", "android"]
 affiliate: "https://www.amazon.com/dp/B08KRV7NRD?tag=fulltvbox-20"
 price: 49
