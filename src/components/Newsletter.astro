@@ -1,0 +1,59 @@
+---
+/**
+ * Newsletter signup (Buttondown).
+ *
+ * ACTIVATION (one step): create a free account at https://buttondown.com, turn on
+ * double opt-in under Settings → Subscribing (required for GDPR consent), then set
+ * BUTTONDOWN_USERNAME below to your account name. Until it's set, this renders
+ * nothing, so the rest of the site is unaffected.
+ *
+ * Privacy: no third-party scripts are loaded. The visitor's email is sent to
+ * Buttondown only when they submit the form — consistent with the site's
+ * no-tracking stance (see /privacy).
+ *
+ * Switching providers later (MailerLite/Beehiiv): replace the <form action> and the
+ * onsubmit popup with that provider's embed; the markup/styling can stay.
+ */
+const BUTTONDOWN_USERNAME = ''; // e.g. 'fulltvbox'
+
+interface Props {
+  variant?: 'footer' | 'inline';
+}
+const { variant = 'footer' } = Astro.props;
+const action = `https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USERNAME}`;
+const popup = `window.open('https://buttondown.com/${BUTTONDOWN_USERNAME}', 'popupwindow')`;
+---
+{BUTTONDOWN_USERNAME && (
+  <section class:list={['newsletter', variant === 'inline' && 'newsletter--inline']} data-pagefind-ignore>
+    <div class="newsletter-inner">
+      <div>
+        <span class="label text-signal">// Tune in</span>
+        <h2 class="font-display font-800 text-xl text-ink mt-1">New reviews &amp; the best deals</h2>
+        <p class="text-muted text-sm mt-1">Independent picks, no hype. A short email when something's worth your money.</p>
+      </div>
+      <form action={action} method="post" target="popupwindow" onsubmit={popup} class="newsletter-form">
+        <label class="sr-only" for="nl-email">Email address</label>
+        <input id="nl-email" type="email" name="email" required placeholder="you@email.com" autocomplete="email" />
+        <button type="submit" class="btn-signal">Subscribe</button>
+      </form>
+    </div>
+    <p class="newsletter-fine">No spam, unsubscribe anytime. See our <a href="/privacy">privacy policy</a>.</p>
+  </section>
+)}
+
+<style>
+  .newsletter { border: 1px solid var(--line-bright); background: var(--panel); padding: 1.5rem; margin-bottom: 2.5rem; }
+  .newsletter--inline { margin: 2.5rem 0; }
+  .newsletter-inner { display: flex; flex-direction: column; gap: 1rem; }
+  @media (min-width: 768px) { .newsletter-inner { flex-direction: row; align-items: center; justify-content: space-between; } }
+  .newsletter-form { display: flex; gap: 0.5rem; flex-shrink: 0; }
+  .newsletter-form input {
+    background: var(--void); border: 1px solid var(--line-bright); color: var(--ink);
+    padding: 0.7rem 0.9rem; font-family: "IBM Plex Mono", monospace; font-size: 0.85rem; min-width: 0; flex: 1;
+  }
+  .newsletter-form input:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  .newsletter-fine { color: var(--dim); font-size: 0.72rem; margin-top: 0.85rem; }
+  .newsletter-fine a { color: var(--muted); }
+  .newsletter-fine a:hover { color: var(--signal); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
