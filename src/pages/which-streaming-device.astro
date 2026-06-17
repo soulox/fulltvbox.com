@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDevices } from '../lib/devices';
+
+const devices = await getDevices();
+
+const faq = [
+  {
+    question: 'Which streaming device should I buy?',
+    answer:
+      'It depends on your budget, which ecosystem you use (Apple, Google, or Amazon), and what matters most — fewest ads, best picture, power-user features, or lowest price. This quiz weighs those against every device we have tested and recommends the best match.',
+  },
+  {
+    question: 'What is the best all-round streaming device?',
+    answer:
+      'For most people the best balance of price, picture, and a clean interface is a mid-range Google TV or Roku device around $50-100. Apple users are best served by the Apple TV 4K, and power users by the NVIDIA Shield TV Pro.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.answer },
+  })),
+};
+---
+<BaseLayout
+  title="Which Streaming Device Should You Buy? (Quiz)"
+  description="Answer four quick questions and we'll recommend the best streaming device for you — matched against every box and stick we've tested, by budget, ecosystem, and what you care about most."
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <div class="max-w-2xl mx-auto px-4 py-14">
+    <span class="label text-signal">// Recommender</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-3">
+      Which Streaming Device Should You Buy?
+    </h1>
+    <p class="text-muted mb-10 max-w-xl">
+      Four quick questions. We score your answers against every device on
+      <a href="/compare" class="text-signal">the bench</a> and recommend the best match — no email required.
+    </p>
+
+    <form id="quiz" class="space-y-8">
+      <!-- Q1 -->
+      <fieldset class="panel frame p-5">
+        <legend class="font-display font-800 text-lg px-2">1. What's your budget?</legend>
+        <div class="grid gap-2 mt-3" data-q="budget">
+          <label class="q-opt"><input type="radio" name="budget" value="50" checked /> Under $50 — keep it cheap</label>
+          <label class="q-opt"><input type="radio" name="budget" value="100" /> Up to $100 — mid-range is fine</label>
+          <label class="q-opt"><input type="radio" name="budget" value="9999" /> Whatever's best — money's no object</label>
+        </div>
+      </fieldset>
+
+      <!-- Q2 -->
+      <fieldset class="panel frame p-5">
+        <legend class="font-display font-800 text-lg px-2">2. Which ecosystem are you in?</legend>
+        <div class="grid gap-2 mt-3" data-q="eco">
+          <label class="q-opt"><input type="radio" name="eco" value="apple" checked /> Apple — iPhone, Mac, AirPlay</label>
+          <label class="q-opt"><input type="radio" name="eco" value="google" /> Google / Android</label>
+          <label class="q-opt"><input type="radio" name="eco" value="amazon" /> Amazon / Alexa</label>
+          <label class="q-opt"><input type="radio" name="eco" value="none" /> None / don't care</label>
+        </div>
+      </fieldset>
+
+      <!-- Q3 -->
+      <fieldset class="panel frame p-5">
+        <legend class="font-display font-800 text-lg px-2">3. What matters most?</legend>
+        <div class="grid gap-2 mt-3" data-q="priority">
+          <label class="q-opt"><input type="radio" name="priority" value="ads" checked /> The fewest ads possible</label>
+          <label class="q-opt"><input type="radio" name="priority" value="picture" /> The best picture (Dolby Vision)</label>
+          <label class="q-opt"><input type="radio" name="priority" value="power" /> Power: Plex, gaming, the works</label>
+          <label class="q-opt"><input type="radio" name="priority" value="simple" /> Keep it simple</label>
+          <label class="q-opt"><input type="radio" name="priority" value="cheap" /> The cheapest thing that works</label>
+        </div>
+      </fieldset>
+
+      <!-- Q4 -->
+      <fieldset class="panel frame p-5">
+        <legend class="font-display font-800 text-lg px-2">4. Do you need a wired Ethernet port?</legend>
+        <div class="grid gap-2 mt-3" data-q="ethernet">
+          <label class="q-opt"><input type="radio" name="ethernet" value="yes" /> Yes — I'll plug it in</label>
+          <label class="q-opt"><input type="radio" name="ethernet" value="no" checked /> No — Wi-Fi is fine</label>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="btn-signal w-full justify-center">Get my recommendation →</button>
+    </form>
+
+    <div id="result" class="mt-10 hidden"></div>
+
+    <script type="application/json" id="devices-data" set:html={JSON.stringify(devices)}></script>
+  </div>
+
+  <style>
+    .q-opt {
+      display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
+      font-size: 0.92rem; color: var(--ink); padding: 0.45rem 0.5rem;
+      border: 1px solid transparent; transition: border-color 0.15s, background 0.15s;
+    }
+    .q-opt:hover { border-color: var(--line-bright); background: var(--panel2); }
+    .q-opt input { accent-color: var(--signal); width: 1rem; height: 1rem; }
+    legend { color: var(--ink); }
+  </style>
+
+  <script>
+    type Device = {
+      slug: string; name: string; rating: number; price: number | null;
+      image: string | null; affiliate: string | null; tags: string[];
+      specs: Record<string, any>;
+    };
+    const DEVICES: Device[] = JSON.parse(document.getElementById('devices-data')!.textContent || '[]');
+
+    const has = (arr: any, v: string) =>
+      Array.isArray(arr) && arr.some((x) => String(x).toLowerCase().includes(v));
+    const tag = (d: Device, v: string) => d.tags.some((t) => t.toLowerCase().includes(v));
+
+    function score(d: Device, a: Record<string, string>) {
+      let s = d.rating * 0.5; // quality tiebreaker
+      const reasons: string[] = [];
+      const price = d.price ?? 9999;
+
+      // Q1 budget
+      const cap = Number(a.budget);
+      if (price <= cap) { s += 2; if (cap < 9999) reasons.push(`fits a $${cap} budget`); }
+      else s -= 3;
+
+      // Q2 ecosystem
+      if (a.eco === 'apple' && tag(d, 'apple')) { s += 4; reasons.push('built for Apple users'); }
+      if (a.eco === 'google' && (tag(d, 'google tv') || tag(d, 'android'))) { s += 3; reasons.push('runs Google TV / Android'); }
+      if (a.eco === 'amazon' && (tag(d, 'amazon') || tag(d, 'fire tv'))) { s += 4; reasons.push('fits the Amazon/Alexa ecosystem'); }
+      if (a.eco === 'none' && tag(d, 'roku')) { s += 2; reasons.push('ecosystem-neutral'); }
+
+      // Q3 priority
+      if (a.priority === 'ads') {
+        if (tag(d, 'apple')) { s += 4; reasons.push('a genuinely ad-free interface'); }
+        else if (tag(d, 'roku')) { s += 2; reasons.push('minimal home-screen ads'); }
+      }
+      if (a.priority === 'picture' && has(d.specs.hdr, 'dolby vision')) { s += 4; reasons.push('Dolby Vision picture'); }
+      if (a.priority === 'power' && (tag(d, 'plex') || tag(d, 'gaming'))) { s += 6; reasons.push('power-user features (Plex, gaming)'); }
+      if (a.priority === 'simple' && tag(d, 'roku')) { s += 4; reasons.push('the simplest interface'); }
+      if (a.priority === 'cheap') { s += Math.max(0, (60 - price) / 8); if (price <= 50) reasons.push('excellent value'); }
+
+      // Q4 ethernet
+      if (a.ethernet === 'yes') {
+        if (has(d.specs.connectivity, 'ethernet')) { s += 3; reasons.push('has a wired Ethernet port'); }
+        else s -= 4;
+      }
+
+      return { s, reasons };
+    }
+
+    function meter(rating: number) {
+      let h = '';
+      for (let i = 0; i < 5; i++) h += `<span class="seg ${rating >= i + 1 ? 'on' : rating >= i + 0.5 ? 'half' : ''}"></span>`;
+      return `<span class="meter">${h}</span>`;
+    }
+
+    const esc = (s: any) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+
+    function card(d: Device, reasons: string[], top: boolean) {
+      const why = reasons.length
+        ? `<p class="text-muted text-sm mt-2">Why: ${esc(reasons.slice(0, 3).join(', '))}.</p>`
+        : '';
+      const buy = d.affiliate
+        ? `<a class="btn-signal mt-3" href="${esc(d.affiliate)}" target="_blank" rel="noopener sponsored">Check price →</a>`
+        : '';
+      return `
+        <div class="bench-card frame p-5 ${top ? 'ring-1 ring-signal/50' : ''}">
+          ${top ? '<span class="label text-signal">// Your best match</span>' : '<span class="label text-dim">// Also consider</span>'}
+          <div class="flex items-center justify-between mt-1">
+            <a href="/reviews/${esc(d.slug)}" class="font-display font-800 text-xl text-ink hover:text-signal">${esc(d.name)}</a>
+            <span class="font-display font-900 text-2xl text-signal leading-none">${d.rating.toFixed(1)}</span>
+          </div>
+          <div class="flex items-center gap-2 mt-2 label text-dim">${d.price != null ? `$${d.price}` : 'Price varies'} ${meter(d.rating)}</div>
+          ${why}
+          <div class="flex gap-3 mt-3 flex-wrap">
+            <a class="btn-ghost" href="/reviews/${esc(d.slug)}">Read review</a>
+            ${buy}
+          </div>
+        </div>`;
+    }
+
+    const form = document.getElementById('quiz') as HTMLFormElement;
+    const resultEl = document.getElementById('result')!;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const a = {
+        budget: String(data.get('budget')),
+        eco: String(data.get('eco')),
+        priority: String(data.get('priority')),
+        ethernet: String(data.get('ethernet')),
+      };
+      const ranked = DEVICES
+        .map((d) => ({ d, ...score(d, a) }))
+        .sort((x, y) => y.s - x.s);
+
+      const [top, ...rest] = ranked;
+      const runners = rest.slice(0, 2);
+      resultEl.innerHTML = `
+        <div class="smpte-bars h-px w-full mb-6 opacity-50"></div>
+        <h2 class="font-display font-900 text-2xl mb-4">We'd buy the ${esc(top.d.name)}</h2>
+        <div class="space-y-3">
+          ${card(top.d, top.reasons, true)}
+          ${runners.map((r) => card(r.d, r.reasons, false)).join('')}
+        </div>
+        <p class="text-muted text-sm mt-5">
+          Not sure? <a href="/compare" class="text-signal">Compare these side by side</a> or see the
+          <a href="/guides/best-tv-box-2025" class="text-signal">best TV boxes of 2026</a>.
+        </p>`;
+      resultEl.classList.remove('hidden');
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</BaseLayout>

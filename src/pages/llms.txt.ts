@@ -33,6 +33,7 @@ export const GET: APIRoute = async ({ site }) => {
     item('/reviews', 'All reviews', 'Every streaming box and stick we have tested, ranked and rated.'),
     item('/best-picks', 'Best TV boxes', 'Our current top picks for every budget and use case.'),
     item('/compare', 'Compare devices', 'Side-by-side spec comparison of streaming boxes and sticks.'),
+    item('/which-streaming-device', 'Device finder quiz', 'Answer four questions to get a personalized streaming-device recommendation.'),
     item('/cut-the-cord', 'Cut the cord', 'Cord-cutting hub: cost calculator, services, and recommended hardware.'),
     item('/devices.json', 'Device data (JSON)', 'Machine-readable specs for every reviewed device.'),
     '',
