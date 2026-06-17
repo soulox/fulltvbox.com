@@ -1,0 +1,296 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getComparisonPairs } from '../../lib/devices';
+import type { Device } from '../../lib/devices';
+
+export async function getStaticPaths() {
+  const pairs = await getComparisonPairs();
+  return pairs.map((p) => ({ params: { versus: p.slug }, props: p }));
+}
+
+const { a, b, sharedTags } = Astro.props as { a: Device; b: Device; sharedTags: string[] };
+const site = Astro.site;
+const pageUrl = new URL(`/compare/${a.slug}-vs-${b.slug}`, site).href;
+
+const ROWS: { key: string; label: string; better?: 'max' | 'min' | 'maxnum' | 'maxlen' }[] = [
+  { key: 'rating', label: 'Our score', better: 'max' },
+  { key: 'price', label: 'Price', better: 'min' },
+  { key: 'releaseYear', label: 'Released', better: 'max' },
+  { key: 'soc', label: 'Chipset' },
+  { key: 'ram', label: 'RAM', better: 'maxnum' },
+  { key: 'storage', label: 'Storage', better: 'maxnum' },
+  { key: 'os', label: 'OS' },
+  { key: 'maxResolution', label: 'Max output' },
+  { key: 'hdr', label: 'HDR', better: 'maxlen' },
+  { key: 'audio', label: 'Audio', better: 'maxlen' },
+  { key: 'connectivity', label: 'Connectivity', better: 'maxlen' },
+  { key: 'ports', label: 'Ports' },
+  { key: 'remote', label: 'Remote' },
+];
+
+function getVal(d: Device, key: string): unknown {
+  if (key === 'rating') return d.rating;
+  if (key === 'price') return d.price;
+  return d.specs[key];
+}
+
+function fmt(key: string, v: unknown): string {
+  if (v == null || v === '') return '—';
+  if (Array.isArray(v)) return v.join(', ');
+  if (key === 'price') return `$${v}`;
+  if (key === 'rating') return Number(v).toFixed(1);
+  return String(v);
+}
+
+function winner(key: string, dir?: string): 'a' | 'b' | null {
+  if (!dir) return null;
+  const score = (d: Device): number | null => {
+    const v = getVal(d, key);
+    if (v == null || v === '') return null;
+    if (dir === 'maxlen') return Array.isArray(v) ? v.length : null;
+    const n = parseFloat(String(v));
+    return isNaN(n) ? null : n;
+  };
+  const sa = score(a);
+  const sb = score(b);
+  if (sa == null || sb == null || sa === sb) return null;
+  if (dir === 'min') return sa < sb ? 'a' : 'b';
+  return sa > sb ? 'a' : 'b';
+}
+
+// a is the higher-rated device by construction (see getComparisonPairs).
+const aWins = ROWS.filter((r) => r.key !== 'rating' && winner(r.key, r.better) === 'a');
+const bWins = ROWS.filter((r) => r.key !== 'rating' && winner(r.key, r.better) === 'b');
+
+const cheaper = a.price != null && b.price != null ? (a.price <= b.price ? a : b) : null;
+const pricier = cheaper ? (cheaper.slug === a.slug ? b : a) : null;
+const priceDiff = a.price != null && b.price != null ? Math.abs(a.price - b.price) : null;
+const sameScore = a.rating === b.rating;
+
+const aRating = a.rating.toFixed(1);
+const bRating = b.rating.toFixed(1);
+
+const scoreClause = sameScore
+  ? `both earn ${aRating} on our bench`
+  : `the ${a.name} scores higher on our bench (${aRating} vs ${bRating})`;
+
+let valueClause = '';
+if (cheaper && pricier && priceDiff) {
+  const stillTop = cheaper.slug === a.slug ? ' and still the higher-rated box' : '';
+  valueClause = ` The ${cheaper.name} is the value pick: it is $${priceDiff} cheaper${stillTop}.`;
+}
+
+const lead = `If you're choosing between the ${a.name} and the ${b.name}, ${scoreClause}, so it's our overall pick of the two.${valueClause} Here's how they compare spec by spec.`;
+
+const title = `${a.name} vs ${b.name}`;
+const description = `${a.name} vs ${b.name}: side-by-side specs, bench scores, and prices, plus which one we'd buy and who each is for.`;
+
+// ---- factual auto-FAQ (derived only from the data above) ----
+const faq: { question: string; answer: string }[] = [];
+
+if (sameScore) {
+  const valueLine = cheaper ? ` The ${cheaper.name} wins on value at $${cheaper.price}.` : '';
+  faq.push({
+    question: `Which is better, the ${a.name} or the ${b.name}?`,
+    answer: `They tie at ${aRating}/5 on our bench.${valueLine} Pick based on the spec differences and which ecosystem you prefer.`,
+  });
+} else {
+  const cheaperLine =
+    cheaper && cheaper.slug === b.slug
+      ? ` But the ${b.name} costs $${priceDiff} less, so it's the better value if budget matters most.`
+      : '';
+  faq.push({
+    question: `Which is better, the ${a.name} or the ${b.name}?`,
+    answer: `The ${a.name} rates higher (${aRating} vs ${bRating}/5) and is our overall pick.${cheaperLine}`,
+  });
+}
+
+if (cheaper && pricier && priceDiff) {
+  let worthIt: string;
+  if (pricier.slug === a.slug) {
+    worthIt = `Yes if you want the higher-rated box: the ${pricier.name} scores ${aRating} vs ${bRating}.`;
+  } else {
+    const wins = bWins.length ? ` (${bWins.map((r) => r.label.toLowerCase()).join(', ')})` : '';
+    worthIt = `Only for its specific advantages${wins}: on our bench the cheaper ${cheaper.name} actually rates higher.`;
+  }
+  faq.push({
+    question: `Is the ${pricier.name} worth the extra $${priceDiff} over the ${cheaper.name}?`,
+    answer: `${worthIt} Otherwise the ${cheaper.name} covers the basics for less.`,
+  });
+}
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'Compare', item: new URL('/compare', site).href },
+      { '@type': 'ListItem', position: 3, name: title, item: pageUrl },
+    ],
+  },
+];
+
+// a few other matchups for internal linking
+const allPairs = await getComparisonPairs();
+const more = allPairs
+  .filter((p) => p.slug !== `${a.slug}-vs-${b.slug}`)
+  .filter((p) => [a.slug, b.slug].some((s) => p.a.slug === s || p.b.slug === s))
+  .slice(0, 4);
+
+function meter(rating: number) {
+  return Array.from({ length: 5 }, (_, i) => (rating >= i + 1 ? 'on' : rating >= i + 0.5 ? 'half' : 'off'));
+}
+const cards = [a, b];
+---
+<BaseLayout title={title} description={description} ogType="article">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <nav class="label text-dim mb-4" aria-label="Breadcrumb">
+      <a href="/compare" class="hover:text-signal">Compare</a> / {title}
+    </nav>
+
+    <span class="label text-signal">// Head-to-head</span>
+    <h1 class="font-display font-900 text-3xl sm:text-4xl tracking-tight mt-1 mb-3">
+      {a.name} <span class="text-dim">vs</span> {b.name}
+    </h1>
+    <p class="text-muted text-sm mb-8">
+      Which should you buy? · Updated {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+    </p>
+
+    <!-- quick verdict cards -->
+    <div class="grid grid-cols-2 gap-3 mb-8">
+      {cards.map((d, i) => (
+        <div class={`bench-card frame p-4 ${i === 0 ? 'ring-1 ring-signal/40' : ''}`}>
+          {i === 0 && <span class="label text-signal text-[0.6rem]">// Our pick</span>}
+          <a href={`/reviews/${d.slug}`} class="font-display font-800 text-base text-ink hover:text-signal block leading-snug mt-1">{d.name}</a>
+          <div class="flex items-center gap-2 mt-2">
+            <span class="font-display font-900 text-2xl text-signal leading-none">{d.rating.toFixed(1)}</span>
+            <span class="meter">{meter(d.rating).map((s) => <span class={`seg ${s === 'off' ? '' : s}`}></span>)}</span>
+          </div>
+          <div class="label text-dim mt-2">{d.price != null ? `$${d.price}` : 'Price varies'}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="prose prose-invert prose-lg max-w-none prose-bench prose-p:text-ink/85">
+      <p class="text-lg"><strong>Short answer:</strong> {lead}</p>
+    </div>
+
+    <!-- spec comparison table -->
+    <div class="overflow-x-auto mt-8">
+      <table class="vs">
+        <thead>
+          <tr>
+            <th class="row-label"></th>
+            <th><a href={`/reviews/${a.slug}`}>{a.name}</a></th>
+            <th><a href={`/reviews/${b.slug}`}>{b.name}</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          {ROWS.map((r) => {
+            const w = winner(r.key, r.better);
+            return (
+              <tr>
+                <th class="row-label">{r.label}</th>
+                <td class={w === 'a' ? 'vs-best' : ''}>{fmt(r.key, getVal(a, r.key))}</td>
+                <td class={w === 'b' ? 'vs-best' : ''}>{fmt(r.key, getVal(b, r.key))}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- where each wins -->
+    <div class="grid sm:grid-cols-2 gap-4 mt-10">
+      <div class="panel frame p-5">
+        <h2 class="font-display font-800 text-lg mb-3">Where the {a.name} wins</h2>
+        {aWins.length ? (
+          <ul class="text-ink/85 text-sm space-y-1.5">
+            {aWins.map((r) => <li>{r.label}: <span class="text-signal">{fmt(r.key, getVal(a, r.key))}</span></li>)}
+          </ul>
+        ) : (
+          <p class="text-muted text-sm">No clear spec-sheet edge — it wins on our overall score and real-world polish.</p>
+        )}
+      </div>
+      <div class="panel frame p-5">
+        <h2 class="font-display font-800 text-lg mb-3">Where the {b.name} wins</h2>
+        {bWins.length ? (
+          <ul class="text-ink/85 text-sm space-y-1.5">
+            {bWins.map((r) => <li>{r.label}: <span class="text-signal">{fmt(r.key, getVal(b, r.key))}</span></li>)}
+          </ul>
+        ) : (
+          <p class="text-muted text-sm">Nothing on the spec sheet beats the {a.name} — its case is price or ecosystem fit.</p>
+        )}
+      </div>
+    </div>
+
+    <!-- bottom line -->
+    <div class="mt-10 panel frame p-6">
+      <span class="label text-signal">// Bottom line</span>
+      <p class="text-ink/90 mt-2 leading-relaxed">
+        {sameScore
+          ? `It's close — both score ${a.rating.toFixed(1)}/5.`
+          : `The ${a.name} is the better all-rounder at ${a.rating.toFixed(1)}/5.`}
+        {cheaper && priceDiff ? ` If you're watching the budget, the ${cheaper.name} saves you $${priceDiff} and covers the essentials.` : ''}
+        Read the full <a href={`/reviews/${a.slug}`} class="text-signal">{a.name} review</a> or
+        <a href={`/reviews/${b.slug}`} class="text-signal"> {b.name} review</a> for the hands-on detail, or
+        <a href={`/compare?ids=${a.slug},${b.slug}`} class="text-signal"> open them in the interactive comparison</a>.
+      </p>
+    </div>
+
+    <!-- auto FAQ (rendered + emitted as FAQPage above) -->
+    <section class="mt-12">
+      <span class="label text-signal">// FAQ</span>
+      <h2 class="font-display font-800 text-2xl mt-1 mb-5">{a.name} vs {b.name}: FAQ</h2>
+      <div class="space-y-5">
+        {faq.map((f) => (
+          <div>
+            <h3 class="font-display font-700 text-base text-ink mb-1">{f.question}</h3>
+            <p class="text-muted text-sm leading-relaxed">{f.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {more.length > 0 && (
+      <section class="mt-14">
+        <div class="smpte-bars h-px w-full mb-6 opacity-50"></div>
+        <span class="label text-signal">// More comparisons</span>
+        <div class="grid sm:grid-cols-2 gap-3 mt-3">
+          {more.map((p) => (
+            <a href={`/compare/${p.a.slug}-vs-${p.b.slug}`} class="bench-card frame p-3 text-sm font-display font-700 text-ink hover:text-signal">
+              {p.a.name} vs {p.b.name}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+
+  <style>
+    .vs { width: 100%; border-collapse: collapse; min-width: 520px; }
+    .vs th, .vs td { border: 1px solid var(--line); padding: 0.6rem 0.85rem; text-align: left; vertical-align: top; }
+    .vs thead th { background: var(--panel); font-family: "Archivo", sans-serif; font-weight: 800; font-size: 0.95rem; }
+    .vs thead th a { color: var(--ink); }
+    .vs thead th a:hover { color: var(--signal); }
+    .vs .row-label {
+      font-family: "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: 0.1em;
+      font-size: 0.6rem; color: var(--dim); white-space: nowrap; background: var(--panel); width: 8rem;
+    }
+    .vs td { font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; color: var(--ink); }
+    .vs .vs-best { color: var(--signal); }
+    .vs .vs-best::before { content: "● "; font-size: 0.7em; }
+  </style>
+</BaseLayout>

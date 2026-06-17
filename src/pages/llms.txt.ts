@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { latestDate } from '../lib/freshness';
+import { getComparisonPairs } from '../lib/devices';
 
 // Build-time generated llms.txt (https://llmstxt.org) — a curated, machine-readable
 // index that steers AI search/answer engines to the canonical content on the site.
@@ -11,10 +12,11 @@ export const GET: APIRoute = async ({ site }) => {
     new Date(latestDate(b.data.publishDate, b.data.updatedDate)).getTime() -
     new Date(latestDate(a.data.publishDate, a.data.updatedDate)).getTime();
 
-  const [reviews, guides, tutorials] = await Promise.all([
+  const [reviews, guides, tutorials, pairs] = await Promise.all([
     getCollection('reviews'),
     getCollection('guides'),
     getCollection('tutorials'),
+    getComparisonPairs(),
   ]);
 
   const item = (path: string, title: string, desc: string) =>
@@ -39,6 +41,17 @@ export const GET: APIRoute = async ({ site }) => {
     section('Guides', guides.sort(byNewest).map((g) => item(`/guides/${g.slug}`, g.data.title, g.data.description))),
     '',
     section('Tutorials', tutorials.sort(byNewest).map((t) => item(`/tutorials/${t.slug}`, t.data.title, t.data.description))),
+    '',
+    section(
+      'Comparisons',
+      pairs.map((p) =>
+        item(
+          `/compare/${p.a.slug}-vs-${p.b.slug}`,
+          `${p.a.name} vs ${p.b.name}`,
+          `Head-to-head: ${p.a.name} (${p.a.rating.toFixed(1)}/5) vs ${p.b.name} (${p.b.rating.toFixed(1)}/5) — specs, price, and which to buy.`
+        )
+      )
+    ),
     '',
   ].join('\n');
 

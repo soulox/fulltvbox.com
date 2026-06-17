@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getDevices } from '../lib/devices';
+import { getDevices, getComparisonPairs } from '../lib/devices';
 
 const devices = await getDevices();
+const pairs = await getComparisonPairs();
 ---
 <BaseLayout title="Compare TV Boxes" description="Side-by-side spec and score comparison of the streaming boxes and sticks we've tested.">
   <div class="max-w-6xl mx-auto px-4 py-14">
@@ -29,6 +30,27 @@ const devices = await getDevices();
     </p>
 
     <script type="application/json" id="devices-data" set:html={JSON.stringify(devices)}></script>
+
+    {pairs.length > 0 && (
+      <section class="mt-16">
+        <div class="smpte-bars h-px w-full mb-6 opacity-50"></div>
+        <span class="label text-signal">// Popular head-to-heads</span>
+        <h2 class="font-display font-800 text-2xl mt-1 mb-5">Common Comparisons</h2>
+        <p class="text-muted text-sm mb-5 max-w-2xl">
+          Quick verdicts on the matchups people actually cross-shop — full spec table, scores, and which we'd pick.
+        </p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {pairs.map((p) => (
+            <a href={`/compare/${p.a.slug}-vs-${p.b.slug}`} class="bench-card frame group p-4">
+              <span class="label text-dim text-[0.6rem]">// vs</span>
+              <div class="font-display font-700 text-sm text-ink group-hover:text-signal transition-colors leading-snug mt-1">
+                {p.a.name} <span class="text-dim">vs</span> {p.b.name}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
   </div>
 
   <style>
