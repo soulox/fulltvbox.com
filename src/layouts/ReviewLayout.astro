@@ -71,22 +71,25 @@ const brandTable: [string, string][] = [
 const haystack = device.toLowerCase();
 const brand = (brandTable.find(([k]) => haystack.includes(k)) ?? [])[1];
 
+// Product as the top-level entity with the editorial review nested inside it —
+// Google's recommended shape for a product-review page. It satisfies the product
+// snippet requirement (a `review` is present), yields the star-rating snippet, and
+// carries no `offers`, so it stays a review snippet rather than a merchant listing.
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Review',
-  name: title,
+  '@type': 'Product',
+  name: device,
   description,
-  datePublished: publishDate,
-  ...(updatedDate ? { dateModified: updatedDate } : {}),
-  author: authorJsonLd(author, site),
-  publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
-  reviewRating: { '@type': 'Rating', ratingValue: rating, bestRating: 5, worstRating: 1 },
-  itemReviewed: {
-    '@type': 'Product',
-    name: device,
-    description,
-    ...(hero ? { image: new URL(hero.src, site).href } : {}),
-    ...(brand ? { brand: { '@type': 'Brand', name: brand } } : {}),
+  ...(hero ? { image: new URL(hero.src, site).href } : {}),
+  ...(brand ? { brand: { '@type': 'Brand', name: brand } } : {}),
+  review: {
+    '@type': 'Review',
+    name: title,
+    datePublished: publishDate,
+    ...(updatedDate ? { dateModified: updatedDate } : {}),
+    author: authorJsonLd(author, site),
+    publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
+    reviewRating: { '@type': 'Rating', ratingValue: rating, bestRating: 5, worstRating: 1 },
   },
 };
 const breadcrumb = {
