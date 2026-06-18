@@ -6,6 +6,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "images:amazon": "node scripts/fetch-amazon-images.mjs",
+    "images:bestbuy": "node scripts/fetch-bestbuy-images.mjs",
     "deploy": "astro build && wrangler pages deploy dist --project-name fulltvbox"
   },
   "dependencies": {
