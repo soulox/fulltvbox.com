@@ -57,6 +57,20 @@ const specEntries = specs
 
 const site = Astro.site;
 const pageUrl = new URL(cleanPath, site).href;
+
+// Brand for the reviewed product, detected from the device name (satisfies the
+// "global identifier" recommendation). We review products; we don't sell them, so
+// the Product carries no commerce `offers` — that keeps this an editorial product
+// *review* snippet rather than a merchant listing (which would require seller-only
+// fields like shippingDetails and a return policy we don't control).
+const brandTable: [string, string][] = [
+  ['apple', 'Apple'], ['fire tv', 'Amazon'], ['amazon', 'Amazon'], ['chromecast', 'Google'],
+  ['google', 'Google'], ['nvidia', 'NVIDIA'], ['shield', 'NVIDIA'], ['roku', 'Roku'],
+  ['tivo', 'TiVo'], ['xiaomi', 'Xiaomi'], ['mi box', 'Xiaomi'], ['onn', 'onn'], ['walmart', 'onn'],
+];
+const haystack = device.toLowerCase();
+const brand = (brandTable.find(([k]) => haystack.includes(k)) ?? [])[1];
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Review',
@@ -70,9 +84,9 @@ const jsonLd = {
   itemReviewed: {
     '@type': 'Product',
     name: device,
-    ...(deal
-      ? { offers: { '@type': 'Offer', price: deal.price, priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: deal.url } }
-      : {}),
+    description,
+    ...(hero ? { image: new URL(hero.src, site).href } : {}),
+    ...(brand ? { brand: { '@type': 'Brand', name: brand } } : {}),
   },
 };
 const breadcrumb = {
