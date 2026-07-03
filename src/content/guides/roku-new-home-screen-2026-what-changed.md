@@ -1,6 +1,6 @@
 ---
 title: "Roku's New Home Screen (2026): What Changed and How to Fix the Ad Clutter"
-description: "Roku rolled out its biggest home-screen redesign in over a decade in May 2026 — bigger recommendation rows, a new Quick Access panel, and more ad space. Here's what changed and how to settings your way back to something calmer."
+description: "Roku rolled out its biggest home-screen redesign in over a decade in May 2026 — bigger recommendation rows, a new Quick Access panel, and more ad space. Here's what changed and how to dial it back to something calmer."
 publishDate: "2026-07-03"
 faq:
   - question: "What changed in Roku's new home screen in 2026?"
