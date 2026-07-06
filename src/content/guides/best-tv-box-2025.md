@@ -2,6 +2,7 @@
 title: "Best TV Boxes of 2026: Our Top Picks for Every Budget"
 description: "We tested every major streaming box and stick to find the best options for casual viewers, power users, Apple households, and the new wave of AI features in 2026."
 publishDate: "2025-11-01"
+category: "buying-guides"
 updatedDate: "2026-06-15"
 faq:
   - question: "What is the best TV box in 2026?"

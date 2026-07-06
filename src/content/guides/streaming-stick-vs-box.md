@@ -2,6 +2,7 @@
 title: "Streaming Stick vs Streaming Box: Which Should You Buy?"
 description: "Sticks plug directly into your TV and disappear. Boxes sit on your shelf and offer more ports. Here's how to decide which form factor is right for your setup."
 publishDate: "2025-12-15"
+category: "comparisons"
 faq:
   - question: "Should I buy a streaming stick or a box?"
     answer: "Get a stick if you want the cheapest, tidiest 4K streaming that hides behind the TV. Choose a box if you want Ethernet, USB, more power, or features like Plex serving and gaming."

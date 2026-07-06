@@ -2,6 +2,7 @@
 title: "Android TV vs Fire TV vs Roku: Which Platform Is Right for You?"
 description: "The three major streaming platforms each have real trade-offs. We break down who each one is for so you can choose without second-guessing."
 publishDate: "2025-10-25"
+category: "comparisons"
 faq:
   - question: "What is the difference between Android TV, Fire TV, and Roku?"
     answer: "Android/Google TV is Google’s flexible, app-rich platform; Fire TV is Amazon’s Android-based system with heavy Alexa and store integration; Roku is a simple, neutral platform that does not favor any ecosystem."

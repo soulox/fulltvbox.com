@@ -2,6 +2,7 @@
 title: "Roku Won't Connect to Wi-Fi? Here's How to Fix It"
 description: "Roku stuck on 'can't connect to wireless network' or error 014? Work through these fixes in order — most Roku Wi-Fi problems are solved in a couple of minutes."
 publishDate: "2026-06-17"
+category: "troubleshooting"
 faq:
   - question: "Why won't my Roku connect to Wi-Fi?"
     answer: "Usually one of: a wrong or recently-changed Wi-Fi password, a weak signal where the Roku sits, router congestion, or a temporary glitch. Restarting the Roku and router fixes most cases; if the password changed, you'll need to re-enter it under Settings → Network."

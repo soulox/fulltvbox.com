@@ -2,6 +2,7 @@
 title: "Why Your Streaming Keeps Buffering (and How to Fix It)"
 description: "Constant buffering ruining movie night? Here's why streaming buffers — from Wi-Fi to your device to the app — and a step-by-step fix list that solves it for most people."
 publishDate: "2026-06-17"
+category: "troubleshooting"
 faq:
   - question: "Why does my streaming keep buffering?"
     answer: "Buffering means your device isn't receiving data fast enough to keep playing. The usual causes, in order: weak Wi-Fi signal, not enough internet speed for the quality you've selected, network congestion from other devices, or an underpowered/overloaded streaming device. Wiring the device with Ethernet fixes most cases."

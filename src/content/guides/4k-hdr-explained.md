@@ -2,6 +2,7 @@
 title: "4K, HDR, Dolby Vision Explained: What Matters for Streaming"
 description: "The spec sheets are full of acronyms — 4K, HDR10, HDR10+, Dolby Vision, Dolby Atmos. Here's what each one actually means for what you see and hear."
 publishDate: "2025-08-20"
+category: "basics-setup"
 updatedDate: "2026-06-15"
 faq:
   - question: "Is Dolby Vision better than HDR10?"

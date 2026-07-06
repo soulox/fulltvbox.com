@@ -2,6 +2,7 @@
 title: "AI Comes to Your TV Box (2026): Gemini, Alexa+ and What Actually Works"
 description: "Every streaming platform is bolting on generative AI in 2026 — Gemini on Google TV, Alexa+ on Fire TV, Apple Intelligence on the next Apple TV. Here's what's real, what's hype, and what needs a new box."
 publishDate: "2026-06-15"
+category: "ai-llm"
 faq:
   - question: "Do I need a new TV box to get AI features?"
     answer: "Often yes. Gemini on Google TV needs a device running Android 14 or later with at least 2GB of RAM, Alexa+ is rolling out to newer Fire TV models first, and Apple Intelligence will require the next Apple TV 4K — the current A15 model can't run it."

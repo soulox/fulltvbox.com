@@ -1,37 +1,44 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { groupGuidesByCategory } from '../../lib/guides';
 
 const guides = await getCollection('guides');
-const sorted = guides.sort((a, b) =>
-  new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
-);
+const sections = groupGuidesByCategory(guides);
 ---
 <BaseLayout title="TV Box Guides" description="Setup guides, comparisons, and buying advice for streaming devices.">
   <div class="max-w-5xl mx-auto px-4 py-14">
     <span class="label text-signal">// Channel 04</span>
     <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">Guides</h1>
-    <p class="text-muted mb-10">Buying advice, setup walkthroughs, and head-to-head comparisons.</p>
+    <p class="text-muted mb-12">Buying advice, setup walkthroughs, and head-to-head comparisons.</p>
 
-    <div class="grid sm:grid-cols-2 gap-5">
-      {sorted.map((guide, i) => (
-        <a href={`/guides/${guide.slug}`} class="bench-card frame group p-6 flex flex-col">
-          {guide.data.image && (
-            <img src={guide.data.image} alt={guide.data.title} width="960" height="160" loading="lazy" class="w-full mb-5 object-cover h-40 border border-line" onerror="this.style.display='none';" />
-          )}
-          <span class="label text-dim mb-3">DOC·{String(i + 1).padStart(2, '0')}</span>
-          <h2 class="font-display font-700 text-lg leading-snug text-ink group-hover:text-signal transition-colors mb-2 flex-1">
-            {guide.data.title}
-          </h2>
-          <p class="text-muted text-sm line-clamp-2 mb-5">{guide.data.description}</p>
-          <div class="flex items-center justify-between">
-            <time class="label text-dim">
-              {new Date(guide.data.publishDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-            </time>
-            <span class="font-mono text-xs text-dim group-hover:text-signal transition-colors">→ read</span>
-          </div>
-        </a>
-      ))}
-    </div>
+    {sections.map((section, s) => (
+      <section class={s > 0 ? 'mt-14' : ''}>
+        <div class="flex items-center gap-3 mb-6">
+          <span class="label text-signal">// {String(s + 1).padStart(2, '0')}</span>
+          <h2 class="font-display font-800 text-2xl text-ink">{section.label}</h2>
+          <span class="h-px flex-1 bg-line"></span>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5">
+          {section.guides.map((guide) => (
+            <a href={`/guides/${guide.slug}`} class="bench-card frame group p-6 flex flex-col">
+              {guide.data.image && (
+                <img src={guide.data.image} alt={guide.data.title} width="960" height="160" loading="lazy" class="w-full mb-5 object-cover h-40 border border-line" onerror="this.style.display='none';" />
+              )}
+              <h3 class="font-display font-700 text-lg leading-snug text-ink group-hover:text-signal transition-colors mb-2 flex-1">
+                {guide.data.title}
+              </h3>
+              <p class="text-muted text-sm line-clamp-2 mb-5">{guide.data.description}</p>
+              <div class="flex items-center justify-between">
+                <time class="label text-dim">
+                  {new Date(guide.data.publishDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                </time>
+                <span class="font-mono text-xs text-dim group-hover:text-signal transition-colors">→ read</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
   </div>
 </BaseLayout>

@@ -71,12 +71,26 @@ Model the structure and tone on existing guides, especially:
 title: "..."            # compelling, includes the year where it helps SEO
 description: "..."       # 1–2 sentences, the meta description
 publishDate: "YYYY-MM-DD"   # the run date
+category: "..."          # REQUIRED — the single best-fit category (see list below)
 faq:                    # exactly 4 Q&As — auto-emits FAQPage JSON-LD
   - question: "..."
     answer: "..."
   # ...4 total
 ---
 ```
+
+`category` is **required** — the build fails if it's missing or not one of these
+ids. Pick the single best fit for the guide's primary angle:
+
+| id | use for |
+|----|---------|
+| `buying-guides` | "best X" / device-picking guides |
+| `comparisons` | head-to-head "X vs Y" guides |
+| `cord-cutting` | streaming-service cost / cutting-the-cord guides |
+| `troubleshooting` | fixes for a specific problem (buffering, won't connect, slow) |
+| `ai-llm` | AI features on TV boxes and local-LLM hardware guides |
+| `basics-setup` | setup walkthroughs and explainer/"what is X" guides |
+| `whats-new` | news / "what changed" / newly announced hardware or OS |
 
 Do **not** add `author` or `image` — existing guides omit both.
 

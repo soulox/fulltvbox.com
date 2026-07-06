@@ -2,6 +2,7 @@
 title: "TV Box Setup Guide: First Steps After Unboxing"
 description: "A step-by-step walkthrough for setting up any streaming box or stick — from plugging it in to optimizing your picture and audio settings."
 publishDate: "2025-09-05"
+category: "basics-setup"
 updatedDate: "2026-06-15"
 faq:
   - question: "How do I set up a new streaming box?"

@@ -2,6 +2,7 @@
 title: "Fire TV Stick Running Slow? 9 Fixes That Actually Work"
 description: "A laggy, slow Fire TV Stick is usually fixable in a few minutes. Here are 9 proven fixes — from clearing storage to taming background apps — ranked from easiest to most thorough."
 publishDate: "2026-06-17"
+category: "troubleshooting"
 faq:
   - question: "Why is my Fire TV Stick so slow?"
     answer: "The most common causes are full storage, too many background apps and app caches, a weak Wi-Fi signal, and an aging low-RAM model. Clearing app caches and freeing storage fixes most cases; older sticks may simply be underpowered for today's apps."

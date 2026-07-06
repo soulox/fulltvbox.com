@@ -2,6 +2,7 @@
 title: "Best GPU for Running Local LLMs in 2026: A VRAM-First Buying Guide"
 description: "The best graphics card for local AI isn't the fastest — it's the one with enough VRAM to hold your model. Here's how to pick a GPU for local LLMs by budget, from a $250 used card to the RTX 5090."
 publishDate: "2026-06-17"
+category: "ai-llm"
 faq:
   - question: "What is the best GPU for running local LLMs?"
     answer: "For most people, a used NVIDIA RTX 3090 (24GB) is the best value — its 24GB of VRAM runs models up to ~34B, which no cheaper card can match. If you want a new card, the RTX 5090 (32GB) is the fastest consumer option, and the RTX 3060 (12GB) is the best budget pick."
