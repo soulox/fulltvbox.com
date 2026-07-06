@@ -2,6 +2,7 @@
 title: "Roku's New Home Screen (2026): What Changed and How to Fix the Ad Clutter"
 description: "Roku rolled out its biggest home-screen redesign in over a decade in May 2026 — bigger recommendation rows, a new Quick Access panel, and more ad space. Here's what changed and how to dial it back to something calmer."
 publishDate: "2026-07-03"
+category: "whats-new"
 faq:
   - question: "What changed in Roku's new home screen in 2026?"
     answer: "Roku replaced its decade-old grid layout starting May 27, 2026. The biggest changes: a new 'Quick Access' row of your most-used apps at the top, a 'Top Picks for You' section that grew from three tiles to five and now blends personal recommendations with paid placements, and a taller ad marquee running down the right side of the screen."
