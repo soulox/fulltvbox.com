@@ -17,6 +17,7 @@ export default defineConfig({
         if (path === '/') item.priority = 1.0;
         else if (/^\/reviews\/[^/]+$/.test(path)) item.priority = 0.9;
         else if (/^\/(reviews|best-picks|compare|cut-the-cord)$/.test(path)) item.priority = 0.8;
+        else if (/^\/guides\/category\/[^/]+$/.test(path)) item.priority = 0.6;
         else if (/^\/(guides|tutorials)\//.test(path)) item.priority = 0.7;
         else item.priority = 0.6;
         return item;

@@ -2,6 +2,7 @@
 title: "Newest Streaming Gadgets & TV Tech of 2026: What's Actually New"
 description: "The brand-new streaming devices and emerging TV technologies reshaping your living room in 2026 — from Amazon's Android-free Vega OS to on-device AI, Wi-Fi 7, Matter hubs, and next-gen HDR. What's real, what's hype, and what to buy today."
 publishDate: "2026-07-03"
+category: "whats-new"
 faq:
   - question: "What is the newest streaming device in 2026?"
     answer: "Amazon's Fire TV Stick 4K Select is the most significant new release — it's the first Fire TV to drop Android for Amazon's own Linux-based Vega OS. The Google TV Streamer and the 2025 NVIDIA Shield refresh are the other devices worth knowing, but the Select's OS switch is the bigger story for the whole category."

@@ -2,6 +2,7 @@
 title: "Best Streaming Device for 4K HDR & Dolby Vision (2026)"
 description: "Want the best possible picture? These streaming devices deliver true 4K with Dolby Vision and HDR10+ — and we explain which formats actually matter for your TV."
 publishDate: "2026-06-17"
+category: "buying-guides"
 faq:
   - question: "Which streaming device has the best picture quality?"
     answer: "The Apple TV 4K has the best overall picture — its A15 chip handles Dolby Vision and HDR10+ with the best processing and frame-rate matching. The NVIDIA Shield is close and adds AI upscaling for lower-quality content."

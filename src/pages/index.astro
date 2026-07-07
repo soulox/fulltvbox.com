@@ -254,10 +254,10 @@ const siteSchema = {
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-px bg-line border border-line">
         {[
-          { label: 'Android TV', code: 'IN-1', href: '/reviews?tag=android+tv' },
-          { label: 'Budget Picks', code: 'IN-2', href: '/reviews?tag=budget' },
-          { label: '4K Streaming', code: 'IN-3', href: '/reviews?tag=4k' },
-          { label: 'Gaming Boxes', code: 'IN-4', href: '/reviews?tag=gaming' },
+          { label: 'Fire TV', code: 'IN-1', href: '/reviews?tag=fire+tv' },
+          { label: 'Google TV', code: 'IN-2', href: '/reviews?tag=google+tv' },
+          { label: 'Roku', code: 'IN-3', href: '/reviews?tag=roku' },
+          { label: 'Budget Picks', code: 'IN-4', href: '/reviews?tag=budget' },
         ].map(cat => (
           <a href={cat.href} class="input-cell group bg-panel px-5 py-7">
             <span class="label text-dim group-hover:text-signal transition-colors">{cat.code}</span>

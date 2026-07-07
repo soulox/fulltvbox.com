@@ -2,6 +2,7 @@
 title: "Best TV Box for Plex in 2025: Our Top Picks for Every Budget"
 description: "Not all streaming boxes handle Plex equally. We break down which devices offer the best Plex experience — from direct play to server hosting to remote access."
 publishDate: "2025-11-10"
+category: "buying-guides"
 faq:
   - question: "What is the best streaming box for Plex?"
     answer: "The NVIDIA Shield TV Pro is the best Plex device — it can both play Plex and host a Plex Media Server with hardware transcoding. For playback only, the Apple TV 4K and Shield are top picks."

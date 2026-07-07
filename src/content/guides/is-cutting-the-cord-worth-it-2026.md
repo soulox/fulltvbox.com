@@ -2,6 +2,7 @@
 title: "Is Cutting the Cord Still Worth It in 2026?"
 description: "Streaming prices keep climbing toward cable territory. Here's the real math on cord-cutting in 2026 — and how to make sure you actually save."
 publishDate: "2026-06-10"
+category: "cord-cutting"
 faq:
   - question: "Is cutting the cord cheaper than cable in 2026?"
     answer: "For most households, yes. On-demand streaming (one or two services) runs about $15–40/month versus the ~$83 average cable bill. The savings shrink if you need a full live-TV streaming package, which can cost $80–90/month on its own."

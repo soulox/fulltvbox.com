@@ -2,6 +2,7 @@
 title: "AI Video Upscaling on TV Boxes: Can It Really Make HD Look 4K?"
 description: "AI upscaling promises to turn 1080p into crisp 4K in real time. We explain how it works, where it genuinely helps, and which streaming boxes actually do it well in 2026."
 publishDate: "2026-06-15"
+category: "ai-llm"
 faq:
   - question: "Does AI upscaling actually improve picture quality?"
     answer: "Yes, within limits. Good real-time AI upscaling adds visible sharpness and cleaner edges to 720p and 1080p sources on a 4K TV. It cannot invent detail that was never captured, so a low-bitrate stream still looks like a low-bitrate stream — just a tidier one."

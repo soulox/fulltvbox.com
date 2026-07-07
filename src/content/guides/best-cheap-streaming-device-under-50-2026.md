@@ -2,6 +2,7 @@
 title: "Best Cheap Streaming Device Under $50 (2026)"
 description: "You don't need to spend much to get 4K HDR streaming. These are the best budget streaming devices under $50 in 2026 — including the one we think is the best value in streaming, period."
 publishDate: "2026-06-17"
+category: "buying-guides"
 faq:
   - question: "What is the best cheap streaming device?"
     answer: "The Walmart onn. 4K Pro at $49 is the best value — it includes Ethernet, USB, Dolby Vision, and Google TV, features usually reserved for boxes twice the price. The Roku Streaming Stick 4K is the best cheap pick for simplicity."

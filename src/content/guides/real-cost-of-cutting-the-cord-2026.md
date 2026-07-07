@@ -2,6 +2,7 @@
 title: "The Real Cost of Cutting the Cord in 2026 (Data Study)"
 description: "We added up the price of every major streaming service to find out what cord-cutting actually costs in 2026. The average four-service stack now runs $720 a year — and live TV can cost more than cable ever did."
 publishDate: "2026-06-17"
+category: "cord-cutting"
 faq:
   - question: "How much does streaming cost per month in 2026?"
     answer: "Across the 14 major services we track, the average ad-free on-demand service costs about $14.49/month. A typical four-service stack (Netflix, Disney+, Max, Prime Video) runs about $60/month, or $720 a year — before any live-TV service."

@@ -8,14 +8,21 @@ interface Props {
   items: Item[];
   heading?: string;
   label?: string;
+  moreHref?: string;
+  moreText?: string;
 }
-const { items, heading = 'Related', label = '// Related' } = Astro.props;
+const { items, heading = 'Related', label = '// Related', moreHref, moreText } = Astro.props;
 ---
 {items.length > 0 && (
   <section class="max-w-3xl mx-auto px-4 pb-20">
     <div class="smpte-bars h-px w-full mb-8 opacity-50"></div>
     <span class="label text-signal">{label}</span>
-    <h2 class="font-display font-800 text-2xl mt-1 mb-6">{heading}</h2>
+    <div class="flex items-end justify-between gap-4 mt-1 mb-6">
+      <h2 class="font-display font-800 text-2xl">{heading}</h2>
+      {moreHref && moreText && (
+        <a href={moreHref} class="label text-muted hover:text-signal transition-colors shrink-0">{moreText} →</a>
+      )}
+    </div>
     <div class="grid sm:grid-cols-3 gap-4">
       {items.map((i) => (
         <a href={i.href} class="bench-card frame group p-4 flex flex-col">

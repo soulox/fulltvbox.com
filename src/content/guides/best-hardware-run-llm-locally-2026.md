@@ -2,6 +2,7 @@
 title: "Best Hardware to Run LLMs Locally (2026): GPUs, Macs, and Mini PCs"
 description: "Running ChatGPT-style models on your own machine comes down to one number: memory. Here's the hardware that actually runs local LLMs well in 2026, from $300 GPUs to 128GB unified-memory desktops."
 publishDate: "2026-06-17"
+category: "ai-llm"
 faq:
   - question: "What hardware do I need to run an LLM locally?"
     answer: "Memory is the deciding factor. For a smooth 7-8B model you want at least 8GB of VRAM (or unified memory); for 13-14B models 16GB; for 30-34B models 24GB; and for 70B models you need roughly 48GB or more. A used NVIDIA RTX 3090 (24GB) is the value sweet spot; Apple Silicon Macs and 128GB unified-memory desktops handle the biggest models."
