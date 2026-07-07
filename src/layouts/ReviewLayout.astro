@@ -4,6 +4,7 @@ import BaseLayout from './BaseLayout.astro';
 import Faq from '../components/Faq.astro';
 import { freshness } from '../lib/freshness';
 import { getAuthor, authorJsonLd } from '../data/authors';
+import { TEST_WEEKS, CRITERIA_COUNT } from '../data/methodology';
 import { cleanPathname } from '../lib/url';
 import { reviewImage } from '../lib/reviewImages';
 import type { LiveDeal } from '../lib/deals';
@@ -153,7 +154,7 @@ const breadcrumb = {
         <span class="text-dim">· updated {new Date(updatedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
       )}
       <span class="text-line-bright">·</span>
-      <a href="/about" class="text-dim hover:text-signal transition-colors">how we test</a>
+      <a href="/how-we-test" class="text-dim hover:text-signal transition-colors">how we test</a>
     </div>
 
     <h1 class="font-display font-900 text-4xl sm:text-5xl leading-[0.95] tracking-tight text-ink mb-4">{title}</h1>
@@ -191,6 +192,10 @@ const breadcrumb = {
             </a>
           ) : null}
         </div>
+      </div>
+      <div class="px-5 sm:px-6 py-2.5 border-t border-line flex items-center gap-x-3 gap-y-1 flex-wrap">
+        <span class="label text-dim">Independent · bought or borrowed · {TEST_WEEKS}+ weeks hands-on · scored on {CRITERIA_COUNT} criteria</span>
+        <a href="/how-we-test" class="label text-muted hover:text-signal transition-colors ml-auto">How we score →</a>
       </div>
       <div class="smpte-bars h-1 w-full opacity-70"></div>
     </div>
