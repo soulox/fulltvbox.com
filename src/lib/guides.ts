@@ -26,6 +26,30 @@ export type GuideSection = {
   guides: CollectionEntry<'guides'>[];
 };
 
+/** Display label for a category id. */
+export function guideCategoryLabel(id: GuideCategoryId): string {
+  return GUIDE_CATEGORIES.find((c) => c.id === id)?.label ?? id;
+}
+
+const byLatestDesc = (a: CollectionEntry<'guides'>, b: CollectionEntry<'guides'>) =>
+  new Date(latestDate(b.data.publishDate, b.data.updatedDate)).getTime() -
+  new Date(latestDate(a.data.publishDate, a.data.updatedDate)).getTime();
+
+/**
+ * Topically-related guides: same-category first (newest-first), backfilled with the
+ * latest remaining guides to reach `limit`. Replaces naive "latest N".
+ */
+export function relatedGuides(
+  guide: CollectionEntry<'guides'>,
+  all: CollectionEntry<'guides'>[],
+  limit = 3
+): CollectionEntry<'guides'>[] {
+  const others = all.filter((g) => g.slug !== guide.slug);
+  const sameCat = others.filter((g) => g.data.category === guide.data.category).sort(byLatestDesc);
+  const rest = others.filter((g) => g.data.category !== guide.data.category).sort(byLatestDesc);
+  return [...sameCat, ...rest].slice(0, limit);
+}
+
 /**
  * Group guides by category, in GUIDE_CATEGORIES order, each section sorted
  * newest-first by latest of publish/updated. Empty categories are omitted so

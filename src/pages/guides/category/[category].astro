@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { groupGuidesByCategory } from '../../../lib/guides';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  // Only non-empty categories get a hub page.
+  return groupGuidesByCategory(guides).map((section) => ({
+    params: { category: section.id },
+    props: { section },
+  }));
+}
+
+const { section } = Astro.props;
+const site = Astro.site;
+const pageUrl = new URL(`/guides/category/${section.id}`, site).href;
+const description = `${section.label} for TV boxes and streaming devices — every ${section.label.toLowerCase()} guide on FullTVBox.`;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${section.label} — TV Box Guides`,
+    itemListElement: section.guides.map((g, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: new URL(`/guides/${g.slug}`, site).href,
+      name: g.data.title,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: new URL('/guides', site).href },
+      { '@type': 'ListItem', position: 3, name: section.label, item: pageUrl },
+    ],
+  },
+];
+---
+<BaseLayout title={`${section.label} — TV Box Guides`} description={description}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <nav class="label flex items-center gap-2 mb-6" data-pagefind-ignore>
+      <a href="/" class="hover:text-signal transition-colors">Home</a>
+      <span class="text-line-bright">/</span>
+      <a href="/guides" class="hover:text-signal transition-colors">Guides</a>
+      <span class="text-line-bright">/</span>
+      <span class="text-muted">{section.label}</span>
+    </nav>
+
+    <span class="label text-signal">// Guide category</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">{section.label}</h1>
+    <p class="text-muted mb-10">{description}</p>
+
+    <div class="grid sm:grid-cols-2 gap-5">
+      {section.guides.map((guide) => (
+        <a href={`/guides/${guide.slug}`} class="bench-card frame group p-6 flex flex-col">
+          {guide.data.image && (
+            <img src={guide.data.image} alt={guide.data.title} width="960" height="160" loading="lazy" class="w-full mb-5 object-cover h-40 border border-line" onerror="this.style.display='none';" />
+          )}
+          <h2 class="font-display font-700 text-lg leading-snug text-ink group-hover:text-signal transition-colors mb-2 flex-1">
+            {guide.data.title}
+          </h2>
+          <p class="text-muted text-sm line-clamp-2 mb-5">{guide.data.description}</p>
+          <div class="flex items-center justify-between">
+            <time class="label text-dim">
+              {new Date(guide.data.publishDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+            </time>
+            <span class="font-mono text-xs text-dim group-hover:text-signal transition-colors">→ read</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-12">
+      <a href="/guides" class="label text-muted hover:text-signal transition-colors">← All guides</a>
+    </div>
+  </div>
+</BaseLayout>
