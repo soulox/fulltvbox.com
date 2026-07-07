@@ -1,9 +1,11 @@
 ---
 import GuideLayout from '../../layouts/GuideLayout.astro';
 import RelatedLinks from '../../components/RelatedLinks.astro';
+import DeviceCTA from '../../components/DeviceCTA.astro';
 import { getCollection } from 'astro:content';
 import { relatedGuides, guideCategoryLabel } from '../../lib/guides';
 import { buildLinkGraph } from '../../lib/links';
+import { getDealsByDevice } from '../../lib/deals';
 
 export async function getStaticPaths() {
   const [guides, reviews] = await Promise.all([
@@ -27,16 +29,25 @@ const related = relatedGuides(guide, allGuides).map(g => ({
 
 const graph = buildLinkGraph(allGuides, allReviews);
 const reviewBySlug = new Map(allReviews.map(r => [r.slug, r]));
+const dealsByDevice = await getDealsByDevice();
 const devices = graph
   .reviewsMentionedInGuide(guide.slug)
   .map(slug => reviewBySlug.get(slug))
   .filter((r): r is NonNullable<typeof r> => !!r)
-  .slice(0, 3)
-  .map(r => ({
-    href: `/reviews/${r.slug}`,
-    title: r.data.title.replace(/ Review.*$/i, '').trim(),
-    description: r.data.description,
-  }));
+  .slice(0, 6)
+  .map(r => {
+    const deal = dealsByDevice.get(r.slug);
+    return {
+      href: `/reviews/${r.slug}`,
+      name: r.data.title.replace(/ Review.*$/i, '').trim(),
+      rating: r.data.rating,
+      price: r.data.price,
+      affiliate: r.data.affiliate,
+      deal: deal
+        ? { url: deal.url, price: deal.price, wasPrice: deal.wasPrice, retailer: deal.retailer, discountPct: deal.discountPct }
+        : undefined,
+    };
+  });
 
 const categoryLabel = guideCategoryLabel(guide.data.category);
 ---
@@ -51,6 +62,7 @@ const categoryLabel = guideCategoryLabel(guide.data.category);
   ogImage={`/og/guides/${guide.slug}.png`}
 >
   <Content />
+  {devices.length > 0 && <DeviceCTA slot="related" items={devices} />}
   <RelatedLinks
     slot="related"
     items={related}
@@ -59,7 +71,4 @@ const categoryLabel = guideCategoryLabel(guide.data.category);
     moreHref={`/guides/category/${guide.data.category}`}
     moreText={`All ${categoryLabel}`}
   />
-  {devices.length > 0 && (
-    <RelatedLinks slot="related" items={devices} heading="Devices in this guide" label="// On the bench" />
-  )}
 </GuideLayout>
