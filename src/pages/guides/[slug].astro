@@ -2,27 +2,43 @@
 import GuideLayout from '../../layouts/GuideLayout.astro';
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import { getCollection } from 'astro:content';
-import { latestDate } from '../../lib/freshness';
+import { relatedGuides, guideCategoryLabel } from '../../lib/guides';
+import { buildLinkGraph } from '../../lib/links';
 
 export async function getStaticPaths() {
-  const guides = await getCollection('guides');
+  const [guides, reviews] = await Promise.all([
+    getCollection('guides'),
+    getCollection('reviews'),
+  ]);
   return guides.map(guide => ({
     params: { slug: guide.slug },
-    props: { guide, allGuides: guides },
+    props: { guide, allGuides: guides, allReviews: reviews },
   }));
 }
 
-const { guide, allGuides } = Astro.props;
+const { guide, allGuides, allReviews } = Astro.props;
 const { Content } = await guide.render();
 
-const related = allGuides
-  .filter(g => g.slug !== guide.slug)
-  .sort((a, b) =>
-    new Date(latestDate(b.data.publishDate, b.data.updatedDate)).getTime() -
-    new Date(latestDate(a.data.publishDate, a.data.updatedDate)).getTime()
-  )
-  .slice(0, 3)
-  .map(g => ({ href: `/guides/${g.slug}`, title: g.data.title, description: g.data.description }));
+const related = relatedGuides(guide, allGuides).map(g => ({
+  href: `/guides/${g.slug}`,
+  title: g.data.title,
+  description: g.data.description,
+}));
+
+const graph = buildLinkGraph(allGuides, allReviews);
+const reviewBySlug = new Map(allReviews.map(r => [r.slug, r]));
+const devices = graph
+  .reviewsMentionedInGuide(guide.slug)
+  .map(slug => reviewBySlug.get(slug))
+  .filter((r): r is NonNullable<typeof r> => !!r)
+  .slice(0, 4)
+  .map(r => ({
+    href: `/reviews/${r.slug}`,
+    title: r.data.title.replace(/ Review.*$/i, '').trim(),
+    description: r.data.description,
+  }));
+
+const categoryLabel = guideCategoryLabel(guide.data.category);
 ---
 <GuideLayout
   title={guide.data.title}
@@ -35,5 +51,15 @@ const related = allGuides
   ogImage={`/og/guides/${guide.slug}.png`}
 >
   <Content />
-  <RelatedLinks slot="related" items={related} heading="More Guides" label="// Keep reading" />
+  <RelatedLinks
+    slot="related"
+    items={related}
+    heading="More Guides"
+    label="// Keep reading"
+    moreHref={`/guides/category/${guide.data.category}`}
+    moreText={`All ${categoryLabel}`}
+  />
+  {devices.length > 0 && (
+    <RelatedLinks slot="related" items={devices} heading="Devices in this guide" label="// On the bench" />
+  )}
 </GuideLayout>

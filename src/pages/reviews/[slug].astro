@@ -1,17 +1,22 @@
 ---
 import ReviewLayout from '../../layouts/ReviewLayout.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
 import { getCollection } from 'astro:content';
 import { getDealsByDevice } from '../../lib/deals';
+import { buildLinkGraph } from '../../lib/links';
 
 export async function getStaticPaths() {
-  const reviews = await getCollection('reviews');
+  const [reviews, guides] = await Promise.all([
+    getCollection('reviews'),
+    getCollection('guides'),
+  ]);
   return reviews.map(review => ({
     params: { slug: review.slug },
-    props: { review, allReviews: reviews },
+    props: { review, allReviews: reviews, allGuides: guides },
   }));
 }
 
-const { review, allReviews } = Astro.props;
+const { review, allReviews, allGuides } = Astro.props;
 const { Content } = await review.render();
 
 const deal = (await getDealsByDevice()).get(review.slug);
@@ -25,6 +30,15 @@ const related = allReviews
   .sort((a, b) => b.score - a.score || new Date(b.r.data.publishDate).getTime() - new Date(a.r.data.publishDate).getTime())
   .slice(0, 3)
   .map(({ r }) => r);
+
+const guideBySlug = new Map(allGuides.map(g => [g.slug, g]));
+const featuredInGuides = buildLinkGraph(allGuides, allReviews)
+  .guidesFeaturingReview(review.slug)
+  .map(slug => guideBySlug.get(slug))
+  .filter((g): g is NonNullable<typeof g> => !!g)
+  .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
+  .slice(0, 4)
+  .map(g => ({ href: `/guides/${g.slug}`, title: g.data.title, description: g.data.description }));
 ---
 <ReviewLayout
   title={review.data.title}
@@ -64,4 +78,7 @@ const related = allReviews
       </section>
     )}
   </div>
+  {featuredInGuides.length > 0 && (
+    <RelatedLinks slot="related" items={featuredInGuides} heading="Guides featuring this device" label="// In our guides" />
+  )}
 </ReviewLayout>
