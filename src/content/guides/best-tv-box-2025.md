@@ -19,7 +19,7 @@ faq:
 
 The [Shield TV Pro](/reviews/nvidia-shield-tv-pro-2025) remains the most powerful Android TV box available. It's the right choice if you run a Plex server, want the best [AI upscaling](/guides/ai-video-upscaling-tv-box), or need the fastest performance money can buy.
 
-**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20)
+**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/s?k=NVIDIA%20Shield%20TV%20Pro&tag=fulltvbox-20)
 
 ---
 
@@ -27,7 +27,7 @@ The [Shield TV Pro](/reviews/nvidia-shield-tv-pro-2025) remains the most powerfu
 
 At $59, the [Fire TV Stick 4K Max](/reviews/fire-tv-stick-4k-max-2024) delivers 4K Dolby Vision and Atmos with Wi-Fi 6E. It's the easiest recommendation for most households, and it's first in line for Amazon's new Alexa+ AI features.
 
-**Price: ~$59** | [Check on Amazon →](https://www.amazon.com/dp/B0CFJ4Y5XD?tag=fulltvbox-20)
+**Price: ~$59** | [Check on Amazon →](https://www.amazon.com/s?k=Amazon%20Fire%20TV%20Stick%204K%20Max%20(2024)&tag=fulltvbox-20)
 
 ---
 
@@ -35,7 +35,7 @@ At $59, the [Fire TV Stick 4K Max](/reviews/fire-tv-stick-4k-max-2024) delivers 
 
 The [Google TV Streamer](/reviews/google-tv-streamer-4k-2024) is the device leading Google's rollout of **Gemini** — conversational search, rich visual answers, and content recommendations across all your services. With Ethernet, 4GB of RAM, and Matter/Thread built in, it's the best all-round Google TV box.
 
-**Price: ~$99** | [Check on Amazon →](https://www.amazon.com/dp/B0CX2XF9ZF?tag=fulltvbox-20)
+**Price: ~$99** | [Check on Amazon →](https://www.amazon.com/s?k=Google%20TV%20Streamer%20(4K)&tag=fulltvbox-20)
 
 ---
 
@@ -43,7 +43,7 @@ The [Google TV Streamer](/reviews/google-tv-streamer-4k-2024) is the device lead
 
 If you use iPhone, AirPlay, and HomeKit, the [Apple TV 4K](/reviews/apple-tv-4k-3rd-gen) is worth the premium — the cleanest interface of any streaming device. One caveat for 2026: a next-generation model with Apple Intelligence is expected this year, so if AI matters to you, it may be worth waiting (see our [AI on TV guide](/guides/ai-on-tv-box-2026)).
 
-**Price: ~$129** | [Check on Amazon →](https://www.amazon.com/dp/B0BJLW4GHR?tag=fulltvbox-20)
+**Price: ~$129** | [Check on Amazon →](https://www.amazon.com/s?k=Apple%20TV%204K%20(3rd%20Gen)&tag=fulltvbox-20)
 
 ---
 

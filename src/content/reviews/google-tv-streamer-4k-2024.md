@@ -6,7 +6,7 @@ updatedDate: "2026-06-15"
 rating: 4.4
 featured: true
 tags: ["google tv", "4k", "ethernet", "android", "premium"]
-affiliate: "https://www.amazon.com/dp/B0CX2XF9ZF?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=Google%20TV%20Streamer%20(4K)&tag=fulltvbox-20"
 price: 99
 specs:
   releaseYear: 2024

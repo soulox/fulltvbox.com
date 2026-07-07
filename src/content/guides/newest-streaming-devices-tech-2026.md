@@ -43,13 +43,13 @@ For mainstream streaming it's snappy and fine. The catch is what Vega OS takes a
 
 The [Google TV Streamer](/reviews/google-tv-streamer-4k-2024) ($99) replaced the Chromecast dongle with a real shelf box: Ethernet, 4GB of RAM, 32GB of storage, Dolby Vision, and — the part that makes it a *2026* device — a built-in **Matter/Thread smart-home hub** and first-in-line access to **Gemini AI** for conversational search. It's the clearest example of a streamer becoming the hub of the room rather than just an app launcher.
 
-**Price: ~$99** | [Check on Amazon →](https://www.amazon.com/dp/B0CX2XF9ZF?tag=fulltvbox-20)
+**Price: ~$99** | [Check on Amazon →](https://www.amazon.com/s?k=Google%20TV%20Streamer%20(4K)&tag=fulltvbox-20)
 
 ### NVIDIA Shield TV Pro — old hardware, new tricks
 
 The [NVIDIA Shield TV Pro](/reviews/nvidia-shield-tv-pro-2025) proves that "newest" isn't always about new silicon. The Tegra X1+ board dates to 2019, yet NVIDIA keeps shipping software updates that add capabilities — most notably **AI video upscaling** that reconstructs HD content to near-4K in real time, still the best implementation on any streamer. It's the counterpoint to the whole "buy the latest box" pitch: a well-supported old device can out-feature new ones.
 
-**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20)
+**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/s?k=NVIDIA%20Shield%20TV%20Pro&tag=fulltvbox-20)
 
 ---
 ---

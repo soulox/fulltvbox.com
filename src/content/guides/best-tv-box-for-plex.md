@@ -26,7 +26,7 @@ The Shield TV Pro is the only Android TV device that can run Plex Media Server d
 
 **Why it's the best:** Server + client in one device. AI upscaling improves lower-quality files. Gigabit Ethernet for fast local streaming.
 
-**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20)
+**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/s?k=NVIDIA%20Shield%20TV%20Pro&tag=fulltvbox-20)
 
 ---
 
@@ -36,7 +36,7 @@ The Fire TV Stick 4K Max handles Plex direct play well for most common formats (
 
 **Why it works:** Handles most modern file formats without transcoding. Alexa lets you voice-control Plex. Cheap enough to put in every room.
 
-**Price: ~$59** | [Check on Amazon →](https://www.amazon.com/dp/B0CFJ4Y5XD?tag=fulltvbox-20)
+**Price: ~$59** | [Check on Amazon →](https://www.amazon.com/s?k=Amazon%20Fire%20TV%20Stick%204K%20Max%20(2024)&tag=fulltvbox-20)
 
 ---
 
@@ -44,7 +44,7 @@ The Fire TV Stick 4K Max handles Plex direct play well for most common formats (
 
 The Google TV Streamer's 4GB of RAM makes the Plex app smooth and responsive. Ethernet ensures stable local network streaming, and the device handles H.265 4K direct play well. It won't run a Plex server, but as a Plex client it's excellent.
 
-**Price: ~$99** | [Check on Amazon →](https://www.amazon.com/dp/B0CX2XF9ZF?tag=fulltvbox-20)
+**Price: ~$99** | [Check on Amazon →](https://www.amazon.com/s?k=Google%20TV%20Streamer%20(4K)&tag=fulltvbox-20)
 
 ---
 

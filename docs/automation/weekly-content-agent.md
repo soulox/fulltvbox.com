@@ -145,6 +145,9 @@ looks fine but is wrong.
   hardware specs. Only reuse an affiliate link/price that already appears in an existing
   review's frontmatter (the `affiliate:` field / `?tag=fulltvbox-20` links). If a device has
   **no** existing affiliate link, link to its **review page** instead of inventing a store URL.
+  **Never paste a raw Amazon `/dp/<ASIN>` link into prose** — stale ASINs 404. For buy intent,
+  link to the device's **review page** (its CTA renders a click-safe Amazon link), or use an
+  `https://www.amazon.com/s?k=<device+name>&tag=fulltvbox-20` search link.
 - **Don't invent benchmarks or unreleased-product facts.** Frame genuinely upcoming/rumored
   tech *as* upcoming/rumored. State uncertainty rather than fabricating specifics.
 - **Privacy constraint.** Never add analytics, ads, trackers, or third-party embeds/scripts.

@@ -6,7 +6,7 @@ updatedDate: "2026-06-15"
 rating: 4.2
 featured: false
 tags: ["google tv", "4k", "budget", "ethernet", "android"]
-affiliate: "https://www.amazon.com/dp/B0CQKPGQ63?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=Walmart%20onn.%204K%20Pro%20Streaming%20Box&tag=fulltvbox-20"
 price: 49
 specs:
   releaseYear: 2023

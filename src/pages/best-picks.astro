@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { resolveAffiliate } from '../lib/affiliate';
 
 const reviews = await getCollection('reviews');
 
@@ -115,8 +116,8 @@ function meter(rating: number) {
             </ul>
 
             <div class="flex items-center gap-4 flex-wrap">
-              {pick.review.data.affiliate && (
-                <a href={pick.review.data.affiliate} target="_blank" rel="noopener sponsored" class="btn-signal">
+              {resolveAffiliate(pick.review.data.affiliate, pick.review.data.title.replace(/ Review.*$/i, '').trim()) && (
+                <a href={resolveAffiliate(pick.review.data.affiliate, pick.review.data.title.replace(/ Review.*$/i, '').trim())} target="_blank" rel="noopener sponsored" class="btn-signal">
                   Check Price →
                 </a>
               )}

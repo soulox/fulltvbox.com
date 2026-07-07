@@ -5,7 +5,7 @@ publishDate: "2025-11-15"
 rating: 4.8
 featured: true
 tags: ["android tv", "4k", "gaming", "plex", "nvidia"]
-affiliate: "https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=NVIDIA%20Shield%20TV%20Pro&tag=fulltvbox-20"
 updatedDate: "2026-06-15"
 price: 199
 specs:

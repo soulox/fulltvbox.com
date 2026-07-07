@@ -6,7 +6,7 @@ updatedDate: "2026-06-15"
 rating: 4.1
 featured: false
 tags: ["google tv", "4k", "chromecast", "budget", "android"]
-affiliate: "https://www.amazon.com/dp/B08KRV7NRD?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=Chromecast%20with%20Google%20TV%20(4K)&tag=fulltvbox-20"
 price: 49
 specs:
   releaseYear: 2020

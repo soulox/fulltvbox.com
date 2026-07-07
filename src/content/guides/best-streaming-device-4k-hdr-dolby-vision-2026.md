@@ -33,7 +33,7 @@ The [Apple TV 4K](/reviews/apple-tv-4k-3rd-gen) has the best picture pipeline of
 
 **Why it wins:** Every major HDR format, flawless playback of demanding 4K, and the best automatic frame-rate/dynamic-range matching.
 
-**Price: ~$129** | [Check on Amazon →](https://www.amazon.com/dp/B0BJLW4GHR?tag=fulltvbox-20)
+**Price: ~$129** | [Check on Amazon →](https://www.amazon.com/s?k=Apple%20TV%204K%20(3rd%20Gen)&tag=fulltvbox-20)
 
 ---
 ---
@@ -42,7 +42,7 @@ The [Apple TV 4K](/reviews/apple-tv-4k-3rd-gen) has the best picture pipeline of
 
 The [NVIDIA Shield TV Pro](/reviews/nvidia-shield-tv-pro-2025) outputs Dolby Vision and Dolby Atmos, but its party trick is **real-time AI upscaling** — its Tegra GPU sharpens 720p and 1080p content toward 4K on the fly. If a lot of what you watch isn't native 4K, the Shield makes it look better than any other box. (More on how well it works in our [AI upscaling guide](/guides/ai-video-upscaling-tv-box).)
 
-**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20)
+**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/s?k=NVIDIA%20Shield%20TV%20Pro&tag=fulltvbox-20)
 
 ---
 ---
@@ -51,7 +51,7 @@ The [NVIDIA Shield TV Pro](/reviews/nvidia-shield-tv-pro-2025) outputs Dolby Vis
 
 The [Google TV Streamer](/reviews/google-tv-streamer-4k-2024) supports Dolby Vision and HDR10+, and its 4GB of RAM keeps high-bitrate playback smooth. At $99 with Ethernet, it's the sweet spot for a great picture without paying Apple money.
 
-**Price: ~$99** | [Check on Amazon →](https://www.amazon.com/dp/B0CX2XF9ZF?tag=fulltvbox-20)
+**Price: ~$99** | [Check on Amazon →](https://www.amazon.com/s?k=Google%20TV%20Streamer%20(4K)&tag=fulltvbox-20)
 
 ---
 ---
@@ -60,7 +60,7 @@ The [Google TV Streamer](/reviews/google-tv-streamer-4k-2024) supports Dolby Vis
 
 You don't have to spend big for great HDR. The [onn. 4K Pro](/reviews/onn-4k-pro-streaming-box) does **Dolby Vision and Dolby Atmos for $49**, with Ethernet for the stable bandwidth 4K HDR needs. It's the best-value way to feed a Dolby Vision TV. The [Fire TV Stick 4K Max](/reviews/fire-tv-stick-4k-max-2024) ($59) is another solid Dolby Vision option.
 
-**Price: ~$49** | [Check on Amazon →](https://www.amazon.com/dp/B0CQKPGQ63?tag=fulltvbox-20)
+**Price: ~$49** | [Check on Amazon →](https://www.amazon.com/s?k=Walmart%20onn.%204K%20Pro%20Streaming%20Box&tag=fulltvbox-20)
 
 ---
 ---

@@ -35,7 +35,7 @@ Apple can afford to skip ads because it makes its money on hardware and services
 
 **Why it wins:** Zero ads, the fastest interface of any streamer, and no data-harvesting recommendation engine pushing promoted titles.
 
-**Price: ~$129** | [Check on Amazon →](https://www.amazon.com/dp/B0BJLW4GHR?tag=fulltvbox-20)
+**Price: ~$129** | [Check on Amazon →](https://www.amazon.com/s?k=Apple%20TV%204K%20(3rd%20Gen)&tag=fulltvbox-20)
 
 ---
 ---
@@ -48,7 +48,7 @@ For a third of the price of an Apple TV, it's the best way to get a low-ad, no-n
 
 **Why it works:** Minimal, predictable ads; dead-simple interface; cheap enough for every TV in the house.
 
-**Price: ~$49** | [Check on Amazon →](https://www.amazon.com/dp/B09BKCDXZC?tag=fulltvbox-20)
+**Price: ~$49** | [Check on Amazon →](https://www.amazon.com/s?k=Roku%20Streaming%20Stick%204K%20(2023)&tag=fulltvbox-20)
 
 ---
 ---
@@ -57,7 +57,7 @@ For a third of the price of an Apple TV, it's the best way to get a low-ad, no-n
 
 The [NVIDIA Shield TV Pro](/reviews/nvidia-shield-tv-pro-2025) runs **Android TV** (the older, lighter interface) rather than the newer, ad-forward **Google TV** skin. That means fewer giant promoted banners, and you can customize the home rows. Add its power, Plex hosting, and AI upscaling and it's the enthusiast's pick that also happens to stay relatively clean.
 
-**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20)
+**Price: ~$199** | [Check on Amazon →](https://www.amazon.com/s?k=NVIDIA%20Shield%20TV%20Pro&tag=fulltvbox-20)
 
 ---
 ---

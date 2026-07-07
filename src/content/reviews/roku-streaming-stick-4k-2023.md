@@ -6,7 +6,7 @@ updatedDate: "2026-06-15"
 rating: 4.3
 featured: false
 tags: ["roku", "4k", "budget", "streaming"]
-affiliate: "https://www.amazon.com/dp/B09BKCDXZC?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=Roku%20Streaming%20Stick%204K%20(2023)&tag=fulltvbox-20"
 price: 49
 specs:
   releaseYear: 2023

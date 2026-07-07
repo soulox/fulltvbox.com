@@ -5,6 +5,7 @@ import Faq from '../components/Faq.astro';
 import { freshness } from '../lib/freshness';
 import { getAuthor, authorJsonLd } from '../data/authors';
 import { TEST_WEEKS, CRITERIA_COUNT } from '../data/methodology';
+import { resolveAffiliate } from '../lib/affiliate';
 import { cleanPathname } from '../lib/url';
 import { reviewImage } from '../lib/reviewImages';
 import type { LiveDeal } from '../lib/deals';
@@ -32,6 +33,7 @@ interface Props {
 const { title, description, publishDate, updatedDate, rating, price, affiliate, specs, deal, faq, author: authorSlug, ogImage } = Astro.props;
 const author = getAuthor(authorSlug);
 const device = title.replace(/ Review.*$/i, '').trim();
+const buyUrl = resolveAffiliate(affiliate, device);
 const cleanPath = cleanPathname(Astro.url.pathname);
 const slug = cleanPath.split('/').pop();
 const hero = slug ? reviewImage(slug) : undefined;
@@ -186,8 +188,8 @@ const breadcrumb = {
               </div>
               <a href={deal.url} target="_blank" rel="noopener sponsored" class="btn-signal">Get deal →</a>
             </div>
-          ) : affiliate ? (
-            <a href={affiliate} target="_blank" rel="noopener sponsored" class="btn-signal">
+          ) : buyUrl ? (
+            <a href={buyUrl} target="_blank" rel="noopener sponsored" class="btn-signal">
               Check Price →{price ? ` $${price}` : ''}
             </a>
           ) : null}
