@@ -48,3 +48,6 @@ reorder, or prune at any time.
 - [P2] Plex vs Jellyfin: which self-hosted media server to run on a Raspberry Pi — category: comparisons — intent: "plex vs jellyfin raspberry pi" — Plex's remote-access paywall (Plex Pass) is pushing self-hosters to Jellyfin; site has Plex/Kodi Pi tutorials but no Plex-vs-Jellyfin comparison
 - [P2] Every 2026 streaming price hike, tracked — category: cord-cutting — intent: "streaming price increases 2026" — ties into cost-calculator and real-cost-of-cutting-the-cord-2026; verify each price/date at write-time, sources conflicted on effective dates as of 2026-07-08
 - [P3] Cloud gaming on your TV box: Xbox Game Pass and GeForce Now without a console — category: whats-new — intent: "xbox game pass on google tv" — Xbox Game Pass is rolling out to Google TV devices in 2026; not covered by any existing guide
+
+- [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
+- [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
