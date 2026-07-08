@@ -44,3 +44,7 @@ reorder, or prune at any time.
 - [P3] What is ATSC 3.0 (NextGen TV) and do you need it — category: basics-setup — intent: "what is atsc 3.0" — explainer
 - [P3] Best mini PC for local AI in 2026 — category: ai-llm — intent: "best mini pc for local llm" — distinct from the Raspberry Pi LLM tutorial
 - [P3] Cheapest way to stream everything in 2026 — category: cord-cutting — intent: "cheapest way to stream" — ties into cost-calculator / services
+
+- [P2] Plex vs Jellyfin: which self-hosted media server to run on a Raspberry Pi — category: comparisons — intent: "plex vs jellyfin raspberry pi" — Plex's remote-access paywall (Plex Pass) is pushing self-hosters to Jellyfin; site has Plex/Kodi Pi tutorials but no Plex-vs-Jellyfin comparison
+- [P2] Every 2026 streaming price hike, tracked — category: cord-cutting — intent: "streaming price increases 2026" — ties into cost-calculator and real-cost-of-cutting-the-cord-2026; verify each price/date at write-time, sources conflicted on effective dates as of 2026-07-08
+- [P3] Cloud gaming on your TV box: Xbox Game Pass and GeForce Now without a console — category: whats-new — intent: "xbox game pass on google tv" — Xbox Game Pass is rolling out to Google TV devices in 2026; not covered by any existing guide
