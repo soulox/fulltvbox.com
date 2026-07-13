@@ -51,3 +51,4 @@ reorder, or prune at any time.
 
 - [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
 - [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
+- [P2] Fox Sports app shutting down — what to use instead on Roku/Fire TV/Google TV — category: troubleshooting — intent: "fox sports app shutting down what to watch instead" — Fox is discontinuing the standalone Fox Sports app across streaming devices in favor of the unified FOX One service; surfaced while researching the Fox-Roku acquisition guide, ties into it but is a distinct troubleshooting angle
