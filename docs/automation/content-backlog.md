@@ -51,3 +51,6 @@ reorder, or prune at any time.
 
 - [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
 - [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
+
+- [P2] Roku TV HDMI bug causing black bars / wrong aspect ratio after the new home-screen update — category: troubleshooting — intent: "roku tv hdmi wrong aspect ratio fix" / "roku tv black bars after update" — widespread reports across TCL/Hisense/Insignia Roku TVs starting late July 2026; verify Roku's fix/patch status at write-time before publishing
+- [P3] Xbox's ad-supported cloud gaming tier: what it is and how it compares to Luna in Prime Video and GeForce Now — category: whats-new — intent: "xbox cloud gaming free ads" — Microsoft reported testing this alongside Amazon's Luna-in-Prime-Video move (July 2026); still in testing as of this writing, revisit once it's confirmed or launched broadly
