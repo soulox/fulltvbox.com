@@ -28,7 +28,6 @@ reorder, or prune at any time.
 
 - [P1] Fire TV remote not working / won't pair — category: troubleshooting — intent: "fire tv stick remote not working" — very high volume; link the Fire TV reviews
 - [P1] How much internet speed do you need to stream 4K — category: basics-setup — intent: "internet speed for 4k streaming" — evergreen, high volume
-- [P1] Best streaming device for live sports 2026 — category: buying-guides — intent: "best streaming device for sports" — high intent, seasonal; link Shield/Fire/Apple reviews
 - [P1] Apple TV 4K vs NVIDIA Shield: which premium box to buy — category: comparisons — intent: "apple tv vs nvidia shield" — both devices are reviewed on-site
 - [P1] No sound on your streaming device: HDMI & Atmos audio fixes — category: troubleshooting — intent: "streaming device no sound fix" — evergreen troubleshooting
 
@@ -51,3 +50,7 @@ reorder, or prune at any time.
 
 - [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
 - [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
+
+- [P1] NFL Sunday Ticket 2026: price, how to get it, and cheaper alternatives — category: cord-cutting — intent: "nfl sunday ticket price 2026" — seasonal, ties into the live-sports device guide; verify the current Sunday Ticket / Primetime Channels price at write-time (was ~$378 for returning subscribers in 2025)
+- [P2] Fox Sports app is shutting down on Roku, Fire TV, Google TV & Apple TV: what to do instead — category: whats-new — intent: "fox sports app shutting down" — Fox is consolidating its standalone app into FOX One; not covered by any existing guide
+- [P3] Best streaming device for MLB.TV and NBA League Pass — category: buying-guides — intent: "best device for mlb tv nba league pass" — distinct sports angle from the NFL-focused live-sports device guide
