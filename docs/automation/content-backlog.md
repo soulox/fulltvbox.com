@@ -51,3 +51,7 @@ reorder, or prune at any time.
 
 - [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
 - [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
+
+- [P2] HDR10+ Advanced arrives on Prime Video — category: whats-new — intent: "HDR10+ Advanced" / "what is HDR10+ Advanced" — launched August 2026 on Prime Video for select Samsung 2026 TVs with per-region dynamic tone mapping; the existing HDR explainer (4k-hdr-explained.md) only covers HDR10/HDR10+/Dolby Vision, not the new Advanced spec
+- [P3] Next-gen Apple TV 4K ("Apple TV Pro") rumors — category: whats-new — intent: "apple tv pro" / "new apple tv 4k 2026" — rumored faster chip, next-gen Siri, possible Apple Intelligence support, Wi-Fi 7; no official Apple announcement as of Aug 2026, so frame strictly as rumored/unconfirmed
+- [P3] AI-generated TV channels are showing up on streaming platforms — category: whats-new — intent: "AI generated TV channel" — Roku added an all-AI-content channel (Fairground AI) to The Roku Channel in August 2026; a novel-but-real trend worth explaining, not yet covered anywhere on-site
