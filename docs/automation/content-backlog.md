@@ -47,7 +47,9 @@ reorder, or prune at any time.
 
 - [P2] Plex vs Jellyfin: which self-hosted media server to run on a Raspberry Pi — category: comparisons — intent: "plex vs jellyfin raspberry pi" — Plex's remote-access paywall (Plex Pass) is pushing self-hosters to Jellyfin; site has Plex/Kodi Pi tutorials but no Plex-vs-Jellyfin comparison
 - [P2] Every 2026 streaming price hike, tracked — category: cord-cutting — intent: "streaming price increases 2026" — ties into cost-calculator and real-cost-of-cutting-the-cord-2026; verify each price/date at write-time, sources conflicted on effective dates as of 2026-07-08
-- [P3] Cloud gaming on your TV box: Xbox Game Pass and GeForce Now without a console — category: whats-new — intent: "xbox game pass on google tv" — Xbox Game Pass is rolling out to Google TV devices in 2026; not covered by any existing guide
 
 - [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
 - [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
+
+- [P2] Peacock's tier structure explained: Select vs Premium vs Premium Plus — category: cord-cutting — intent: "peacock select vs premium" — Peacock added a cheaper "Select" tier in 2025 alongside Premium/Premium Plus and has raised prices repeatedly; no existing guide breaks down which tier fits which viewer; verify current prices/tier names at write-time, they shift often
+- [P3] HDR10+ Advanced vs Dolby Vision: what the new format actually adds — category: basics-setup — intent: "hdr10+ advanced explained" — Samsung and Prime Video launched HDR10+ Advanced in August 2026 (enhanced brightness metadata + intelligent motion smoothing); check for overlap with the existing `4k-hdr-explained.md` first — this may be better as an update to that guide than a standalone one
