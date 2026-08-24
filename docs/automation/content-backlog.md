@@ -46,8 +46,11 @@ reorder, or prune at any time.
 - [P3] Cheapest way to stream everything in 2026 — category: cord-cutting — intent: "cheapest way to stream" — ties into cost-calculator / services
 
 - [P2] Plex vs Jellyfin: which self-hosted media server to run on a Raspberry Pi — category: comparisons — intent: "plex vs jellyfin raspberry pi" — Plex's remote-access paywall (Plex Pass) is pushing self-hosters to Jellyfin; site has Plex/Kodi Pi tutorials but no Plex-vs-Jellyfin comparison
-- [P2] Every 2026 streaming price hike, tracked — category: cord-cutting — intent: "streaming price increases 2026" — ties into cost-calculator and real-cost-of-cutting-the-cord-2026; verify each price/date at write-time, sources conflicted on effective dates as of 2026-07-08
 - [P3] Cloud gaming on your TV box: Xbox Game Pass and GeForce Now without a console — category: whats-new — intent: "xbox game pass on google tv" — Xbox Game Pass is rolling out to Google TV devices in 2026; not covered by any existing guide
 
 - [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
 - [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
+
+- [P2] Are annual streaming plans worth it in 2026 — category: cord-cutting — intent: "streaming annual plan vs monthly" — surfaced while tracking the 2026 price hikes; annual plans often escape increases (Apple TV+ held $99.99 through its 2025 hike) but lock in 12 months — needs honest break-even math
+- [P3] Streaming stick won't fit behind your TV: HDMI extenders and clearance fixes — category: troubleshooting — intent: "streaming stick won't fit hdmi" — Roku is currently giving Streaming Stick owners a free HDMI extender via my.roku.com/hdmi; verify the program is still live at write-time
+- [P3] Apple TV 4K next-gen: what's rumored and whether to wait — category: whats-new — intent: "new apple tv 2026" — a hardware refresh is widely expected later in 2026; must be framed as rumored, no fabricated specs or dates
