@@ -51,3 +51,7 @@ reorder, or prune at any time.
 
 - [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
 - [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
+
+- [P2] New Fire TV Stick and Roku devices reportedly coming for holiday 2026 — category: whats-new — intent: "new fire tv stick 2026" / "new roku device 2026" — both Roku and Amazon filed new remote controls with the FCC in August 2026, hinting at holiday-season hardware; wait for an official announcement before writing, no speculating on specs or price
+- [P3] Amazon's Fire OS 16 (Android 16) update: what's changing on Fire TV — category: whats-new — intent: "fire os 16 update fire tv" — Amazon has begun notifying app developers of a new Fire OS 16 platform ahead of a new TV generation; write once the update reaches real devices with confirmed details
+- [P3] Fox's bid for Roku: what it could mean for your streaming box — category: whats-new — intent: "fox roku acquisition" — Fox reportedly pursuing Roku (and Vizio), which together with Fire TV controls roughly half of US streaming devices; hold until deal terms are confirmed, avoid speculating on ad/content changes
