@@ -3,6 +3,7 @@ interface Item {
   href: string;
   title: string;
   description: string;
+  rating?: number;
 }
 interface Props {
   items: Item[];
@@ -26,6 +27,12 @@ const { items, heading = 'Related', label = '// Related', moreHref, moreText } =
     <div class="grid sm:grid-cols-3 gap-4">
       {items.map((i) => (
         <a href={i.href} class="bench-card frame group p-4 flex flex-col">
+          {i.rating !== undefined && (
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-display font-900 text-lg text-signal leading-none">{i.rating.toFixed(1)}</span>
+              <span class="label text-dim">/ 5.0</span>
+            </div>
+          )}
           <h3 class="font-display font-700 text-sm text-ink group-hover:text-signal transition-colors leading-snug flex-1">
             {i.title}
           </h3>

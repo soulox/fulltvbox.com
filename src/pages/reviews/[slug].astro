@@ -4,6 +4,7 @@ import RelatedLinks from '../../components/RelatedLinks.astro';
 import { getCollection } from 'astro:content';
 import { getDealsByDevice } from '../../lib/deals';
 import { buildLinkGraph } from '../../lib/links';
+import { relatedReviews } from '../../lib/reviews';
 
 export async function getStaticPaths() {
   const [reviews, guides] = await Promise.all([
@@ -21,15 +22,12 @@ const { Content } = await review.render();
 
 const deal = (await getDealsByDevice()).get(review.slug);
 
-const related = allReviews
-  .filter(r => r.slug !== review.slug)
-  .map(r => ({
-    r,
-    score: r.data.tags.filter((t: string) => review.data.tags.includes(t)).length,
-  }))
-  .sort((a, b) => b.score - a.score || new Date(b.r.data.publishDate).getTime() - new Date(a.r.data.publishDate).getTime())
-  .slice(0, 3)
-  .map(({ r }) => r);
+const related = relatedReviews(review, allReviews).map(r => ({
+  href: `/reviews/${r.slug}`,
+  title: r.data.title.replace(/ Review.*$/i, '').trim(),
+  description: r.data.description,
+  rating: r.data.rating,
+}));
 
 const guideBySlug = new Map(allGuides.map(g => [g.slug, g]));
 const featuredInGuides = buildLinkGraph(allGuides, allReviews)
@@ -55,29 +53,9 @@ const featuredInGuides = buildLinkGraph(allGuides, allReviews)
   ogImage={`/og/reviews/${review.slug}.png`}
 >
   <Content />
-  <div slot="related">
-    {related.length > 0 && (
-      <section class="max-w-3xl mx-auto px-4 pb-20">
-        <div class="smpte-bars h-px w-full mb-8 opacity-50"></div>
-        <span class="label text-signal">// Also on the bench</span>
-        <h2 class="font-display font-800 text-2xl mt-1 mb-6">Related Reviews</h2>
-        <div class="grid sm:grid-cols-3 gap-4">
-          {related.map(r => (
-            <a href={`/reviews/${r.slug}`} class="bench-card frame group p-4 flex flex-col">
-              <div class="flex items-center justify-between mb-2">
-                <span class="font-display font-900 text-lg text-signal leading-none">{r.data.rating.toFixed(1)}</span>
-                <span class="label text-dim">/ 5.0</span>
-              </div>
-              <h3 class="font-display font-700 text-sm text-ink group-hover:text-signal transition-colors leading-snug flex-1">
-                {r.data.title.replace(/ Review.*$/i, '').trim()}
-              </h3>
-              <p class="text-muted text-xs mt-2 line-clamp-2">{r.data.description}</p>
-            </a>
-          ))}
-        </div>
-      </section>
-    )}
-  </div>
+  {related.length > 0 && (
+    <RelatedLinks slot="related" items={related} heading="Related Reviews" label="// Also on the bench" />
+  )}
   {featuredInGuides.length > 0 && (
     <RelatedLinks slot="related" items={featuredInGuides} heading="Guides featuring this device" label="// In our guides" />
   )}
