@@ -1,6 +1,6 @@
 ---
-title: "AI Comes to Your TV Box (2026): Gemini, Alexa+ and What Actually Works"
-description: "Every streaming platform is bolting on generative AI in 2026 — Gemini on Google TV, Alexa+ on Fire TV, Apple Intelligence on the next Apple TV. Here's what's real, what's hype, and what needs a new box."
+title: "AI on Your TV Box (2026): What Actually Works"
+description: "Every streaming platform is bolting on AI in 2026 — Gemini on Google TV, Alexa+ on Fire TV, Apple Intelligence coming. What's real, what's hype."
 publishDate: "2026-06-15"
 category: "ai-llm"
 faq:

@@ -1,5 +1,5 @@
 ---
-title: "Install Pi-hole on Raspberry Pi: Block Ads Across Your Entire Network"
+title: "Install Pi-hole on Raspberry Pi: Block Ads"
 description: "Set up Pi-hole on a Raspberry Pi to block ads, trackers, and malware domains for every device on your network — no app installs required."
 publishDate: "2026-02-05"
 difficulty: "beginner"

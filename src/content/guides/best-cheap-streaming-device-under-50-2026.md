@@ -1,6 +1,6 @@
 ---
 title: "Best Cheap Streaming Device Under $50 (2026)"
-description: "You don't need to spend much to get 4K HDR streaming. These are the best budget streaming devices under $50 in 2026 — including the one we think is the best value in streaming, period."
+description: "You don't need to spend much for 4K HDR streaming. These are the best budget streaming devices under $50 in 2026 — including our top value pick."
 publishDate: "2026-06-17"
 category: "buying-guides"
 faq:
@@ -64,6 +64,13 @@ The [Chromecast with Google TV](/reviews/chromecast-google-tv-4k) brings Google'
 The [Xiaomi Mi Box S 4K](/reviews/xiaomi-mi-box-s-4k) is a clean Android TV box at $49 with Chromecast built in. It's a little dated and slower than the onn., but it's a solid choice if you specifically want plain Android TV rather than Google TV.
 
 **Price: ~$49** | [Check on Amazon →](https://www.amazon.com/s?k=Xiaomi%20Mi%20Box%20S%204K&tag=fulltvbox-20)
+
+---
+---
+
+## Also at $49: TiVo Stream 4K
+
+The [TiVo Stream 4K](/reviews/tivo-stream-4k) is another $49 option worth knowing about — it tries to unify all your apps into one universal-search home screen. It's a promising idea that doesn't quite outdo the picks above, but worth a look if content aggregation matters more to you than raw speed.
 
 ---
 ---

@@ -5,8 +5,24 @@ import { groupGuidesByCategory } from '../../lib/guides';
 
 const guides = await getCollection('guides');
 const sections = groupGuidesByCategory(guides);
+
+const site = Astro.site;
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'TV Box Guides',
+  itemListElement: sections.flatMap((section) => section.guides).map((g, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/guides/${g.slug}`, site).href,
+    name: g.data.title,
+  })),
+};
 ---
 <BaseLayout title="TV Box Guides" description="Setup guides, comparisons, and buying advice for streaming devices.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+  </Fragment>
   <div class="max-w-5xl mx-auto px-4 py-14">
     <span class="label text-signal">// Channel 04</span>
     <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">Guides</h1>

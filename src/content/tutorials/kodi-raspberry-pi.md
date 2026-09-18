@@ -1,5 +1,5 @@
 ---
-title: "Install Kodi on Raspberry Pi: Build a Full Media Center"
+title: "Install Kodi on Raspberry Pi: Media Center"
 description: "Turn your Raspberry Pi into a powerful media center with Kodi — play local videos, music, photos, and stream from dozens of add-ons, all from your TV."
 publishDate: "2026-03-10"
 difficulty: "beginner"

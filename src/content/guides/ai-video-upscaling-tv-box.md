@@ -1,6 +1,6 @@
 ---
-title: "AI Video Upscaling on TV Boxes: Can It Really Make HD Look 4K?"
-description: "AI upscaling promises to turn 1080p into crisp 4K in real time. We explain how it works, where it genuinely helps, and which streaming boxes actually do it well in 2026."
+title: "AI Video Upscaling on TV Boxes: Does It Work?"
+description: "AI upscaling promises to turn 1080p into crisp 4K in real time. Here's how it works, where it helps, and which boxes do it well in 2026."
 publishDate: "2026-06-15"
 category: "ai-llm"
 faq:
