@@ -55,6 +55,7 @@ If that's you, a live-TV streaming bundle may cost about the same as cable — b
 4. **Pay annually where it's offered.** Several services knock 15–20% off if you pay for the year.
 5. **Watch for deals.** Annual promos and box discounts show up constantly — we track them on our [deals page](/deals).
 6. **Buy the right box once.** A good streaming box is a one-time $40–200 cost that pays for itself in a month or two of cable savings. See our [best TV box picks](/best-picks).
+7. **Mind the box, not just the bill.** Ad-supported tiers still show ads in-app — if sponsored home-screen clutter bothers you more, see our guide to [streaming devices without ads](/guides/best-streaming-device-without-ads-2026).
 
 ## The verdict
 

@@ -1,5 +1,5 @@
 ---
-title: "Overclock Your Raspberry Pi 5: Safe Speed Boost Guide"
+title: "Overclock Your Raspberry Pi 5 Safely"
 description: "Safely overclock a Raspberry Pi 5 from 2.4 GHz to 3.0+ GHz for better performance in gaming, media, and server workloads — with temperatures and benchmarks."
 publishDate: "2026-04-20"
 difficulty: "advanced"

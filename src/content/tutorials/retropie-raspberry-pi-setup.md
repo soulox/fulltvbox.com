@@ -1,5 +1,5 @@
 ---
-title: "Build a Retro Gaming Console with RetroPie on Raspberry Pi"
+title: "Build a Retro Gaming Console with RetroPie"
 description: "Turn a Raspberry Pi 4 into a retro gaming machine with RetroPie — play NES, SNES, N64, PlayStation, and thousands of classic games from your TV."
 publishDate: "2026-02-15"
 difficulty: "intermediate"

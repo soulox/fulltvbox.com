@@ -1,5 +1,5 @@
 ---
-title: "Set Up Your Own VPN Server with PiVPN on Raspberry Pi"
+title: "PiVPN on Raspberry Pi: Your Own VPN Server"
 description: "Run your own WireGuard VPN server on a Raspberry Pi to securely access your home network from anywhere — no subscription, no third-party logging."
 publishDate: "2026-03-20"
 difficulty: "intermediate"

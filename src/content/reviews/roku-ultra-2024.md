@@ -1,5 +1,5 @@
 ---
-title: "Roku Ultra (2024) Review: The Best Roku Box Money Can Buy"
+title: "Roku Ultra (2024) Review: Best Roku Box"
 description: "The Roku Ultra adds Ethernet, a headphone-jack remote, and a lost-remote finder to Roku's clean platform. Is the $99 premium over the Stick worth it?"
 publishDate: "2025-12-01"
 rating: 4.5

@@ -1,6 +1,6 @@
 ---
-title: "Newest Streaming Gadgets & TV Tech of 2026: What's Actually New"
-description: "The brand-new streaming devices and emerging TV technologies reshaping your living room in 2026 — from Amazon's Android-free Vega OS to on-device AI, Wi-Fi 7, Matter hubs, and next-gen HDR. What's real, what's hype, and what to buy today."
+title: "Newest Streaming Gadgets & TV Tech of 2026"
+description: "The newest streaming devices and TV tech reshaping the living room in 2026 — Vega OS, on-device AI, Wi-Fi 7, Matter, and next-gen HDR. What's real, what's hype."
 publishDate: "2026-07-03"
 category: "whats-new"
 faq:

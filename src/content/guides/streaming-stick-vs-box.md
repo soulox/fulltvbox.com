@@ -1,5 +1,5 @@
 ---
-title: "Streaming Stick vs Streaming Box: Which Should You Buy?"
+title: "Streaming Stick vs Box: Which Should You Buy?"
 description: "Sticks plug directly into your TV and disappear. Boxes sit on your shelf and offer more ports. Here's how to decide which form factor is right for your setup."
 publishDate: "2025-12-15"
 category: "comparisons"
@@ -97,3 +97,5 @@ The short answer: **software support**. TV manufacturers stop updating their pla
 **For the living room main TV:** Step up to a $99–199 box if you care about Ethernet, local media, or the absolute best experience.
 
 **For a bedroom or guest room:** A stick is perfect — cheap enough to leave installed permanently.
+
+Once you've picked one, our [TV box setup guide](/guides/tv-box-setup-guide) walks through getting it running in minutes.

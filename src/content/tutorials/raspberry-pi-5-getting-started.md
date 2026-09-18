@@ -1,5 +1,5 @@
 ---
-title: "Getting Started with Raspberry Pi 5: Complete Beginner's Guide"
+title: "Getting Started with Raspberry Pi 5"
 description: "Set up your Raspberry Pi 5 from scratch — install Raspberry Pi OS, connect to Wi-Fi, enable SSH, and get a working desktop in under 30 minutes."
 publishDate: "2026-01-10"
 difficulty: "beginner"
@@ -120,6 +120,8 @@ Now that your Pi is running, here are some great next projects:
 - **[Turn your Pi into a Plex Media Server](/tutorials/raspberry-pi-plex-media-server)** — stream your media library to any device
 - **[Install Pi-hole ad blocker](/tutorials/raspberry-pi-pihole-ad-blocker)** — block ads across your entire network
 - **[Install Home Assistant](/tutorials/raspberry-pi-home-assistant)** — build a smart home hub
+- **[Run a Minecraft server](/tutorials/minecraft-server-raspberry-pi)** — play with friends with no monthly hosting fees
+- **[Build a RetroPie gaming console](/tutorials/retropie-raspberry-pi-setup)** — turn your Pi into a retro game machine
 
 ---
 

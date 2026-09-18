@@ -1,6 +1,6 @@
 ---
-title: "Why Your Streaming Keeps Buffering (and How to Fix It)"
-description: "Constant buffering ruining movie night? Here's why streaming buffers — from Wi-Fi to your device to the app — and a step-by-step fix list that solves it for most people."
+title: "Streaming Keeps Buffering? Here's the Fix"
+description: "Constant buffering ruining movie night? Here's why streaming buffers — from Wi-Fi to your device to the app — and the fix list that solves it."
 publishDate: "2026-06-17"
 category: "troubleshooting"
 faq:
@@ -49,6 +49,8 @@ Weak or congested Wi-Fi is the most common reason streaming buffers. In order of
 - **Move the device closer** to the router, or move the router higher and more central.
 - **Use the 5GHz band** (or Wi-Fi 6) rather than 2.4GHz for less interference and more speed.
 - **Consider a mesh system** if the TV is far from the router.
+
+If your device won't connect to Wi-Fi at all rather than just buffering, that's a different problem — see our [Roku Wi-Fi troubleshooting guide](/guides/roku-wont-connect-to-wifi-fix) for connection-specific fixes.
 
 ---
 ---
