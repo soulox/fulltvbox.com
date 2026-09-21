@@ -51,3 +51,7 @@ reorder, or prune at any time.
 
 - [P2] Best phone-carrier streaming perks in 2026: Verizon vs T-Mobile vs AT&T — category: cord-cutting — intent: "verizon streaming perks" / "t-mobile netflix included" — real savings but plan-dependent; explain the fine print so readers don't overpay on the phone plan to get a "free" app
 - [P3] ESPN Select vs ESPN Unlimited: which tier do you actually need — category: comparisons — intent: "espn select vs unlimited" — surfaced while researching the Disney+/Hulu/ESPN bundle guide; no existing guide covers the ESPN tiers
+
+- [P2] Netflix ad-supported tier vs ad-free: is it still worth it in 2026 — category: cord-cutting — intent: "netflix ad tier worth it" — Netflix's March 2026 hike widened the gap (Standard $19.99, Premium $26.99) while the ad tier rose only $1 to $8.99; ties into cost-calculator
+- [P3] Is Peacock still worth it after its 2026 price hikes — category: buying-guides — intent: "is peacock worth it 2026" — Peacock's August 2026 hike (Premium $10.99, Premium Plus $19.99) was its fourth increase in four years; no existing guide evaluates it post-hike
+- [P3] Is HBO Max still worth paying for in 2026 — category: cord-cutting — intent: "is hbo max worth it 2026" — HBO Max Standard has risen ~23% since 2021 to $18.49/mo across three hikes; not covered by any existing guide
