@@ -29,7 +29,7 @@ const jsonLd = prices.length
     }
   : null;
 ---
-<BaseLayout title="Live TV Box Deals" description="Current deals and price drops on the streaming boxes and sticks we've tested.">
+<BaseLayout title="Live TV Box Deals" description="Current deals and price drops on the streaming boxes and sticks we've tested." noindex={deals.length === 0}>
   {jsonLd && (
     <Fragment slot="head">
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

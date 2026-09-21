@@ -97,4 +97,4 @@ If only one app buffers, or buffering survives all of the above:
 
 If you've wired the device, confirmed 25 Mbps+ at the TV, and it still buffers across multiple apps, the bottleneck is almost certainly your **internet plan or ISP** — contact them or consider a faster tier. If it's one specific app, it's that service's servers, and there's little you can do but wait it out or lower quality.
 
-For picking a more capable, Ethernet-equipped device, see our [best TV boxes of 2026](/guides/best-tv-box-2025).
+For picking a more capable, Ethernet-equipped device, see our [best TV boxes of 2026](/guides/best-tv-box).

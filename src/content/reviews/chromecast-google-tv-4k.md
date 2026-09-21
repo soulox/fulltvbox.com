@@ -1,8 +1,10 @@
 ---
 title: "Chromecast with Google TV (4K) Review"
-description: "Google finally gave Chromecast a real interface and a remote. The result is a capable $49 streamer — if you can live with the Google account requirements."
+description: "Google has discontinued the Chromecast with Google TV. Our review for owners — plus what to buy instead now that the Google TV Streamer has replaced it."
 publishDate: "2025-07-18"
-updatedDate: "2026-06-15"
+updatedDate: "2026-09-18"
+discontinued: true
+successor: "google-tv-streamer-4k-2024"
 rating: 4.1
 featured: false
 tags: ["google tv", "4k", "chromecast", "budget", "android"]
@@ -26,7 +28,7 @@ specs:
   weight: "55 g"
 faq:
   - question: "Is the Chromecast with Google TV still worth it?"
-    answer: "At $49 it's still a capable budget streamer for anyone in Google's ecosystem, thanks to Google TV's content aggregation and best-in-class casting. If you want Ethernet and more speed, the newer Google TV Streamer is the upgrade."
+    answer: "Google discontinued it in 2024, so only buy one if you find it cheap as leftover stock — it still streams well and gets Google TV updates for now. New buyers should get the Google TV Streamer, or the onn. 4K Pro for a similar budget Google TV box with Ethernet."
   - question: "Does the Chromecast with Google TV need a Google account?"
     answer: "Yes — a Google account is required even for basic setup, unlike some rival boxes that let you browse without signing in."
   - question: "Does it support Dolby Vision and Atmos?"
@@ -34,6 +36,8 @@ faq:
   - question: "Chromecast with Google TV vs Google TV Streamer — which should I buy?"
     answer: "The Streamer adds an Ethernet port, more RAM and storage, and a better backlit remote, and leads Google's Gemini rollout. The Chromecast is cheaper and a discreet dongle. Get the Streamer if you want speed and wired networking."
 ---
+
+> **Update (September 2026):** Google has discontinued the Chromecast with Google TV and replaced it with the [Google TV Streamer](/reviews/google-tv-streamer-4k-2024). The review below stays up for owners; for a similar budget Google TV box, see the [onn. 4K Pro](/reviews/onn-4k-pro-streaming-box).
 
 > **Bottom line:** The Chromecast with Google TV (4K, $49) is a capable budget streamer with Google TV's excellent cross-service content aggregation and best-in-class casting. Ideal if you're in Google's ecosystem and don't mind a required Google account and tight 8GB storage.
 

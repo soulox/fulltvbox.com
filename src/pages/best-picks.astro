@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { resolveAffiliate } from '../lib/affiliate';
+import { latestDate } from '../lib/freshness';
 
 const reviews = await getCollection('reviews');
 
@@ -36,10 +37,10 @@ const picks = [
   },
   {
     rank: 5,
-    slug: 'chromecast-google-tv-4k',
-    badge: 'Best for Discovery',
+    slug: 'google-tv-streamer-4k-2024',
+    badge: 'Best for Google Users',
     category: 'Android & Google Users',
-    highlights: ['Aggregates all your watchlists', 'Best-in-class Google Assistant', 'Seamless casting from Chrome', '4K Dolby Vision + Atmos at $49'],
+    highlights: ['Aggregates all your watchlists', 'Gigabit Ethernet + 4GB RAM', 'Built-in Matter/Thread smart-home hub', 'Seamless casting from Chrome and Android'],
   },
 ];
 
@@ -48,11 +49,22 @@ const picksWithData = picks.map(pick => ({
   review: reviews.find(r => r.slug === pick.slug),
 }));
 
+// This page targets "best streaming device" (sticks + boxes, every ecosystem); the
+// "best TV box" query belongs to /guides/best-tv-box so the two don't cannibalize.
+const year = new Date().getFullYear();
+const pageTitle = `Best Streaming Devices of ${year}`;
+// Honest "updated" stamp: the newest review behind the picks, not the build date.
+const updated = picksWithData
+  .filter(p => p.review)
+  .map(p => latestDate(p.review!.data.publishDate, p.review!.data.updatedDate))
+  .sort()
+  .at(-1)!;
+
 const site = Astro.site;
 const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Best TV Boxes 2025',
+  name: pageTitle,
   itemListOrder: 'https://schema.org/ItemListOrderAscending',
   itemListElement: picksWithData
     .filter(p => p.review)
@@ -72,16 +84,17 @@ function meter(rating: number) {
   });
 }
 ---
-<BaseLayout title="Best TV Boxes 2025" description="Our top picks for streaming boxes and sticks in 2025 — tested, rated, and honestly recommended.">
+<BaseLayout title={pageTitle} description={`The best streaming devices of ${year} for every ecosystem — Fire TV, Roku, Apple TV, Google TV, and NVIDIA Shield — bench-tested, rated, and honestly recommended.`}>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
   </Fragment>
   <div class="max-w-4xl mx-auto px-4 py-14">
 
     <span class="label text-signal">// Channel 03 — Leaderboard</span>
-    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-3">Best TV Boxes of 2025</h1>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-3">{pageTitle}</h1>
     <p class="text-muted mb-10 max-w-2xl">
-      Hands-on tested. Updated {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}.
+      Hands-on tested. Updated <time datetime={updated}>{new Date(updated).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>.
+      Shopping for an Android/Google TV box specifically? See our <a href="/guides/best-tv-box" class="text-signal hover:underline">best TV box guide</a>.
       Affiliate links help fund the bench — no extra cost to you.
     </p>
 

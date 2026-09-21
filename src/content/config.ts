@@ -36,6 +36,20 @@ const reviews = defineCollection({
     specs,
     faq: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
     author: z.string().optional(),
+    // Measured bench results. Only record numbers actually measured on our test
+    // unit — they render as a dated results table and are the review's evidence.
+    benchmarks: z
+      .object({
+        testedOn: z.string(),
+        results: z.array(
+          z.object({ metric: z.string(), value: z.string(), note: z.string().optional() }),
+        ),
+      })
+      .optional(),
+    // No longer sold new: the review stays up for owners, but buy CTAs are dropped
+    // and readers are pointed at `successor` (a review slug) when set.
+    discontinued: z.boolean().default(false),
+    successor: z.string().optional(),
   }),
 });
 

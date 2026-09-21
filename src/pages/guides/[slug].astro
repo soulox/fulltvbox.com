@@ -42,8 +42,9 @@ const devices = graph
       name: r.data.title.replace(/ Review.*$/i, '').trim(),
       rating: r.data.rating,
       price: r.data.price,
-      affiliate: r.data.affiliate,
-      deal: deal
+      // Discontinued devices keep their review link but never get a buy CTA.
+      affiliate: r.data.discontinued ? undefined : r.data.affiliate,
+      deal: deal && !r.data.discontinued
         ? { url: deal.url, price: deal.price, wasPrice: deal.wasPrice, retailer: deal.retailer, discountPct: deal.discountPct }
         : undefined,
     };
