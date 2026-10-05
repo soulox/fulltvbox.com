@@ -1,11 +1,11 @@
 ---
-title: "NVIDIA Shield TV Pro Review: Still the Best Android TV Box in 2025?"
+title: "NVIDIA Shield TV Pro Review: Still the Best?"
 description: "Six years on, the Shield TV Pro is still the gold standard for Android TV boxes. We tested it against the latest competition to see if it keeps the crown."
 publishDate: "2025-11-15"
 rating: 4.8
 featured: true
 tags: ["android tv", "4k", "gaming", "plex", "nvidia"]
-affiliate: "https://www.amazon.com/dp/B07YP9FBMM?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=NVIDIA%20Shield%20TV%20Pro&tag=fulltvbox-20"
 updatedDate: "2026-06-15"
 price: 199
 specs:

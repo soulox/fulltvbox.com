@@ -1,12 +1,12 @@
 ---
-title: "Google TV Streamer (4K) Review: Google's Grown-Up Streaming Box"
+title: "Google TV Streamer (4K) Review: Worth It?"
 description: "Google replaced the Chromecast with a real streaming box in 2024 — adding Ethernet, more RAM, and a redesigned remote. Is the Google TV Streamer worth $99?"
 publishDate: "2025-11-20"
 updatedDate: "2026-06-15"
 rating: 4.4
 featured: true
 tags: ["google tv", "4k", "ethernet", "android", "premium"]
-affiliate: "https://www.amazon.com/dp/B0CX2XF9ZF?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=Google%20TV%20Streamer%20(4K)&tag=fulltvbox-20"
 price: 99
 specs:
   releaseYear: 2024

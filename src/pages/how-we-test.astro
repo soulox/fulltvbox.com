@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { TEST_CRITERIA, SCORING_BANDS, TEST_WEEKS, CRITERIA_COUNT } from '../data/methodology';
+
+const site = Astro.site;
+const pageUrl = new URL('/how-we-test', site).href;
+const description = `How FullTVBox tests streaming devices: at least ${TEST_WEEKS} weeks of real-world use against ${CRITERIA_COUNT} fixed criteria, plus our 1–5 scoring scale and independence policy.`;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'How We Test',
+    description,
+    url: pageUrl,
+    publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'How We Test', item: pageUrl },
+    ],
+  },
+];
+---
+<BaseLayout title="How We Test Streaming Devices" description={description}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+  <div class="max-w-2xl mx-auto px-4 py-14">
+    <nav class="label flex items-center gap-2 mb-6" data-pagefind-ignore>
+      <a href="/" class="hover:text-signal transition-colors">Home</a>
+      <span class="text-line-bright">/</span>
+      <span class="text-muted">How We Test</span>
+    </nav>
+
+    <span class="label text-signal">// Test protocol</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-8">How We Test</h1>
+
+    <div class="smpte-bars h-1 w-full mb-10 opacity-60"></div>
+
+    <div class="prose prose-invert prose-lg max-w-none prose-bench
+      prose-headings:font-display prose-headings:text-ink
+      prose-p:text-ink/85 prose-li:text-ink/85">
+
+      <p>
+        Every device gets at least <strong>{TEST_WEEKS} weeks of daily, real-world use</strong> on a
+        4K HDR TV — not a spec-sheet skim. We evaluate each one against the same
+        {' '}{CRITERIA_COUNT} criteria so reviews are directly comparable, then translate that into a
+        single 1–5 bench score.
+      </p>
+
+      <h2>What we test</h2>
+      <ul>
+        {TEST_CRITERIA.map((c) => (
+          <li><strong>{c.name}</strong> — {c.detail}</li>
+        ))}
+      </ul>
+
+      <h2>How we score</h2>
+      <p>
+        Scores run from 1.0 to 5.0 and reflect a device <em>relative to its price and category</em> —
+        a great $50 stick and a great $200 box can both earn a high score for being the best at what
+        they do.
+      </p>
+    </div>
+
+    <div class="not-prose panel frame my-8">
+      <div class="px-5 sm:px-6 py-4 border-b border-line flex items-center gap-2">
+        <span class="tally tally-sm"></span>
+        <span class="label text-signal">// Rating scale</span>
+      </div>
+      <dl class="divide-y divide-line">
+        {SCORING_BANDS.map((b) => (
+          <div class="px-5 sm:px-6 py-3 grid grid-cols-[6rem_1fr] gap-4 items-baseline">
+            <dt class="font-display font-900 text-signal">{b.range}</dt>
+            <dd class="text-ink/90 text-sm">{b.meaning}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="prose prose-invert prose-lg max-w-none prose-bench
+      prose-headings:font-display prose-headings:text-ink
+      prose-p:text-ink/85 prose-li:text-ink/85">
+      <p>
+        We revisit reviews as software changes and prices move, and mark them with an
+        {' '}<strong>updated</strong> date when we do — so a score always reflects the device as it is
+        today, not at launch.
+      </p>
+
+      <h2>Independent by design</h2>
+      <p>
+        We buy or borrow every device we test. No freebies from manufacturers, no paid placements,
+        and no sponsored rankings — a brand cannot pay to score higher. Our only revenue is
+        affiliate commissions, which never change a verdict. Full detail on funding and who we are
+        is on our <a href="/about">about page</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

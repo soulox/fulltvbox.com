@@ -16,6 +16,10 @@ import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '@fontsource/ibm-plex-mono/600.css';
 
+// Hashed URL for the LCP headline font (Archivo 900, latin) so we can preload it —
+// the display font drives the largest-contentful-paint on most pages.
+import archivo900 from '@fontsource/archivo/files/archivo-latin-900-normal.woff2?url';
+
 interface Props {
   title: string;
   description?: string;
@@ -63,6 +67,8 @@ function isActive(href: string) {
   <meta name="theme-color" content="#06080b" />
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preload" href={archivo900} as="font" type="font/woff2" crossorigin />
+
   <link rel="alternate" type="application/rss+xml" title="FullTVBox Reviews" href="/rss.xml" />
 
   <!-- Open Graph -->
@@ -187,6 +193,7 @@ function isActive(href: string) {
           <a href="/guides" class="text-muted hover:text-signal transition-colors">Guides</a>
           <a href="/tutorials" class="text-muted hover:text-signal transition-colors">Tutorials</a>
           <a href="/about" class="text-muted hover:text-signal transition-colors">About</a>
+          <a href="/how-we-test" class="text-muted hover:text-signal transition-colors">How We Test</a>
           <a href="/credits" class="text-muted hover:text-signal transition-colors">Credits</a>
           <a href="/privacy" class="text-muted hover:text-signal transition-colors">Privacy</a>
           <a href="/rss.xml" class="text-muted hover:text-signal transition-colors">RSS</a>

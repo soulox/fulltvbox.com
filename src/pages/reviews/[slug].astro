@@ -4,6 +4,7 @@ import RelatedLinks from '../../components/RelatedLinks.astro';
 import { getCollection } from 'astro:content';
 import { getDealsByDevice } from '../../lib/deals';
 import { buildLinkGraph } from '../../lib/links';
+import { relatedReviews } from '../../lib/reviews';
 
 export async function getStaticPaths() {
   const [reviews, guides] = await Promise.all([
@@ -21,13 +22,19 @@ const { Content } = await review.render();
 
 const deal = (await getDealsByDevice()).get(review.slug);
 
-const related = allReviews
-  .filter(r => r.slug !== review.slug)
-  .map(r => ({
-    r,
-    score: r.data.tags.filter((t: string) => review.data.tags.includes(t)).length,
-  }))
-  .sort((a, b) => b.score - a.score || new Date(b.r.data.publishDate).getTime() - new Date(a.r.data.publishDate).getTime())
+const related = relatedReviews(review, allReviews).map(r => ({
+  href: `/reviews/${r.slug}`,
+  title: r.data.title.replace(/ Review.*$/i, '').trim(),
+  description: r.data.description,
+  rating: r.data.rating,
+}));
+
+const guideBySlug = new Map(allGuides.map(g => [g.slug, g]));
+const featuredInGuides = buildLinkGraph(allGuides, allReviews)
+  .guidesFeaturingReview(review.slug)
+  .map(slug => guideBySlug.get(slug))
+  .filter((g): g is NonNullable<typeof g> => !!g)
+  .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
   .slice(0, 3)
   .map(({ r }) => r);
 
@@ -78,6 +85,9 @@ const featuredInGuides = buildLinkGraph(allGuides, allReviews)
       </section>
     )}
   </div>
+  {related.length > 0 && (
+    <RelatedLinks slot="related" items={related} heading="Related Reviews" label="// Also on the bench" />
+  )}
   {featuredInGuides.length > 0 && (
     <RelatedLinks slot="related" items={featuredInGuides} heading="Guides featuring this device" label="// In our guides" />
   )}

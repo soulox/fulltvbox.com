@@ -1,12 +1,12 @@
 ---
-title: "TiVo Stream 4K Review: The Aggregator That Almost Gets It Right"
+title: "TiVo Stream 4K Review: Almost Gets It Right"
 description: "TiVo's streaming stick promises to unify all your apps in one place with universal search and a smart home screen. Does it live up to the TiVo legacy?"
 publishDate: "2025-05-10"
 updatedDate: "2026-06-15"
 rating: 3.8
 featured: false
 tags: ["4k", "streaming", "android tv", "budget"]
-affiliate: "https://www.amazon.com/dp/B08FBM9GZT?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=TiVo%20Stream%204K&tag=fulltvbox-20"
 price: 49
 specs:
   releaseYear: 2020

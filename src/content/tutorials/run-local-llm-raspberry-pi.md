@@ -1,6 +1,6 @@
 ---
 title: "Run a Local LLM on a Raspberry Pi 5 with Ollama"
-description: "Turn a Raspberry Pi 5 into a private, offline AI chatbot. Install Ollama, pull a small model like Llama 3.2 or Phi-3, and chat with an LLM that runs entirely on your own hardware — no cloud, no fees."
+description: "Turn a Raspberry Pi 5 into a private, offline AI chatbot. Install Ollama, pull a small model like Llama 3.2 or Phi-3, and chat locally — no cloud, no fees."
 publishDate: "2026-06-17"
 difficulty: "intermediate"
 duration: "30 min"

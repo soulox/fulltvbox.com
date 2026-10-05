@@ -1,12 +1,12 @@
 ---
-title: "Amazon Fire TV Cube (3rd Gen) Review: The Fastest Fire TV, Period"
+title: "Fire TV Cube (3rd Gen) Review: Fastest Fire TV"
 description: "Amazon's flagship box packs an octa-core chip, hands-free Alexa, and an HDMI input to run your whole AV setup. But at $140, does it justify the price?"
 publishDate: "2025-10-05"
 updatedDate: "2026-06-15"
 rating: 4.3
 featured: false
 tags: ["amazon", "fire tv", "4k", "alexa", "ethernet"]
-affiliate: "https://www.amazon.com/dp/B09BZZ3MM7?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=Amazon%20Fire%20TV%20Cube%20(3rd%20Gen)&tag=fulltvbox-20"
 price: 139
 specs:
   releaseYear: 2022

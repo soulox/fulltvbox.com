@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import { reviewImage } from './reviewImages';
+import { resolveAffiliate } from './affiliate';
 
 export interface Device {
   slug: string;
@@ -16,16 +17,19 @@ export interface Device {
 export async function getDevices(): Promise<Device[]> {
   const reviews = await getCollection('reviews');
   return reviews
-    .map((r) => ({
-      slug: r.slug,
-      name: r.data.title.replace(/ Review.*$/i, '').trim(),
-      rating: r.data.rating,
-      price: r.data.price ?? r.data.specs?.price ?? null,
-      image: reviewImage(r.slug)?.src ?? null,
-      affiliate: r.data.affiliate ?? null,
-      tags: r.data.tags ?? [],
-      specs: r.data.specs ?? {},
-    }))
+    .map((r) => {
+      const name = r.data.title.replace(/ Review.*$/i, '').trim();
+      return {
+        slug: r.slug,
+        name,
+        rating: r.data.rating,
+        price: r.data.price ?? r.data.specs?.price ?? null,
+        image: reviewImage(r.slug)?.src ?? null,
+        affiliate: resolveAffiliate(r.data.affiliate, name) ?? null,
+        tags: r.data.tags ?? [],
+        specs: r.data.specs ?? {},
+      };
+    })
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 

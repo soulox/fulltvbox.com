@@ -1,12 +1,12 @@
 ---
-title: "Roku Streaming Stick 4K (2023) Review: The No-Nonsense Streamer"
+title: "Roku Streaming Stick 4K Review: No-Nonsense"
 description: "Roku's compact 4K stick keeps it simple — no home-screen ads, no ecosystem lock-in, a remote with real TV controls. Is simple still good enough in 2025?"
 publishDate: "2025-10-10"
 updatedDate: "2026-06-15"
 rating: 4.3
 featured: false
 tags: ["roku", "4k", "budget", "streaming"]
-affiliate: "https://www.amazon.com/dp/B09BKCDXZC?tag=fulltvbox-20"
+affiliate: "https://www.amazon.com/s?k=Roku%20Streaming%20Stick%204K%20(2023)&tag=fulltvbox-20"
 price: 49
 specs:
   releaseYear: 2023
