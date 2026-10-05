@@ -1,5 +1,5 @@
 ---
-title: "Install Home Assistant on Raspberry Pi: Build Your Own Smart Home Hub"
+title: "Install Home Assistant on Raspberry Pi"
 description: "Set up Home Assistant OS on a Raspberry Pi 4 or 5 to control all your smart home devices — Philips Hue, smart plugs, sensors, and more — from one dashboard."
 publishDate: "2026-03-01"
 difficulty: "intermediate"
