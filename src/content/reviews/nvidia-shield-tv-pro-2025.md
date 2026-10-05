@@ -1,5 +1,5 @@
 ---
-title: "NVIDIA Shield TV Pro Review: Still the Best Android TV Box in 2025?"
+title: "NVIDIA Shield TV Pro Review: Still the Best?"
 description: "Six years on, the Shield TV Pro is still the gold standard for Android TV boxes. We tested it against the latest competition to see if it keeps the crown."
 publishDate: "2025-11-15"
 rating: 4.8
