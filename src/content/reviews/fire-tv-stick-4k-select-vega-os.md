@@ -1,6 +1,6 @@
 ---
-title: "Fire TV Stick 4K Select Review: Cheap, Fast, and Walled Off"
-description: "Amazon's $40 Fire TV Stick 4K Select is the first to drop Android for the new Linux-based Vega OS. It's snappy and cheap — but the locked-down app store and no sideloading change the math."
+title: "Fire TV Stick 4K Select Review: Cheap, Fast"
+description: "Amazon's $40 Fire TV Stick 4K Select drops Android for the new Linux-based Vega OS. Snappy and cheap — but the locked-down app store changes the math."
 publishDate: "2026-06-15"
 rating: 3.1
 tags: ["fire tv", "4k", "budget", "vega os"]

@@ -1,6 +1,6 @@
 ---
-title: "Streaming Bundles That Actually Save Money in 2026 (and Which Don't)"
-description: "Disney+/Hulu/ESPN, Paramount+ with Showtime, Verizon and T-Mobile perks — we ran the numbers on 2026's biggest streaming bundles to see which ones genuinely beat paying for each service separately."
+title: "Streaming Bundles That Actually Save Money"
+description: "Disney+/Hulu/ESPN, Paramount+ with Showtime, Verizon and T-Mobile perks — we ran the numbers on which 2026 streaming bundles actually save money."
 publishDate: "2026-07-08"
 category: "cord-cutting"
 faq:
