@@ -53,15 +53,57 @@ and it also tells you which item to write when you fall through to it in Step 2.
 
 ## Step 2 — Pick a topic (and dedup)
 
-First, list what already exists and **do not duplicate it**:
+Weekly PRs often sit unreviewed for weeks and then get merged together. `master` alone is
+therefore **not** the full picture: earlier runs' guides may be waiting in open PRs. Past
+failures this check exists to prevent: the same price-hike guide written twice three weeks
+apart (the backlog item was only removed inside the first, still-unmerged PR), and two
+guides at different slugs covering the same price-increase topic.
+
+### 2a — Collect everything that's covered or claimed
 
 ```bash
-ls src/content/guides/     # existing guides
-ls src/content/reviews/    # existing device reviews
-ls src/content/tutorials/  # existing Pi tutorials
+git fetch origin
+# 1. Published: titles + descriptions, not just file names
+grep -H -m2 -E '^(title|description):' src/content/guides/*.md src/content/tutorials/*.md src/content/reviews/*.md
+
+# 2. Claimed by open PRs (any author): their titles, branches, and added content files
+gh pr list --state open --limit 50 --json number,title,headRefName
+for n in $(gh pr list --state open --limit 50 --json number --jq '.[].number'); do
+  gh pr diff "$n" --name-only | grep '^src/content/' | sed "s|^|#$n |"
+done
+# Read the title/description of each guide those PRs add:
+#   git show origin/<headRefName>:src/content/guides/<slug>.md | head -5
 ```
 
-Then pick **one** topic, in this priority order:
+Also treat a **backlog item as claimed** if an open PR removes it from `content-backlog.md`.
+It is still listed on `master` only because that PR hasn't merged yet. For each open PR
+branch:
+
+```bash
+git diff origin/master...origin/<headRefName> -- docs/automation/content-backlog.md | grep '^-- \['
+```
+
+### 2b — Reject anything that duplicates it
+
+A candidate topic is a **duplicate**, and must be dropped, if any of these is true:
+
+- **Same slug** as a file on `master` or in an open PR. Two branches adding the same path
+  merge into one corrupted file.
+- **Same primary search intent** as a published or claimed guide: a reader searching for
+  one would be satisfied by the other, even if the titles differ. Example: "streaming price
+  increases 2026" and "every streaming price hike in 2026, tracked" are the same intent.
+- **It's a claimed backlog item** (see 2a).
+
+When in doubt, it's a duplicate. If the news is a genuinely new development on a covered
+topic, don't write a second guide. Note in the run log that the existing guide needs an
+update, and add a `P1` backlog line of the form
+`- [P1] Update <slug>: <what changed> — category: <same as the guide> — intent: <query>`.
+
+State in the PR body which existing and claimed guides you checked against (see Step 6).
+
+### 2c — Pick
+
+Pick **one** topic, in this priority order:
 
 1. **A hot, uncovered topic** from Step 1 — news is time-sensitive, so a genuinely fresh
    and relevant one wins.
@@ -183,6 +225,8 @@ Stage the backlog edit from Step 2.5 alongside the guide so the human reviews bo
   found in Step 1.
 - Approximate word count and the list of internal pages it links to.
 - The **backlog delta**: the item removed (if any) and any candidates appended.
+- A **dedup note**: the closest existing or open-PR guides you compared against (slug and
+  PR number) and, in one line each, why this guide's search intent is different.
 
 Do **not** merge and do **not** push to `master`. A human reviews, edits if needed, and merges;
 merging triggers `.github/workflows/deploy.yml`, which deploys to Cloudflare Pages.
