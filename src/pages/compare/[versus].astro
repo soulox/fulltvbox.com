@@ -15,7 +15,7 @@ const pageUrl = new URL(`/compare/${a.slug}-vs-${b.slug}`, site).href;
 const ROWS: { key: string; label: string; better?: 'max' | 'min' | 'maxnum' | 'maxlen' }[] = [
   { key: 'rating', label: 'Our score', better: 'max' },
   { key: 'price', label: 'Price', better: 'min' },
-  { key: 'releaseYear', label: 'Released', better: 'max' },
+  { key: 'releaseYear', label: 'Released' },
   { key: 'soc', label: 'Chipset' },
   { key: 'ram', label: 'RAM', better: 'maxnum' },
   { key: 'storage', label: 'Storage', better: 'maxnum' },
@@ -65,13 +65,17 @@ const bWins = ROWS.filter((r) => r.key !== 'rating' && winner(r.key, r.better) =
 const cheaper = a.price != null && b.price != null ? (a.price <= b.price ? a : b) : null;
 const pricier = cheaper ? (cheaper.slug === a.slug ? b : a) : null;
 const priceDiff = a.price != null && b.price != null ? Math.abs(a.price - b.price) : null;
-const sameScore = a.rating === b.rating;
+// Scores within 0.3 are inside our test-to-test noise, so we call it a tie rather
+// than crown a winner on a 0.1-point gap.
+const sameScore = Math.abs(a.rating - b.rating) < 0.3;
+const exactTie = a.rating === b.rating;
 
 const aRating = a.rating.toFixed(1);
 const bRating = b.rating.toFixed(1);
+const tieScore = exactTie ? `${aRating}` : `${aRating} vs ${bRating}`;
 
 const scoreClause = sameScore
-  ? `both earn ${aRating} on our bench`
+  ? `they're effectively tied on our bench (${tieScore})`
   : `the ${a.name} scores higher on our bench (${aRating} vs ${bRating})`;
 
 let valueClause = '';
@@ -80,7 +84,14 @@ if (cheaper && pricier && priceDiff) {
   valueClause = ` The ${cheaper.name} is the value pick: it is $${priceDiff} cheaper${stillTop}.`;
 }
 
-const lead = `If you're choosing between the ${a.name} and the ${b.name}, ${scoreClause}, so it's our overall pick of the two.${valueClause} Here's how they compare spec by spec.`;
+const pickClause = sameScore
+  ? ` Pick on price, ecosystem, and the spec differences below.`
+  : `, so it's our overall pick of the two.`;
+const lead = `If you're choosing between the ${a.name} and the ${b.name}, ${scoreClause}${sameScore ? '.' : ''}${pickClause}${valueClause} Here's how they compare spec by spec.`;
+
+// Derived page: it's only as fresh as the newer of its two source reviews.
+const updated = a.updated > b.updated ? a.updated : b.updated;
+const updatedLabel = new Date(updated).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 const title = `${a.name} vs ${b.name}`;
 const description = `${a.name} vs ${b.name}: side-by-side specs, bench scores, and prices, plus which one we'd buy and who each is for.`;
@@ -92,7 +103,7 @@ if (sameScore) {
   const valueLine = cheaper ? ` The ${cheaper.name} wins on value at $${cheaper.price}.` : '';
   faq.push({
     question: `Which is better, the ${a.name} or the ${b.name}?`,
-    answer: `They tie at ${aRating}/5 on our bench.${valueLine} Pick based on the spec differences and which ecosystem you prefer.`,
+    answer: `They're effectively tied on our bench (${tieScore}/5).${valueLine} Pick based on the spec differences and which ecosystem you prefer.`,
   });
 } else {
   const cheaperLine =
@@ -165,20 +176,27 @@ const cards = [a, b];
       {a.name} <span class="text-dim">vs</span> {b.name}
     </h1>
     <p class="text-muted text-sm mb-8">
-      Which should you buy? · Updated {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+      Which should you buy? · Updated <time datetime={updated}>{updatedLabel}</time>
     </p>
 
     <!-- quick verdict cards -->
     <div class="grid grid-cols-2 gap-3 mb-8">
       {cards.map((d, i) => (
-        <div class={`bench-card frame p-4 ${i === 0 ? 'ring-1 ring-signal/40' : ''}`}>
-          {i === 0 && <span class="label text-signal text-[0.6rem]">// Our pick</span>}
+        <div class={`bench-card frame p-4 flex flex-col ${i === 0 && !sameScore ? 'ring-1 ring-signal/40' : ''}`}>
+          {d.image && (
+            <img src={d.image} alt={`${d.name} product photo`} width="480" height="270" loading="lazy" decoding="async"
+              class="w-full h-24 sm:h-32 object-contain bg-panel mb-3" />
+          )}
+          {i === 0 && !sameScore && <span class="label text-signal text-[0.6rem]">// Our pick</span>}
           <a href={`/reviews/${d.slug}`} class="font-display font-800 text-base text-ink hover:text-signal block leading-snug mt-1">{d.name}</a>
           <div class="flex items-center gap-2 mt-2">
             <span class="font-display font-900 text-2xl text-signal leading-none">{d.rating.toFixed(1)}</span>
             <span class="meter">{meter(d.rating).map((s) => <span class={`seg ${s === 'off' ? '' : s}`}></span>)}</span>
           </div>
           <div class="label text-dim mt-2">{d.price != null ? `$${d.price}` : 'Price varies'}</div>
+          {d.affiliate && (
+            <a href={d.affiliate} target="_blank" rel="noopener sponsored" class="btn-signal mt-3 text-center justify-center">Check price →</a>
+          )}
         </div>
       ))}
     </div>
@@ -241,7 +259,7 @@ const cards = [a, b];
       <span class="label text-signal">// Bottom line</span>
       <p class="text-ink/90 mt-2 leading-relaxed">
         {sameScore
-          ? `It's close — both score ${a.rating.toFixed(1)}/5.`
+          ? `It's close — ${exactTie ? `both score ${aRating}/5` : `${aRating} vs ${bRating}/5 is within our margin`}.`
           : `The ${a.name} is the better all-rounder at ${a.rating.toFixed(1)}/5.`}
         {cheaper && priceDiff ? ` If you're watching the budget, the ${cheaper.name} saves you $${priceDiff} and covers the essentials.` : ''}
         Read the full <a href={`/reviews/${a.slug}`} class="text-signal">{a.name} review</a> or

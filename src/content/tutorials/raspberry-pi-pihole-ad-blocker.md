@@ -1,7 +1,8 @@
 ---
 title: "Install Pi-hole on Raspberry Pi: Block Ads"
-description: "Set up Pi-hole on a Raspberry Pi to block ads, trackers, and malware domains for every device on your network — no app installs required."
+description: "Set up Pi-hole v6 on a Raspberry Pi to block ads, trackers, and malware domains for every device on your network — updated for current Raspberry Pi OS."
 publishDate: "2026-02-05"
+updatedDate: "2026-09-18"
 difficulty: "beginner"
 duration: "20 min"
 tags: ["raspberry pi", "pi-hole", "networking", "privacy"]
@@ -9,130 +10,164 @@ tags: ["raspberry pi", "pi-hole", "networking", "privacy"]
 
 ## What Is Pi-hole?
 
-Pi-hole is a DNS sinkhole — a DNS server that sits on your network and blocks requests to known ad, tracker, and malware domains before they reach your devices. Unlike browser extensions, Pi-hole works for every device on your network: phones, smart TVs, tablets, streaming boxes, and even smart home devices.
+Pi-hole is a DNS sinkhole: a DNS server on your network that refuses to look up known ad, tracker, and malware domains. It isn't a browser extension, so it works for every device on your network, including phones, smart TVs, tablets, streaming boxes, and smart home devices.
+
+> **Updated for 2026:** this guide covers **Pi-hole v6** (which replaced the old web server and several commands) and current **Raspberry Pi OS**, which configures networking with NetworkManager instead of `dhcpcd`.
 
 ## What You'll Need
 
-- Raspberry Pi (any model — even a Pi Zero W works)
-- Raspberry Pi OS Lite installed (headless is fine)
-- A static IP address for your Pi
+- Raspberry Pi (any model — even a Pi Zero 2 W works)
+- Raspberry Pi OS Lite, current release (headless is fine)
+- A fixed IP address for your Pi
 - Admin access to your router
 
 ---
 
-## Step 1: Give Your Pi a Static IP
+## Step 1: Give Your Pi a Fixed IP
 
-Pi-hole needs a fixed IP address on your network. The easiest way is to reserve one in your router's DHCP settings. Look for "DHCP reservation" or "static DHCP" in your router admin panel and assign a permanent IP to your Pi's MAC address.
+Pi-hole needs an address that never changes. The easiest and most reliable way is a **DHCP reservation** on your router: look for "DHCP reservation", "static lease", or "address reservation" in the router's admin panel and pin an IP to your Pi's MAC address. Then skip to Step 2.
 
-Alternatively, set a static IP on the Pi itself:
-
-```bash
-sudo nano /etc/dhcpcd.conf
-```
-
-Add at the bottom (adjust for your network):
-
-```
-interface eth0
-static ip_address=192.168.1.10/24
-static routers=192.168.1.1
-static domain_name_servers=1.1.1.1 8.8.8.8
-```
-
-Save and reboot:
+If your router can't do that, set a static IP on the Pi itself. Current Raspberry Pi OS uses **NetworkManager**, so editing `/etc/dhcpcd.conf` (the method in older guides) no longer does anything. First find your connection's name:
 
 ```bash
-sudo reboot
+nmcli connection show
 ```
+
+For a wired Pi it's usually `Wired connection 1`; on Wi-Fi it's your network name. Then set the address (adjust the IPs for your network):
+
+```bash
+sudo nmcli connection modify "Wired connection 1" \
+  ipv4.method manual \
+  ipv4.addresses 192.168.1.10/24 \
+  ipv4.gateway 192.168.1.1 \
+  ipv4.dns 1.1.1.1
+sudo nmcli connection up "Wired connection 1"
+```
+
+Your SSH session may drop when the address changes; reconnect to the new IP. The `ipv4.dns` value is only what the Pi itself uses. Pi-hole picks its own upstream DNS in the next step.
 
 ---
 
 ## Step 2: Install Pi-hole
 
-Pi-hole's one-line installer handles everything:
+Pi-hole's official installer handles everything:
 
 ```bash
 curl -sSL https://install.pi-hole.net | bash
 ```
 
-The installer is interactive — it'll walk you through:
+Piping a script into `bash` runs it sight unseen. If you'd rather read it first, download it with `curl -sSL https://install.pi-hole.net -o install.sh`, review it, then run `sudo bash install.sh`.
 
-1. **Upstream DNS provider** — choose Cloudflare (1.1.1.1) or Google (8.8.8.8)
-2. **Block lists** — keep the defaults (StevenBlack's Unified Hosts list)
-3. **Web admin interface** — install it (yes)
-4. **Log queries** — yes (useful for seeing what's being blocked)
-5. **Privacy level** — 0 (show everything) is most useful for home use
+The installer is interactive. It asks for:
 
-At the end, the installer will show you:
-- Your Pi-hole IP address
-- Your admin panel password — **write this down**
+1. **Upstream DNS provider:** the server Pi-hole forwards allowed lookups to. Cloudflare (1.1.1.1) or Quad9 are good choices.
+2. **Blocklist:** keep the default (StevenBlack's Unified Hosts list).
+3. **Query logging:** yes, so you can see what's being blocked.
+4. **Privacy level:** 0 (show everything) is the most useful for a home network.
+
+When it finishes, it shows your Pi-hole's IP address and a randomly generated admin password. To set your own password:
+
+```bash
+sudo pihole setpassword
+```
 
 ---
 
-## Step 3: Access the Admin Dashboard
+## Step 3: Open the Admin Dashboard
 
-Open a browser and go to:
+In a browser, go to:
 
 ```
 http://YOUR-PI-IP/admin
 ```
 
-Log in with the password from the installer. You'll see a dashboard showing:
+Log in with your password. The dashboard shows:
 
 - Total DNS queries today
 - Queries blocked (percentage)
-- Domains on your blocklist
-- Query log (what's being blocked and allowed)
+- Number of domains on your blocklists
+- The query log (what was blocked and what was allowed)
+
+In Pi-hole v6 the web interface is built into Pi-hole itself, so it no longer needs a separate web server (lighttpd).
 
 ---
 
-## Step 4: Point Your Router to Pi-hole
+## Step 4: Point Your Network at Pi-hole
 
-This is the key step — tell your router to use your Pi as the DNS server for all devices:
+This is the step that makes it work: every device has to use Pi-hole as its DNS server.
 
-1. Log into your router admin panel (usually `192.168.1.1` or `192.168.0.1`)
-2. Find **DHCP settings** or **DNS settings**
-3. Set the **Primary DNS** to your Pi's IP address (e.g. `192.168.1.10`)
-4. Set a **Secondary DNS** to a real DNS (e.g. `1.1.1.1`) as a fallback
-5. Save and restart the router
+1. Log into your router's admin panel (usually `192.168.1.1` or `192.168.0.1`).
+2. Find the **DHCP** or **LAN DNS** settings. You want the DNS server handed out to devices, not the router's own WAN/upstream DNS.
+3. Set the **DNS server** to your Pi's IP address (e.g. `192.168.1.10`).
+4. **Don't add a public DNS server like `1.1.1.1` as a secondary.** Devices don't strictly prefer the primary, so they'll send some lookups to the secondary and those ads get through. If your router insists on two entries, enter the Pi's IP in both, or use a second Pi-hole.
+5. Save, then restart the router.
 
-Devices will pick up the new DNS server when they renew their DHCP lease — either wait, or reconnect each device manually.
+Devices switch to Pi-hole when they renew their DHCP lease. To speed that up, reconnect each device to Wi-Fi.
+
+**If your router won't let you change the DNS it hands out** (common on ISP-supplied routers), use Pi-hole's own DHCP server instead. Turn off DHCP on the router, then in Pi-hole go to **Settings → DHCP** and enable it. Only one DHCP server may run on the network, so switch the router's off first.
+
+**If your network uses IPv6**, devices may also get the router's IPv6 DNS server, which bypasses Pi-hole. Either give Pi-hole's IPv6 address to your router's IPv6 DNS setting, or turn off IPv6 DNS advertising (RDNSS/DHCPv6) on the router.
 
 ---
 
-## Step 5: Verify It's Working
+## Step 5: Check It's Working
 
-On any device on your network, visit a site you know has ads (any news site works). The ads should be gone. You can also check the Pi-hole dashboard — you'll see DNS queries coming in from devices around your home.
+1. Open the Pi-hole dashboard and check that queries are coming in from devices around your home.
+2. On a phone or laptop, visit an ad-heavy news site. Most banner ads should be gone.
+3. In the **Query Log**, confirm that ad domains show as blocked.
+
+**A note for streaming devices:** some devices, including many Google TV and Chromecast models, are hard-coded to use their own DNS servers (for example Google's `8.8.8.8`) and ignore Pi-hole. Pi-hole also can't block **YouTube or Twitch video ads**, because they're served from the same domains as the videos themselves. It works well for tracking and telemetry domains and in-app banner ads on smart TVs.
 
 ---
 
 ## Adding More Blocklists
 
-Pi-hole's default blocklist blocks ~100,000 domains. You can add more:
+The default list blocks well over 100,000 domains, which is enough for most homes. To add more:
 
-1. In the admin panel, go to **Adlists**
-2. Add a list URL — popular options:
-   - `https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts`
-   - `https://someonewhocares.org/hosts/hosts`
-   - `https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt`
-3. Go to **Tools → Update Gravity** to apply the new lists
+1. In the admin panel, go to **Lists**.
+2. Paste a list URL and add it. Two well-maintained sources:
+   - The **HaGeZi DNS blocklists** project on GitHub, which offers tiered lists from "light" to "ultimate". Start with "normal".
+   - **firebog.net**, a curated directory whose "ticked" lists are the safe, low-breakage choices.
+3. Apply the new lists under **Tools → Update Gravity**, or from the command line:
+
+```bash
+pihole -g
+```
+
+More lists isn't always better: very aggressive lists break logins, shopping sites, and app features.
 
 ---
 
-## Whitelisting Sites That Break
+## Allowing Sites That Break
 
-Some sites use the same domains for both ads and functionality. If something breaks:
+Some sites use the same domains for ads and for real functionality. If something stops working:
 
-1. Check the Pi-hole **Query Log** to see what's being blocked
-2. Add the domain to your **Whitelist**: `pihole -w domain.com`
-3. Or use the web interface: **Whitelist → Add Domain**
+1. Look in the **Query Log** for what was blocked around the time it broke.
+2. Allow the domain from the command line. Pi-hole v6 replaced the old `pihole -w` with:
+
+```bash
+pihole allow example.com
+```
+
+3. Or use the web interface: go to **Domains**, add the domain, and choose **Allow**.
 
 ---
 
 ## Troubleshooting
 
-**No internet after setup:** Your Pi-hole may be down. Set your router DNS back to `1.1.1.1` temporarily. Check `sudo systemctl status pihole-FTL`.
+**No internet after setup:** Pi-hole is probably down or unreachable. Temporarily point your router's DNS back to your ISP or `1.1.1.1`, then check the service on the Pi:
 
-**Ads still showing:** Some devices cache DNS. Flush DNS on your device or reconnect to the network.
+```bash
+sudo systemctl status pihole-FTL
+pihole status
+```
 
-**Specific site broken:** Check query log, find the blocked domain, whitelist it.
+**Ads still showing:** the device may be caching old DNS answers or using hard-coded DNS (see the streaming note above), or it may be getting a secondary or IPv6 DNS server from the router. Reconnect the device and check it appears in the Pi-hole query log.
+
+**A specific site is broken:** find the blocked domain in the query log and allow it with `pihole allow`.
+
+**Keeping Pi-hole up to date:**
+
+```bash
+pihole -up
+```

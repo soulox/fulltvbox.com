@@ -11,7 +11,7 @@ price: 59
 specs:
   releaseYear: 2023
   price: 59
-  soc: "MediaTek MT7921LS quad-core 1.8 GHz"
+  soc: "MediaTek MT8696T quad-core 2.0 GHz"
   ram: "2 GB"
   storage: "16 GB"
   os: "Fire OS"

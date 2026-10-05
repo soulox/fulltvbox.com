@@ -29,11 +29,19 @@ interface Props {
   faq?: { question: string; answer: string }[];
   author?: string;
   ogImage?: string;
+  benchmarks?: { testedOn: string; results: { metric: string; value: string; note?: string }[] };
+  discontinued?: boolean;
+  successor?: { href: string; name: string };
 }
-const { title, description, publishDate, updatedDate, rating, price, affiliate, specs, deal, faq, author: authorSlug, ogImage } = Astro.props;
+const {
+  title, description, publishDate, updatedDate, rating, price, affiliate, specs, faq,
+  author: authorSlug, ogImage, benchmarks, discontinued = false, successor,
+} = Astro.props;
+// A discontinued device keeps its review for owners, but we don't sell it: no deal, no buy CTA.
+const deal = discontinued ? undefined : Astro.props.deal;
 const author = getAuthor(authorSlug);
 const device = title.replace(/ Review.*$/i, '').trim();
-const buyUrl = resolveAffiliate(affiliate, device);
+const buyUrl = discontinued ? undefined : resolveAffiliate(affiliate, device);
 const cleanPath = cleanPathname(Astro.url.pathname);
 const slug = cleanPath.split('/').pop();
 const hero = slug ? reviewImage(slug) : undefined;
@@ -83,7 +91,9 @@ const jsonLd = {
   '@type': 'Product',
   name: device,
   description,
-  ...(hero ? { image: new URL(hero.src, site).href } : {}),
+  // Product photo when we have one; otherwise the generated OG card, so every
+  // Product carries an image (required for product/review rich results).
+  image: new URL(hero?.src ?? ogImage ?? '/og-default.png', site).href,
   ...(brand ? { brand: { '@type': 'Brand', name: brand } } : {}),
   review: {
     '@type': 'Review',
@@ -131,7 +141,7 @@ const breadcrumb = {
         loading="eager"
         decoding="async"
         fetchpriority="high"
-        class="w-full h-72 mb-8 object-contain bg-panel border border-line"
+        class="w-full h-40 sm:h-72 mb-6 sm:mb-8 object-contain bg-panel border border-line"
       />
     )}
     <div
@@ -161,6 +171,18 @@ const breadcrumb = {
 
     <h1 class="font-display font-900 text-4xl sm:text-5xl leading-[0.95] tracking-tight text-ink mb-4">{title}</h1>
     <p class="text-muted text-lg mb-8 leading-relaxed">{description}</p>
+
+    {discontinued && (
+      <div class="panel frame mb-6 px-5 sm:px-6 py-4 border-l-2 border-l-signal" role="note">
+        <div class="label text-signal mb-1">// Discontinued</div>
+        <p class="text-ink/85 text-sm leading-relaxed">
+          The {device} is no longer sold new. This review stays up for current owners
+          {successor ? (
+            <>— if you're buying today, read our <a href={successor.href} class="text-signal hover:underline">{successor.name} review</a> instead.</>
+          ) : '.'}
+        </p>
+      </div>
+    )}
 
     <!-- verdict panel -->
     <div class="panel frame mb-6">
@@ -207,6 +229,28 @@ const breadcrumb = {
       <a href={`/compare?ids=${slug}`} class="btn-ghost !px-4 !py-2" data-compare-add={slug}>+ Add to compare</a>
       {deal && <span class="label text-dim">Live deal active · prices change fast</span>}
     </div>
+
+    {benchmarks && benchmarks.results.length > 0 && (
+      <section id="bench-results" class="panel frame mb-10" aria-label="Measured bench results">
+        <div class="px-5 sm:px-6 py-4 border-b border-line flex items-center gap-2 flex-wrap">
+          <span class="tally tally-sm"></span>
+          <span class="label text-signal">// Bench results</span>
+          <span class="label text-dim ml-auto">
+            Measured <time datetime={benchmarks.testedOn}>{new Date(benchmarks.testedOn).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}</time>
+          </span>
+        </div>
+        <dl class="divide-y divide-line">
+          {benchmarks.results.map((r) => (
+            <div class="px-5 sm:px-6 py-3 grid grid-cols-[8rem_1fr] sm:grid-cols-[12rem_1fr] gap-4 items-baseline">
+              <dt class="label text-dim">{r.metric}</dt>
+              <dd class="text-ink/90 text-sm font-mono">
+                {r.value}{r.note && <span class="text-dim font-sans"> · {r.note}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
 
     {specEntries.length > 0 && (
       <section id="specs" class="panel frame mb-10" aria-label="Specifications">

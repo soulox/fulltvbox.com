@@ -1,6 +1,8 @@
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import { reviewImage } from './reviewImages';
 import { resolveAffiliate } from './affiliate';
+import { latestDate } from './freshness';
 
 export interface Device {
   slug: string;
@@ -9,6 +11,9 @@ export interface Device {
   price: number | null;
   image: string | null;
   affiliate: string | null;
+  /** Later of the review's publish/updated date — the honest "last updated" for derived pages. */
+  updated: string;
+  discontinued: boolean;
   tags: string[];
   specs: Record<string, string | number | string[] | undefined>;
 }
@@ -16,21 +21,29 @@ export interface Device {
 /** Flat, client-friendly device list for the compare tool + /devices.json feed. */
 export async function getDevices(): Promise<Device[]> {
   const reviews = await getCollection('reviews');
-  return reviews
-    .map((r) => {
+  const devices = await Promise.all(
+    reviews.map(async (r) => {
       const name = r.data.title.replace(/ Review.*$/i, '').trim();
+      const photo = reviewImage(r.slug);
+      // Thumbnails render at ~140–250 CSS px, so a 480px WebP covers 2x displays
+      // without shipping the full-size source JPEG.
+      const image = photo ? (await getImage({ src: photo, width: 480, format: 'webp' })).src : null;
+      const discontinued = !!r.data.discontinued;
       return {
         slug: r.slug,
         name,
         rating: r.data.rating,
         price: r.data.price ?? r.data.specs?.price ?? null,
-        image: reviewImage(r.slug)?.src ?? null,
-        affiliate: resolveAffiliate(r.data.affiliate, name) ?? null,
+        image,
+        affiliate: discontinued ? null : resolveAffiliate(r.data.affiliate, name) ?? null,
+        updated: latestDate(r.data.publishDate, r.data.updatedDate),
+        discontinued,
         tags: r.data.tags ?? [],
         specs: r.data.specs ?? {},
       };
-    })
-    .sort((a, b) => a.name.localeCompare(b.name));
+    }),
+  );
+  return devices.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export interface ComparisonPair {
@@ -53,7 +66,8 @@ const GENERIC_TAGS = new Set(['4k', 'streaming']);
  * spinning up thin permutations of every device against every other.
  */
 export async function getComparisonPairs(): Promise<ComparisonPair[]> {
-  const devices = await getDevices();
+  // Discontinued devices keep their review but aren't pitched in new matchups.
+  const devices = (await getDevices()).filter((d) => !d.discontinued);
   const seen = new Set<string>();
   const pairs: ComparisonPair[] = [];
 

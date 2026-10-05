@@ -29,6 +29,8 @@ const jsonLd = [
     description,
     datePublished: publishDate,
     ...(updatedDate ? { dateModified: updatedDate } : {}),
+    // Article rich results require an image; fall back to the generated OG card.
+    image: new URL(image ?? ogImage ?? '/og-default.png', site).href,
     author: authorJsonLd(author, site),
     publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
     mainEntityOfPage: pageUrl,

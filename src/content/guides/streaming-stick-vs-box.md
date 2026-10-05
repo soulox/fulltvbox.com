@@ -36,7 +36,6 @@ A **streaming box** (NVIDIA Shield, Roku Ultra, Fire TV Cube, onn. 4K Pro) sits 
 **Best sticks we've reviewed:**
 - [Amazon Fire TV Stick 4K Max](/reviews/fire-tv-stick-4k-max-2024) — best Wi-Fi performance at $59
 - [Roku Streaming Stick 4K](/reviews/roku-streaming-stick-4k-2023) — cleanest interface at $49
-- [Chromecast with Google TV](/reviews/chromecast-google-tv-4k) — best content aggregation at $49
 
 ---
 

@@ -84,4 +84,4 @@ Even on an ad-heavy box you can reduce the clutter:
 
 But the truth is simple: if you never want to see a home-screen ad, the **Apple TV 4K** is the only device that guarantees it. If you just want *few* ads cheaply, a **Roku** is the value pick.
 
-For the bigger picture on picking a device, see our [best TV boxes of 2026](/guides/best-tv-box-2025) and the [Fire TV vs Google TV vs Roku breakdown](/guides/android-tv-vs-fire-tv-vs-roku).
+For the bigger picture on picking a device, see our [best TV boxes of 2026](/guides/best-tv-box) and the [Fire TV vs Google TV vs Roku breakdown](/guides/android-tv-vs-fire-tv-vs-roku).

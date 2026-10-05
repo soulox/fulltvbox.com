@@ -2,6 +2,7 @@
 title: "Best Cheap Streaming Device Under $50 (2026)"
 description: "You don't need to spend much for 4K HDR streaming. These are the best budget streaming devices under $50 in 2026 — including our top value pick."
 publishDate: "2026-06-17"
+updatedDate: "2026-09-18"
 category: "buying-guides"
 faq:
   - question: "What is the best cheap streaming device?"
@@ -19,7 +20,6 @@ faq:
 
 - **Best value overall:** [Walmart onn. 4K Pro](/reviews/onn-4k-pro-streaming-box) ($49) — Ethernet, USB, Dolby Vision, Google TV. Punches far above its price.
 - **Best for simplicity:** [Roku Streaming Stick 4K](/reviews/roku-streaming-stick-4k-2023) ($49) — clean, no lock-in, great remote.
-- **Best Google TV stick:** [Chromecast with Google TV (4K)](/reviews/chromecast-google-tv-4k) ($49).
 - **Cheapest clean Android TV:** [Xiaomi Mi Box S 4K](/reviews/xiaomi-mi-box-s-4k) ($49).
 - **Skip unless it's $40:** the locked-down Fire TV Stick 4K Select.
 
@@ -50,11 +50,9 @@ If you want something that just works with no ecosystem strings attached, the [R
 ---
 ---
 
-## Best Google TV Stick: Chromecast with Google TV (4K)
+## What about the Chromecast with Google TV?
 
-The [Chromecast with Google TV](/reviews/chromecast-google-tv-4k) brings Google's recommendation-heavy interface and Assistant to a $49 stick. It's a good fit if you're in the Google ecosystem and want Cast support built in — just know the home screen leans on sponsored content.
-
-**Price: ~$49** | [Check on Amazon →](https://www.amazon.com/s?k=Chromecast%20with%20Google%20TV%20(4K)&tag=fulltvbox-20)
+Google [discontinued the Chromecast with Google TV](/reviews/chromecast-google-tv-4k) in 2024, so we no longer recommend it — you'll only find leftover stock. If you want Google TV under $50, the onn. 4K Pro above is the better buy anyway: same interface, plus Ethernet and USB.
 
 ---
 ---
@@ -91,4 +89,4 @@ Budget devices cut back in predictable, mostly-painless ways:
 - **Simpler remotes** — fewer shortcut buttons, though most still control TV power/volume.
 - **Faster obsolescence** — cheaper chips age quicker, but a $49 device is cheap to replace.
 
-For most people, a $49 device is all the streamer they'll ever need. If you want wired networking and expandability, get the **onn. 4K Pro**; if you want the simplest experience, get the **Roku**. To compare full specs side by side, use our [comparison tool](/compare) or read the [best TV boxes of 2026](/guides/best-tv-box-2025).
+For most people, a $49 device is all the streamer they'll ever need. If you want wired networking and expandability, get the **onn. 4K Pro**; if you want the simplest experience, get the **Roku**. To compare full specs side by side, use our [comparison tool](/compare) or read the [best TV boxes of 2026](/guides/best-tv-box).
