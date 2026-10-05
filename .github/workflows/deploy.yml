@@ -4,6 +4,14 @@ on:
   push:
     branches: [master]
 
+# One production deploy at a time. Without this, merges that land close together
+# deploy in parallel and whichever finishes last wins, even if it's an older commit.
+# A new run waits for the current one; a queued run that a newer push supersedes is
+# dropped, so the newest commit always deploys last. Running deploys are never killed.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
