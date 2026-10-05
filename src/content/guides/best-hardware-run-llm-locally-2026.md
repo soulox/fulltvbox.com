@@ -1,6 +1,6 @@
 ---
-title: "Best Hardware to Run LLMs Locally (2026): GPUs, Macs, and Mini PCs"
-description: "Running ChatGPT-style models on your own machine comes down to one number: memory. Here's the hardware that actually runs local LLMs well in 2026, from $300 GPUs to 128GB unified-memory desktops."
+title: "Best Hardware to Run LLMs Locally (2026)"
+description: "The hardware that actually runs local LLMs well in 2026 comes down to one number: memory — from $300 GPUs to 128GB unified-memory desktops."
 publishDate: "2026-06-17"
 category: "ai-llm"
 faq:
@@ -52,7 +52,7 @@ Add a few GB on top for the **context window** (the conversation/document the mo
 
 ## NVIDIA GPUs: the default choice
 
-Nearly every local-AI tool is built for NVIDIA's **CUDA** first, so a GeForce card is the path of least resistance. What matters is the VRAM on the box, not the marketing tier:
+Nearly every local-AI tool is built for NVIDIA's **CUDA** first, so a GeForce card is the path of least resistance. What matters is the VRAM on the box, not the marketing tier — see our [dedicated GPU buying guide](/guides/best-gpu-for-local-llm-2026) for the full breakdown by budget:
 
 - **RTX 3060 (12GB)** — the budget hero. Cheap, runs 7-8B models comfortably and 13B models in a pinch.
 - **RTX 4060 Ti (16GB)** — low power, 16GB for the money, great in a small always-on box.
