@@ -2,6 +2,7 @@
 title: "Fire TV Sideloading Is Getting Blocked in 2026: What's Actually Happening"
 description: "Amazon is actively blocking sideloaded apps on Fire TV Sticks and moving future devices to a locked-down OS. Here's what changed, which devices are affected, and what it means if you use Kodi, Plex, or IPTV apps."
 publishDate: "2026-07-06"
+category: "whats-new"
 faq:
   - question: "Is Amazon blocking sideloading on all Fire TV devices?"
     answer: "No — it's split by operating system. Fire OS devices (Android-based, like the Fire TV Stick 4K Max and Fire TV Cube) still allow sideloading, but Fire OS updates now actively disable specific apps flagged for piracy or malware, even ones you already installed. Vega OS devices, starting with the Fire TV Stick 4K Select, never allowed sideloading in the first place — and Amazon has said all future Fire TV Sticks will run Vega OS."
