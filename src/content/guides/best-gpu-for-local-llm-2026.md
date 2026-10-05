@@ -1,6 +1,6 @@
 ---
-title: "Best GPU for Running Local LLMs in 2026: A VRAM-First Buying Guide"
-description: "The best graphics card for local AI isn't the fastest — it's the one with enough VRAM to hold your model. Here's how to pick a GPU for local LLMs by budget, from a $250 used card to the RTX 5090."
+title: "Best GPU for Local LLMs in 2026: A VRAM Guide"
+description: "The best GPU for local AI isn't the fastest — it's the one with enough VRAM to hold your model. Pick by budget, from a $250 used card to the RTX 5090."
 publishDate: "2026-06-17"
 category: "ai-llm"
 faq:

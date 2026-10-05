@@ -1,5 +1,5 @@
 ---
-title: "Xiaomi Mi Box S 4K Review: The Best Budget Android TV Box"
+title: "Xiaomi Mi Box S 4K Review: Budget Android TV"
 description: "At under $50, the Xiaomi Mi Box S is the cheapest way to get a clean Android TV experience with 4K HDR support. We tested it to find out what corners were cut."
 publishDate: "2025-06-15"
 updatedDate: "2026-06-15"

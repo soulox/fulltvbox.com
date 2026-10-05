@@ -1,6 +1,6 @@
 ---
-title: "Fire TV Stick Running Slow? 9 Fixes That Actually Work"
-description: "A laggy, slow Fire TV Stick is usually fixable in a few minutes. Here are 9 proven fixes — from clearing storage to taming background apps — ranked from easiest to most thorough."
+title: "Fire TV Stick Running Slow? 9 Fixes That Work"
+description: "A laggy Fire TV Stick is usually fixable in minutes. Here are 9 proven fixes, from clearing storage to taming background apps, ranked easiest first."
 publishDate: "2026-06-17"
 category: "troubleshooting"
 faq:
