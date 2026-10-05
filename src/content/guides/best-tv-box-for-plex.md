@@ -1,5 +1,5 @@
 ---
-title: "Best TV Box for Plex in 2025: Our Top Picks for Every Budget"
+title: "Best TV Box for Plex in 2025: Top Picks"
 description: "Not all streaming boxes handle Plex equally. We break down which devices offer the best Plex experience — from direct play to server hosting to remote access."
 publishDate: "2025-11-10"
 category: "buying-guides"

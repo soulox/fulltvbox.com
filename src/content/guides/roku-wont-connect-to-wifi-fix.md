@@ -1,5 +1,5 @@
 ---
-title: "Roku Won't Connect to Wi-Fi? Here's How to Fix It"
+title: "Roku Won't Connect to Wi-Fi? How to Fix It"
 description: "Roku stuck on 'can't connect to wireless network' or error 014? Work through these fixes in order — most Roku Wi-Fi problems are solved in a couple of minutes."
 publishDate: "2026-06-17"
 category: "troubleshooting"

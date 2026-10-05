@@ -1,5 +1,5 @@
 ---
-title: "Chromecast with Google TV (4K) Review: Google's Best Attempt Yet"
+title: "Chromecast with Google TV (4K) Review"
 description: "Google finally gave Chromecast a real interface and a remote. The result is a capable $49 streamer — if you can live with the Google account requirements."
 publishDate: "2025-07-18"
 updatedDate: "2026-06-15"

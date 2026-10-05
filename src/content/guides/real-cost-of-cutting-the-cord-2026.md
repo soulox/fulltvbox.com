@@ -1,6 +1,6 @@
 ---
-title: "The Real Cost of Cutting the Cord in 2026 (Data Study)"
-description: "We added up the price of every major streaming service to find out what cord-cutting actually costs in 2026. The average four-service stack now runs $720 a year — and live TV can cost more than cable ever did."
+title: "The Real Cost of Cutting the Cord in 2026"
+description: "We added up every major streaming service to see what cord-cutting costs in 2026 — a four-service stack runs $720/year, and live TV can cost more than cable."
 publishDate: "2026-06-17"
 category: "cord-cutting"
 faq:
@@ -73,6 +73,7 @@ The data points to four concrete tactics:
 2. **Rotate, don't stack.** Subscribe to one service, binge it, cancel, move to the next. There are no contracts — use that.
 3. **Anchor on free services.** [Tubi](https://tubi.tv) and [Pluto TV](https://pluto.tv) are $0 and cover a surprising amount of casual viewing.
 4. **Buy the device once.** A $49 streamer like the [onn. 4K Pro](/reviews/onn-4k-pro-streaming-box) replaces a rented cable box forever — see the [best cheap streaming devices](/guides/best-cheap-streaming-device-under-50-2026).
+5. **Bundle where it's genuine.** Official multi-app bundles and carrier perks can beat paying separately — see [which streaming bundles actually save money](/guides/streaming-bundles-worth-it-2026).
 
 ---
 ---

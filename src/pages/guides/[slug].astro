@@ -34,6 +34,12 @@ const devices = graph
   .reviewsMentionedInGuide(guide.slug)
   .map(slug => reviewBySlug.get(slug))
   .filter((r): r is NonNullable<typeof r> => !!r)
+  .slice(0, 4)
+  .map(r => ({
+    href: `/reviews/${r.slug}`,
+    title: r.data.title.replace(/ Review.*$/i, '').trim(),
+    description: r.data.description,
+  }));
   .slice(0, 6)
   .map(r => {
     const deal = dealsByDevice.get(r.slug);
@@ -71,4 +77,7 @@ const categoryLabel = guideCategoryLabel(guide.data.category);
     moreHref={`/guides/category/${guide.data.category}`}
     moreText={`All ${categoryLabel}`}
   />
+  {devices.length > 0 && (
+    <RelatedLinks slot="related" items={devices} heading="Devices in this guide" label="// On the bench" />
+  )}
 </GuideLayout>

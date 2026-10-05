@@ -1,6 +1,6 @@
 ---
-title: "Amazon's New Fire TV Interface (2026): What Changed and Is It Actually Better"
-description: "Amazon's biggest Fire TV redesign since 2020 is rolling out across sticks, the Cube, and Fire TVs this summer. Here's exactly what changed, which devices have it, and whether it's worth the adjustment."
+title: "Amazon's New Fire TV Interface: What Changed"
+description: "Amazon's biggest Fire TV redesign since 2020 is rolling out now — what changed, which devices have it, and whether it's worth the adjustment."
 publishDate: "2026-07-08"
 category: "whats-new"
 faq:
