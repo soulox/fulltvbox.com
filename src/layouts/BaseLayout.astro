@@ -429,14 +429,17 @@ function isActive(href: string) {
     .prose-bench :where(strong):not(:where([class~="not-prose"] *)) { color: var(--ink); }
     .prose-bench :where(hr):not(:where([class~="not-prose"] *)) { border-color: var(--line); }
     .prose-bench :where(table):not(:where([class~="not-prose"] *)) { font-size: 0.9em; }
+    /* Markdown tables are wrapped by src/lib/rehype-table-scroll.mjs so wide ones
+       scroll sideways on phones instead of widening the page. */
+    .prose-bench .table-scroll { overflow-x: auto; }
+    .prose-bench .table-scroll > table { margin-top: 0; margin-bottom: 0; }
+    .prose-bench .table-scroll { margin-top: 2em; margin-bottom: 2em; }
     .prose-bench :where(th):not(:where([class~="not-prose"] *)) {
       font-family: "IBM Plex Mono", monospace; text-transform: uppercase; font-size: 0.72em;
       letter-spacing: 0.06em; color: var(--muted); border-bottom: 1px solid var(--line-bright);
     }
     .prose-bench :where(td):not(:where([class~="not-prose"] *)) { border-bottom: 1px solid var(--line); }
-    /* Tables quoted inside a blockquote (e.g. AI example outputs) scroll sideways on
-       phones instead of widening the page; long code tokens (domains) may wrap. */
-    .prose-bench :where(blockquote table):not(:where([class~="not-prose"] *)) { display: block; overflow-x: auto; }
+    /* Long code tokens in tables and quoted output (e.g. domains) may wrap. */
     .prose-bench :where(td code, blockquote :not(pre) > code):not(:where([class~="not-prose"] *)) { overflow-wrap: anywhere; }
   </style>
 </body>
