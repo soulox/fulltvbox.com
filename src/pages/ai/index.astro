@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PromptCard from '../../components/PromptCard.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { getCollection } from 'astro:content';
+import { getPrompts, groupPrompts } from '../../lib/prompts';
+import { getAiTools } from '../../lib/aiTools';
+import { groupGuidesByCategory } from '../../lib/guides';
+
+const [prompts, tools, guides] = await Promise.all([getPrompts(), getAiTools(), getCollection('guides')]);
+const sections = groupPrompts(prompts);
+const latest = prompts.slice(0, 6);
+const aiGuides = groupGuidesByCategory(guides).find((s) => s.id === 'ai-llm')?.guides ?? [];
+const site = Astro.site;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'AI Prompts & Tools for TV & Streaming',
+    itemListElement: [
+      ...sections.map((s) => ({ name: `${s.label} prompts`, url: `/ai/prompts/group/${s.id}` })),
+      { name: 'AI tools for TV & streaming', url: '/ai/tools' },
+      ...aiGuides.map((g) => ({ name: g.data.title, url: `/guides/${g.slug}` })),
+    ].map((item, i) => ({ '@type': 'ListItem', position: i + 1, name: item.name, url: new URL(item.url, site).href })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'AI', item: new URL('/ai', site).href },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="AI Prompts & Tools for TV & Streaming"
+  description="Tested AI prompts and curated AI tools for fixing streaming problems, finding what to watch, cutting costs, and running AI at home."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+  <div class="max-w-6xl mx-auto px-4 py-14">
+    <nav class="label flex items-center gap-2 mb-6" data-pagefind-ignore>
+      <a href="/" class="hover:text-signal transition-colors">Home</a>
+      <span class="text-line-bright">/</span>
+      <span class="text-muted">AI</span>
+    </nav>
+
+    <span class="label text-signal">// Channel 04 · AI</span>
+    <h1 class="font-display font-900 text-4xl sm:text-6xl tracking-tight leading-[0.95] mt-1 mb-4">
+      AI for your <span class="text-signal">TV</span>, tested.
+    </h1>
+    <p class="text-muted text-lg max-w-2xl mb-10">
+      Prompts you can copy into ChatGPT, Claude, or Gemini to fix buffering, pick what to watch, and trim your streaming
+      bill, each shown with a real example output. Plus the AI tools worth using around your TV, and how to run AI on your
+      own hardware.
+    </p>
+    <div class="flex flex-wrap gap-3 mb-16">
+      <a href="/ai/prompts" class="btn-signal">Browse {prompts.length} prompts →</a>
+      <a href="/ai/tools" class="btn-ghost">See the tools</a>
+    </div>
+
+    <!-- prompt groups -->
+    <section class="mb-16">
+      <span class="label text-signal">// Prompt library</span>
+      <h2 class="font-display font-800 text-2xl mt-1 mb-6">Pick a job</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {sections.map((s) => (
+          <a href={`/ai/prompts/group/${s.id}`} class="bench-card frame group p-5 flex flex-col">
+            <span class="label text-dim mb-2">{s.prompts.length} prompts</span>
+            <h3 class="font-display font-800 text-lg text-ink group-hover:text-signal transition-colors mb-2">{s.label}</h3>
+            <p class="text-muted text-sm flex-1">{s.blurb}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- latest prompts -->
+    <section class="mb-16">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="label text-signal">// Fresh off the bench</span>
+          <h2 class="font-display font-800 text-2xl mt-1">Latest prompts</h2>
+        </div>
+        <a href="/ai/prompts" class="label text-muted hover:text-signal transition-colors shrink-0">All prompts →</a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {latest.map((p) => <PromptCard prompt={p} showGroup />)}
+      </div>
+    </section>
+
+    <!-- tools -->
+    <section class="mb-16">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="label text-signal">// Tool rack</span>
+          <h2 class="font-display font-800 text-2xl mt-1">AI tools worth using</h2>
+        </div>
+        <a href="/ai/tools" class="label text-muted hover:text-signal transition-colors shrink-0">All {tools.length} tools →</a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {tools.slice(0, 3).map((t) => <ToolCard tool={t} />)}
+      </div>
+    </section>
+
+    <!-- existing AI guides -->
+    {aiGuides.length > 0 && (
+      <section>
+        <div class="flex items-end justify-between gap-4 mb-6">
+          <div>
+            <span class="label text-signal">// Guides</span>
+            <h2 class="font-display font-800 text-2xl mt-1">AI on your hardware</h2>
+          </div>
+          <a href="/guides/category/ai-llm" class="label text-muted hover:text-signal transition-colors shrink-0">All AI guides →</a>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5">
+          {aiGuides.map((g) => (
+            <a href={`/guides/${g.slug}`} class="bench-card frame group p-5 flex flex-col">
+              <h3 class="font-display font-700 text-lg leading-snug text-ink group-hover:text-signal transition-colors mb-2">{g.data.title}</h3>
+              <p class="text-muted text-sm line-clamp-2">{g.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>

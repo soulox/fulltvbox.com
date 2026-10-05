@@ -1,0 +1,12 @@
+name: "Alexa+"
+maker: "Amazon"
+url: "https://www.amazon.com/alexaplus"
+pricing: "Included with Prime; $19.99/mo without Prime (limited free chat)"
+goodFor:
+  - "Conversational search on Fire TV (\"find that heist movie with the twins\")"
+  - "Jumping to a scene or a show across apps by voice"
+  - "Controlling smart-home gear from the couch"
+onTv: "Built into compatible Fire TV devices at no extra cost."
+privacyNote: "Requests are processed in Amazon's cloud. Review and delete voice history in the Alexa app under Alexa Privacy."
+order: 40
+verified: "2026-10-05"

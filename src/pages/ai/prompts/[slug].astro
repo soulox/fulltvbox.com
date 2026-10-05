@@ -1,0 +1,65 @@
+---
+import GuideLayout from '../../../layouts/GuideLayout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+import RelatedLinks from '../../../components/RelatedLinks.astro';
+import { getPrompts, relatedPrompts, promptGroupLabel, toLink, type Prompt } from '../../../lib/prompts';
+
+export async function getStaticPaths() {
+  const prompts = await getPrompts();
+  return prompts.map((prompt) => ({
+    params: { slug: prompt.slug },
+    props: { prompt, all: prompts },
+  }));
+}
+
+const { prompt, all } = Astro.props as { prompt: Prompt; all: Prompt[] };
+const { data } = prompt.entry;
+const { Content } = await prompt.entry.render();
+const more = relatedPrompts(prompt, all).map(toLink);
+const groupLabel = promptGroupLabel(data.group);
+const testedDate = new Date(data.testedOn.date).toLocaleDateString('en-US', {
+  month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC',
+});
+---
+<GuideLayout
+  title={data.title}
+  description={data.description}
+  publishDate={data.publishDate}
+  updatedDate={data.updatedDate}
+  author={data.author}
+  ogImage={`/og/prompts/${prompt.slug}.png`}
+  kind="PROMPT"
+  crumbs={[
+    { name: 'AI', href: '/ai' },
+    { name: groupLabel, href: `/ai/prompts/group/${data.group}` },
+  ]}
+  pagefindType="prompt"
+>
+  <div class="not-prose flex flex-wrap items-center gap-2 mb-2">
+    <span class="label">Works with</span>
+    {prompt.tools.map((t) => (
+      <a href={`/ai/tools#${t.slug}`} class="chip hover:text-signal hover:border-signal/40 transition-colors">{t.name}</a>
+    ))}
+  </div>
+
+  <PromptBlock prompt={data.prompt} variables={data.variables} />
+
+  <p class="not-prose label mb-10">
+    <span class="text-scope">◆ Tested</span> on {data.testedOn.model} · {testedDate}. The example below is that model's actual output for the sample details shown. AI answers vary between runs, so check anything important.
+  </p>
+
+  <Content />
+
+  <Fragment slot="related">
+    {prompt.related.length > 0 && (
+      <RelatedLinks items={prompt.related} heading="Read next" label="// From the bench" />
+    )}
+    <RelatedLinks
+      items={more}
+      heading="More prompts"
+      label="// Prompt library"
+      moreHref={`/ai/prompts/group/${data.group}`}
+      moreText="All in group"
+    />
+  </Fragment>
+</GuideLayout>

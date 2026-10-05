@@ -1,0 +1,31 @@
+---
+import type { AiTool } from '../lib/aiTools';
+
+interface Props {
+  tool: AiTool;
+}
+const { tool } = Astro.props;
+---
+<article id={tool.slug} class="bench-card frame p-5 flex flex-col scroll-mt-24">
+  <div class="flex items-start justify-between gap-3 mb-1">
+    <h3 class="font-display font-800 text-xl text-ink leading-tight">{tool.name}</h3>
+    {tool.local && <span class="chip text-scope border-scope/40 shrink-0">Local</span>}
+  </div>
+  <p class="label mb-4">{tool.maker} · {tool.pricing}</p>
+
+  <ul class="text-sm text-ink/85 space-y-1.5 mb-4">
+    {tool.goodFor.map((g) => (
+      <li class="flex gap-2"><span class="text-signal">▸</span><span>{g}</span></li>
+    ))}
+  </ul>
+
+  {tool.onTv && (
+    <p class="text-sm text-muted mb-2"><span class="label text-scope">On your TV</span> {tool.onTv}</p>
+  )}
+  <p class="text-sm text-muted mb-5"><span class="label text-amber">Privacy</span> {tool.privacyNote}</p>
+
+  <div class="mt-auto flex items-center justify-between gap-3">
+    <a href={tool.url} class="btn-ghost !py-2 !px-3" target="_blank" rel="noopener">Visit {tool.name} ↗</a>
+    <span class="label text-dim">Checked {new Date(tool.verified).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}</span>
+  </div>
+</article>

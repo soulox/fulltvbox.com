@@ -39,7 +39,7 @@ function meter(rating: number): El {
 }
 
 export interface OgOpts {
-  kind?: string;     // REVIEW | GUIDE | TUTORIAL | ''
+  kind?: string;     // REVIEW | GUIDE | TUTORIAL | PROMPT | ''
   title: string;
   rating?: number;   // reviews only
   meta?: string;     // tagline / difficulty·duration

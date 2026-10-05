@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PromptCard from '../../../../components/PromptCard.astro';
+import { getPrompts, groupPrompts, type PromptSection } from '../../../../lib/prompts';
+
+export async function getStaticPaths() {
+  // Only non-empty groups get a page.
+  return groupPrompts(await getPrompts()).map((section) => ({
+    params: { group: section.id },
+    props: { section },
+  }));
+}
+
+const { section } = Astro.props as { section: PromptSection };
+const site = Astro.site;
+const pageUrl = new URL(`/ai/prompts/group/${section.id}`, site).href;
+const title = `${section.label} AI Prompts for TV & Streaming`;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: title,
+    itemListElement: section.prompts.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: new URL(p.href, site).href,
+      name: p.entry.data.title,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'AI', item: new URL('/ai', site).href },
+      { '@type': 'ListItem', position: 3, name: 'Prompts', item: new URL('/ai/prompts', site).href },
+      { '@type': 'ListItem', position: 4, name: section.label, item: pageUrl },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={`${section.blurb} Copy-ready, tested AI prompts.`}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <nav class="label flex items-center gap-2 mb-6 flex-wrap" data-pagefind-ignore>
+      <a href="/" class="hover:text-signal transition-colors">Home</a>
+      <span class="text-line-bright">/</span>
+      <a href="/ai" class="hover:text-signal transition-colors">AI</a>
+      <span class="text-line-bright">/</span>
+      <a href="/ai/prompts" class="hover:text-signal transition-colors">Prompts</a>
+      <span class="text-line-bright">/</span>
+      <span class="text-muted">{section.label}</span>
+    </nav>
+
+    <span class="label text-signal">// Prompt group</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">{section.label} Prompts</h1>
+    <p class="text-muted mb-10 max-w-2xl">{section.blurb}</p>
+
+    <div class="grid sm:grid-cols-2 gap-5">
+      {section.prompts.map((p) => <PromptCard prompt={p} />)}
+    </div>
+
+    <div class="mt-12">
+      <a href="/ai/prompts" class="label text-muted hover:text-signal transition-colors">← All prompts</a>
+    </div>
+  </div>
+</BaseLayout>

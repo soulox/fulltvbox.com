@@ -1,0 +1,10 @@
+name: "Microsoft Copilot"
+maker: "Microsoft"
+url: "https://copilot.microsoft.com"
+pricing: "Free; Copilot in Office apps via Microsoft 365 Premium $19.99/mo"
+goodFor:
+  - "Quick answers with web sources, free and without a subscription"
+  - "Building a streaming budget spreadsheet in Excel (with Microsoft 365)"
+privacyNote: "You can opt out of your conversations being used for model training in Copilot's privacy settings."
+order: 60
+verified: "2026-10-05"

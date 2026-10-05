@@ -1,0 +1,10 @@
+name: "Perplexity"
+maker: "Perplexity AI"
+url: "https://www.perplexity.ai"
+pricing: "Free (limited Pro searches); Pro $20/mo; Max $200/mo"
+goodFor:
+  - "Current facts with sources: today's price of a service, which app has a show this month"
+  - "Checking claims before you cancel or switch a subscription"
+privacyNote: "You can stop your searches being used to improve models with the AI data retention setting in your account."
+order: 50
+verified: "2026-10-05"

@@ -1,0 +1,11 @@
+name: "Claude"
+maker: "Anthropic"
+url: "https://claude.ai"
+pricing: "Free; Pro $20/mo; Max from $100/mo"
+goodFor:
+  - "Long, careful answers: comparing services against your exact channel list"
+  - "Reading config files and logs (Pi-hole, Plex, Jellyfin) you paste in"
+  - "Asking you clarifying questions before recommending hardware"
+privacyNote: "You choose whether your chats can be used to train models; change it any time in Settings › Privacy."
+order: 20
+verified: "2026-10-05"

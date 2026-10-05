@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 import { getDealsByDevice } from '../../lib/deals';
 import { buildLinkGraph } from '../../lib/links';
 import { relatedReviews } from '../../lib/reviews';
+import { promptsForPage, toLink } from '../../lib/prompts';
 
 export async function getStaticPaths() {
   const [reviews, guides] = await Promise.all([
@@ -19,6 +20,7 @@ export async function getStaticPaths() {
 
 const { review, allReviews, allGuides } = Astro.props;
 const { Content } = await review.render();
+const promptLinks = (await promptsForPage(review.slug)).map(toLink);
 
 const deal = (await getDealsByDevice()).get(review.slug);
 
@@ -69,4 +71,5 @@ const featuredInGuides = buildLinkGraph(allGuides, allReviews)
   {featuredInGuides.length > 0 && (
     <RelatedLinks slot="related" items={featuredInGuides} heading="Guides featuring this device" label="// In our guides" />
   )}
+  <RelatedLinks slot="related" items={promptLinks} heading="AI prompts for this" label="// Prompt library" moreHref="/ai/prompts" moreText="All prompts" />
 </ReviewLayout>

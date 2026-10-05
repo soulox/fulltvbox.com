@@ -14,8 +14,19 @@ interface Props {
   ogImage?: string;
   faq?: { question: string; answer: string }[];
   author?: string;
+  /** Eyebrow label above the title. */
+  kind?: string;
+  /** Breadcrumb trail between Home and this page. */
+  crumbs?: { name: string; href: string }[];
+  /** Pagefind `type:` filter value. */
+  pagefindType?: string;
 }
-const { title, description, publishDate, updatedDate, image, ogImage, faq, author: authorSlug } = Astro.props;
+const {
+  title, description, publishDate, updatedDate, image, ogImage, faq, author: authorSlug,
+  kind = 'GUIDE',
+  crumbs = [{ name: 'Guides', href: '/guides' }],
+  pagefindType = 'guide',
+} = Astro.props;
 const author = getAuthor(authorSlug);
 const fresh = freshness(publishDate, updatedDate);
 
@@ -40,8 +51,8 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
-      { '@type': 'ListItem', position: 2, name: 'Guides', item: new URL('/guides', site).href },
-      { '@type': 'ListItem', position: 3, name: title, item: pageUrl },
+      ...crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 2, name: c.name, item: new URL(c.href, site).href })),
+      { '@type': 'ListItem', position: crumbs.length + 2, name: title, item: pageUrl },
     ],
   },
 ];
@@ -54,18 +65,22 @@ const jsonLd = [
   <nav class="max-w-3xl mx-auto px-4 pt-8 label flex items-center gap-2" data-pagefind-ignore>
     <a href="/" class="hover:text-signal transition-colors">Home</a>
     <span class="text-line-bright">/</span>
-    <a href="/guides" class="hover:text-signal transition-colors">Guides</a>
-    <span class="text-line-bright">/</span>
+    {crumbs.map((c) => (
+      <>
+        <a href={c.href} class="hover:text-signal transition-colors">{c.name}</a>
+        <span class="text-line-bright">/</span>
+      </>
+    ))}
     <span class="text-muted truncate">{title}</span>
   </nav>
 
-  <article class="max-w-3xl mx-auto px-4 py-8" data-pagefind-body data-pagefind-filter="type:guide">
+  <article class="max-w-3xl mx-auto px-4 py-8" data-pagefind-body data-pagefind-filter={`type:${pagefindType}`}>
     {image && (
       <img src={image} alt={title} width="960" height="288" decoding="async" fetchpriority="high" class="w-full h-72 mb-8 object-contain bg-panel border border-line" onerror="this.style.display='none';" />
     )}
 
     <div class="label mb-3 flex items-center gap-2 flex-wrap">
-      <span class="text-signal">GUIDE</span>
+      <span class="text-signal">{kind}</span>
       {fresh === 'updated' && <span class="chip text-scope border-scope/40">◆ UPDATED</span>}
       {fresh === 'new' && <span class="chip text-signal border-signal/40">◆ NEW</span>}
       <span class="text-line-bright">·</span>

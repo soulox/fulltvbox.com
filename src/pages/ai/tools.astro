@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { getAiTools } from '../../lib/aiTools';
+
+const tools = await getAiTools();
+const site = Astro.site;
+const pageUrl = new URL('/ai/tools', site).href;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'AI Tools for TV & Streaming',
+    itemListElement: tools.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${pageUrl}#${t.slug}`,
+      name: t.name,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'AI', item: new URL('/ai', site).href },
+      { '@type': 'ListItem', position: 3, name: 'Tools', item: pageUrl },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="AI Tools for TV & Streaming"
+  description="The AI assistants worth using around your TV: what each is good at, what it costs, whether it runs locally, and what it does with your data."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+  <div class="max-w-6xl mx-auto px-4 py-14">
+    <nav class="label flex items-center gap-2 mb-6" data-pagefind-ignore>
+      <a href="/" class="hover:text-signal transition-colors">Home</a>
+      <span class="text-line-bright">/</span>
+      <a href="/ai" class="hover:text-signal transition-colors">AI</a>
+      <span class="text-line-bright">/</span>
+      <span class="text-muted">Tools</span>
+    </nav>
+
+    <span class="label text-signal">// Tool rack</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">AI Tools for TV &amp; Streaming</h1>
+    <p class="text-muted mb-4 max-w-2xl">
+      A short, hand-picked list. These are editorial notes, not scored reviews: what each assistant is good for around
+      your TV, what it costs, and what happens to what you type. Pricing changes often, so each card shows when we last checked it.
+    </p>
+    <p class="text-muted mb-12 max-w-2xl">
+      Looking for something to paste in? Start with the <a href="/ai/prompts" class="text-signal hover:underline">prompt library</a>.
+    </p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {tools.map((t) => <ToolCard tool={t} />)}
+    </div>
+  </div>
+</BaseLayout>

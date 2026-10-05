@@ -1,0 +1,12 @@
+name: "Ollama"
+maker: "Ollama (open source)"
+url: "https://ollama.com"
+pricing: "Free, open source"
+goodFor:
+  - "Running open models (Llama, Qwen, Gemma, Mistral) on a mini-PC, Mac, or Raspberry Pi 5"
+  - "Private home-lab helper that never sends your questions to a cloud"
+  - "Back end for Open WebUI and Home Assistant voice"
+local: true
+privacyNote: "Runs on your own hardware; prompts stay on your network unless you deliberately connect a cloud model."
+order: 70
+verified: "2026-10-05"

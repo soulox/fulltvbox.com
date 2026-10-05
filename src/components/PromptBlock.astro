@@ -1,0 +1,43 @@
+---
+// A copyable prompt template. `{placeholder}` tokens are highlighted so the
+// reader knows what to fill in; the copy button copies the raw template.
+interface Props {
+  prompt: string;
+  variables?: string[];
+}
+const { prompt, variables = [] } = Astro.props;
+const text = prompt.trim();
+const VAR = /^\{[^{}\n]+\}$/;
+const parts = text.split(/(\{[^{}\n]+\})/g).map((t) => ({ t, isVar: VAR.test(t) }));
+---
+<div class="not-prose my-8" data-prompt-block>
+  <div class="flex items-center justify-between gap-3 mb-2">
+    <span class="label text-signal">// The prompt</span>
+    <button type="button" class="btn-signal !py-2 !px-3" data-copy aria-live="polite">Copy prompt</button>
+  </div>
+  <pre class="frame panel p-5 whitespace-pre-wrap break-words font-mono text-sm leading-relaxed text-ink/90" data-prompt-text>{parts.map(({ t, isVar }) => (isVar ? <span class="text-signal bg-signal/10 px-0.5">{t}</span> : t))}</pre>
+  {variables.length > 0 && (
+    <p class="label mt-3 flex flex-wrap items-center gap-2">
+      <span>Fill in:</span>
+      {variables.map((v) => <span class="chip text-signal">{`{${v}}`}</span>)}
+    </p>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-prompt-block]').forEach((block) => {
+    const btn = block.querySelector<HTMLButtonElement>('[data-copy]');
+    const pre = block.querySelector<HTMLElement>('[data-prompt-text]');
+    if (!btn || !pre) return;
+    const label = btn.textContent;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.innerText);
+        btn.textContent = 'Copied ✓';
+      } catch {
+        btn.textContent = 'Select & copy manually';
+      }
+      setTimeout(() => (btn.textContent = label), 2000);
+    });
+  });
+</script>

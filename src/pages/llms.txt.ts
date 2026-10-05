@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { latestDate } from '../lib/freshness';
 import { getComparisonPairs } from '../lib/devices';
+import { getPrompts } from '../lib/prompts';
 
 // Build-time generated llms.txt (https://llmstxt.org) — a curated, machine-readable
 // index that steers AI search/answer engines to the canonical content on the site.
@@ -12,11 +13,12 @@ export const GET: APIRoute = async ({ site }) => {
     new Date(latestDate(b.data.publishDate, b.data.updatedDate)).getTime() -
     new Date(latestDate(a.data.publishDate, a.data.updatedDate)).getTime();
 
-  const [reviews, guides, tutorials, pairs] = await Promise.all([
+  const [reviews, guides, tutorials, pairs, prompts] = await Promise.all([
     getCollection('reviews'),
     getCollection('guides'),
     getCollection('tutorials'),
     getComparisonPairs(),
+    getPrompts(),
   ]);
 
   const item = (path: string, title: string, desc: string) =>
@@ -35,6 +37,7 @@ export const GET: APIRoute = async ({ site }) => {
     item('/compare', 'Compare devices', 'Side-by-side spec comparison of streaming boxes and sticks.'),
     item('/which-streaming-device', 'Device finder quiz', 'Answer four questions to get a personalized streaming-device recommendation.'),
     item('/cut-the-cord', 'Cut the cord', 'Cord-cutting hub: cost calculator, services, and recommended hardware.'),
+    item('/ai', 'AI prompts & tools', 'Tested AI prompts and curated AI tools for streaming, TV troubleshooting, and home media labs.'),
     item('/devices.json', 'Device data (JSON)', 'Machine-readable specs for every reviewed device.'),
     '',
     section('Reviews', reviews.sort(byNewest).map((r) => item(`/reviews/${r.slug}`, r.data.title, r.data.description))),
@@ -42,6 +45,8 @@ export const GET: APIRoute = async ({ site }) => {
     section('Guides', guides.sort(byNewest).map((g) => item(`/guides/${g.slug}`, g.data.title, g.data.description))),
     '',
     section('Tutorials', tutorials.sort(byNewest).map((t) => item(`/tutorials/${t.slug}`, t.data.title, t.data.description))),
+    '',
+    section('AI Prompts', prompts.map((p) => item(p.href, p.entry.data.title, p.entry.data.description))),
     '',
     section(
       'Comparisons',
