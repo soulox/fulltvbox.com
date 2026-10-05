@@ -126,4 +126,51 @@ const deals = defineCollection({
     }),
 });
 
-export const collections = { reviews, guides, tutorials, deals, services };
+// Copyable AI prompts for TV/streaming tasks, one page each under /ai/prompts.
+// `tools` and `related` are slugs joined in src/lib/prompts.ts, which fails the
+// build on an unknown slug (unlike deals, which drop silently).
+const prompts = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishDate: z.string(),
+    updatedDate: z.string().optional(),
+    group: z.enum(['troubleshooting', 'what-to-watch', 'save-money', 'setup-homelab']),
+    // The prompt template. `{placeholder}` tokens are highlighted for the reader to fill in.
+    prompt: z.string(),
+    variables: z.array(z.string()).default([]),
+    tools: z.array(z.string()).min(1), // ai-tools slugs
+    // The model that produced the example output in the body, and when.
+    testedOn: z.object({ model: z.string(), date: z.string() }),
+    related: z.array(z.string()).default([]), // guide, tutorial, or review slugs
+    author: z.string().optional(),
+  }),
+});
+
+// Curated AI tool cards for /ai/tools. Editorial notes, not rated reviews.
+const aiTools = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+    maker: z.string(),
+    url: z.string(),
+    pricing: z.string(),
+    goodFor: z.array(z.string()).min(1),
+    onTv: z.string().optional(), // where it runs on TV hardware, if anywhere
+    local: z.boolean().default(false), // runs on your own hardware
+    privacyNote: z.string(),
+    order: z.number().default(100),
+    verified: z.string(), // date pricing/privacy facts were last checked
+  }),
+});
+
+export const collections = {
+  reviews,
+  guides,
+  tutorials,
+  deals,
+  services,
+  prompts,
+  'ai-tools': aiTools,
+};

@@ -1,0 +1,12 @@
+name: "Gemini"
+maker: "Google"
+url: "https://gemini.google.com"
+pricing: "Free; AI Plus $4.99/mo; AI Pro $19.99/mo; Ultra from $99.99/mo"
+goodFor:
+  - "\"What should I watch?\" questions answered right on the TV with Gemini for Google TV"
+  - "Searching current info (release dates, what's leaving a service) with Google Search grounding"
+  - "Help with Google TV and Android TV settings"
+onTv: "Replaces Google Assistant on the Google TV Streamer and a growing list of Google TV sets (Android TV OS 14+)."
+privacyNote: "With Gemini Apps Activity on, chats are saved and some may be reviewed by people. Turn it off under Activity in the Gemini app."
+order: 30
+verified: "2026-10-05"

@@ -1,0 +1,11 @@
+name: "Open WebUI"
+maker: "Open WebUI (open source)"
+url: "https://openwebui.com"
+pricing: "Free, open source (self-hosted)"
+goodFor:
+  - "A ChatGPT-style web interface for your local Ollama models, usable from any device at home"
+  - "Saving your favourite prompts from this library as reusable templates"
+local: true
+privacyNote: "Self-hosted: chats are stored on your server. Nothing goes to a third party unless you add a cloud API key."
+order: 80
+verified: "2026-10-05"

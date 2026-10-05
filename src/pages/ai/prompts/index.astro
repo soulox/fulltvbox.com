@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PromptCard from '../../../components/PromptCard.astro';
+import { getPrompts, groupPrompts } from '../../../lib/prompts';
+
+const prompts = await getPrompts();
+const sections = groupPrompts(prompts);
+const site = Astro.site;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'AI Prompts for TV & Streaming',
+    itemListElement: sections
+      .flatMap((s) => s.prompts)
+      .map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: new URL(p.href, site).href,
+        name: p.entry.data.title,
+      })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: 'AI', item: new URL('/ai', site).href },
+      { '@type': 'ListItem', position: 3, name: 'Prompts', item: new URL('/ai/prompts', site).href },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="AI Prompts for TV & Streaming"
+  description={`${prompts.length} copy-ready AI prompts for buffering fixes, what to watch, cheaper streaming, and home media labs, each with a tested example.`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <nav class="label flex items-center gap-2 mb-6" data-pagefind-ignore>
+      <a href="/" class="hover:text-signal transition-colors">Home</a>
+      <span class="text-line-bright">/</span>
+      <a href="/ai" class="hover:text-signal transition-colors">AI</a>
+      <span class="text-line-bright">/</span>
+      <span class="text-muted">Prompts</span>
+    </nav>
+
+    <span class="label text-signal">// Prompt library</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">AI Prompts for TV &amp; Streaming</h1>
+    <p class="text-muted mb-12 max-w-2xl">
+      Copy a prompt, fill in the highlighted details, and paste it into the AI assistant you already use. Every prompt
+      shows a real example output so you know what to expect.
+    </p>
+
+    {sections.map((s) => (
+      <section class="mb-14">
+        <div class="flex items-end justify-between gap-4 mb-5">
+          <div>
+            <h2 class="font-display font-800 text-2xl">{s.label}</h2>
+            <p class="text-muted text-sm mt-1">{s.blurb}</p>
+          </div>
+          <a href={`/ai/prompts/group/${s.id}`} class="label text-muted hover:text-signal transition-colors shrink-0">All {s.prompts.length} →</a>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {s.prompts.map((p) => <PromptCard prompt={p} />)}
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

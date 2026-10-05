@@ -57,6 +57,16 @@ const jsonLd = [
     <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">{section.label}</h1>
     <p class="text-muted mb-10">{description}</p>
 
+    {section.id === 'ai-llm' && (
+      <a href="/ai" class="bench-card frame group p-5 mb-10 flex items-center justify-between gap-4">
+        <span>
+          <span class="label text-signal block mb-1">// AI hub</span>
+          <span class="font-display font-700 text-lg text-ink group-hover:text-signal transition-colors">Copy-ready AI prompts and the AI tools worth using around your TV</span>
+        </span>
+        <span class="font-mono text-xs text-dim group-hover:text-signal transition-colors shrink-0">→ /ai</span>
+      </a>
+    )}
+
     <div class="grid sm:grid-cols-2 gap-5">
       {section.guides.map((guide) => (
         <a href={`/guides/${guide.slug}`} class="bench-card frame group p-6 flex flex-col">

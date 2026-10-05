@@ -1,0 +1,11 @@
+name: "ChatGPT"
+maker: "OpenAI"
+url: "https://chatgpt.com"
+pricing: "Free; Go $8/mo; Plus $20/mo; Pro from $100/mo"
+goodFor:
+  - "Step-by-step troubleshooting when you paste in error messages or speed-test results"
+  - "Turning a messy list of subscriptions into a rotation plan"
+  - "Voice mode for talking through a setup while you're holding the remote"
+privacyNote: "Chats can be used to train models unless you turn off \"Improve the model for everyone\" in Settings › Data controls."
+order: 10
+verified: "2026-10-05"

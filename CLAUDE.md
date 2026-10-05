@@ -26,6 +26,7 @@ Content is the database. Schemas live in `src/content/config.ts` (Zod) — read 
 
 - `reviews/`, `guides/`, `tutorials/` — Markdown (`type: 'content'`). Reviews carry `rating` (1–5), optional `specs`, `faq`, `price`, `affiliate`, `featured`.
 - `services/`, `deals/` — YAML data files (`type: 'data'`).
+- `prompts/` (Markdown) and `ai-tools/` (YAML) power the `/ai` section. A prompt's `tools` (ai-tools slugs) and `related` (guide/tutorial/review slugs) are joined in `src/lib/prompts.ts`, which **throws at build time** on an unknown slug. Each prompt body's example output must be a real run by the model named in `testedOn`.
 
 **Cross-collection joins are by slug, validated only at runtime in `src/lib/`, not by Zod:**
 

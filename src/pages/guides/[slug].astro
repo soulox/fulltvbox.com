@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import { relatedGuides, guideCategoryLabel } from '../../lib/guides';
 import { buildLinkGraph } from '../../lib/links';
 import { getDealsByDevice } from '../../lib/deals';
+import { promptsForPage, toLink } from '../../lib/prompts';
 
 export async function getStaticPaths() {
   const [guides, reviews] = await Promise.all([
@@ -20,6 +21,7 @@ export async function getStaticPaths() {
 
 const { guide, allGuides, allReviews } = Astro.props;
 const { Content } = await guide.render();
+const promptLinks = (await promptsForPage(guide.slug)).map(toLink);
 
 const related = relatedGuides(guide, allGuides).map(g => ({
   href: `/guides/${g.slug}`,
@@ -72,4 +74,5 @@ const categoryLabel = guideCategoryLabel(guide.data.category);
     moreHref={`/guides/category/${guide.data.category}`}
     moreText={`All ${categoryLabel}`}
   />
+  <RelatedLinks slot="related" items={promptLinks} heading="AI prompts for this" label="// Prompt library" moreHref="/ai/prompts" moreText="All prompts" />
 </GuideLayout>

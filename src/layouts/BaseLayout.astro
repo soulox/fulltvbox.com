@@ -49,7 +49,7 @@ const path = cleanPath;
 const nav = [
   { href: '/reviews', label: 'Reviews', ch: '02' },
   { href: '/cut-the-cord', label: 'Cut the Cord', ch: '03' },
-  { href: '/deals', label: 'Deals', ch: '04' },
+  { href: '/ai', label: 'AI', ch: '04' },
   { href: '/compare', label: 'Compare', ch: '05' },
   { href: '/guides', label: 'Guides', ch: '06' },
   { href: '/tutorials', label: 'Tutorials', ch: '07' },
@@ -194,6 +194,7 @@ function isActive(href: string) {
           <a href="/which-streaming-device" class="text-muted hover:text-signal transition-colors">Device Finder</a>
           <a href="/best-picks" class="text-muted hover:text-signal transition-colors">Best Picks</a>
           <a href="/guides" class="text-muted hover:text-signal transition-colors">Guides</a>
+          <a href="/ai" class="text-muted hover:text-signal transition-colors">AI Prompts &amp; Tools</a>
           <a href="/tutorials" class="text-muted hover:text-signal transition-colors">Tutorials</a>
           <a href="/about" class="text-muted hover:text-signal transition-colors">About</a>
           <a href="/how-we-test" class="text-muted hover:text-signal transition-colors">How We Test</a>
@@ -433,6 +434,10 @@ function isActive(href: string) {
       letter-spacing: 0.06em; color: var(--muted); border-bottom: 1px solid var(--line-bright);
     }
     .prose-bench :where(td):not(:where([class~="not-prose"] *)) { border-bottom: 1px solid var(--line); }
+    /* Tables quoted inside a blockquote (e.g. AI example outputs) scroll sideways on
+       phones instead of widening the page; long code tokens (domains) may wrap. */
+    .prose-bench :where(blockquote table):not(:where([class~="not-prose"] *)) { display: block; overflow-x: auto; }
+    .prose-bench :where(td code, blockquote :not(pre) > code):not(:where([class~="not-prose"] *)) { overflow-wrap: anywhere; }
   </style>
 </body>
 </html>
