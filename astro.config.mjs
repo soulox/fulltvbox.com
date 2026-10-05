@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import pagefind from 'astro-pagefind';
+import { rehypeTableScroll } from './src/lib/rehype-table-scroll.mjs';
 import { readdirSync, readFileSync } from 'node:fs';
 
 // /deals is noindexed while it has no live deals (see src/pages/deals.astro), so keep
@@ -23,6 +24,9 @@ export default defineConfig({
   site: 'https://fulltvbox.com',
   trailingSlash: 'never',
   build: { format: 'file' },
+  markdown: {
+    rehypePlugins: [rehypeTableScroll],
+  },
   integrations: [
     tailwind(),
     sitemap({
