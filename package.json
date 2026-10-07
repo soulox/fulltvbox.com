@@ -5,6 +5,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test": "node --test",
     "images:amazon": "node scripts/fetch-amazon-images.mjs",
     "images:bestbuy": "node scripts/fetch-bestbuy-images.mjs",
     "prices": "node scripts/fetch-prices.mjs",
