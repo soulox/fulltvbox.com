@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { weeklyTop, periodTop, latestWeek, netflixPeriods, indexByKey, weekLabel } from './top10-core.mjs';
+import { weeklyTop, periodTop, latestWeek, netflixPeriods, indexByKey, verdictKey, weekLabel } from './top10-core.mjs';
 
 export { weekLabel };
 export type Kind = 'movie' | 'series';
@@ -47,7 +47,7 @@ let verdictIndex: Promise<Map<string, Verdict>> | undefined;
 async function withVerdicts(list: Omit<WatchTitle, 'service' | 'verdict'>[]): Promise<WatchTitle[]> {
   verdictIndex ??= getCollection('watch-verdicts').then((entries) => indexByKey(entries.map((e) => e.data)));
   const verdicts = await verdictIndex;
-  return list.map((t) => ({ ...t, service: 'netflix', verdict: verdicts.get(t.key) }));
+  return list.map((t) => ({ ...t, service: 'netflix', verdict: verdicts.get(verdictKey(t.kind, t.title)) }));
 }
 
 export async function getWeeklyTop(region: 'us' | 'global', kind: Kind): Promise<WatchTitle[]> {

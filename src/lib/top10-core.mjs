@@ -46,8 +46,9 @@ export function titleKey(title) {
     .replace(/^-+|-+$/g, '');
 }
 
-/** @param {string} s */
+/** Blank cells are missing data, not zero. @param {string} s */
 const num = (s) => {
+  if (s.trim() === '') return undefined;
   const n = Number(s);
   return Number.isFinite(n) ? n : undefined;
 };
@@ -176,19 +177,40 @@ export function netflixPeriods(latest) {
   return periods;
 }
 
+/** Verdicts join on kind + title, so a film and a series with the same name stay apart. */
+/** @param {Kind} kind @param {string} title */
+export function verdictKey(kind, title) {
+  return `${kind}:${titleKey(title)}`;
+}
+
 /**
- * Map of titleKey -> entry. Two verdict files for one title would make the page pick one
+ * Map of verdictKey -> entry. Two verdict files for one title would make the page pick one
  * silently, so that fails the build instead.
- * @template {{ title: string }} T
+ * @template {{ title: string, kind: Kind }} T
  * @param {T[]} entries
  * @returns {Map<string, T>}
  */
 export function indexByKey(entries) {
   const map = new Map();
   for (const e of entries) {
-    const key = titleKey(e.title);
+    const key = verdictKey(e.kind, e.title);
     if (map.has(key)) throw new Error(`Duplicate verdict for "${e.title}" (key "${key}")`);
     map.set(key, e);
   }
   return map;
+}
+
+/**
+ * Sanity check on a fresh download, so a format change or a stalled feed fails the deploy
+ * instead of publishing empty or wrong lists. Returns an error message, or null when fine.
+ * @param {Top10Row[]} global @param {Top10Row[]} us @param {Date} now
+ * @param {number} [maxAgeDays] Netflix publishes weekly; three weeks without a new list is stale.
+ */
+export function checkSnapshot(global, us, now, maxAgeDays = 21) {
+  if (!global.length || !us.length) return `no rows after filtering (global ${global.length}, US ${us.length})`;
+  if (!global.some((r) => (r.views ?? 0) > 0)) return 'global data has no view counts (column renamed or blank?)';
+  const latest = /** @type {string} */ (latestWeek(global));
+  const ageDays = (now.getTime() - new Date(`${latest}T00:00:00Z`).getTime()) / 86_400_000;
+  if (ageDays > maxAgeDays) return `data is stale: latest week ${latest} is ${Math.floor(ageDays)} days old`;
+  return null;
 }

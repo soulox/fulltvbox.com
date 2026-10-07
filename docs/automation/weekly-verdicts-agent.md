@@ -21,18 +21,21 @@ request. Never push to `master`.**
 npm run top10
 node --input-type=module <<'EOF'
 import fs from 'node:fs';
-import { weeklyTop, periodTop, latestWeek, netflixPeriods, titleKey } from './src/lib/top10-core.mjs';
+import { parse } from 'yaml';
+import { weeklyTop, periodTop, latestWeek, netflixPeriods, verdictKey } from './src/lib/top10-core.mjs';
 const c = JSON.parse(fs.readFileSync('.cache/netflix-top10.json', 'utf8'));
 const dir = 'src/content/watch-verdicts';
 const have = new Set(fs.readdirSync(dir).filter((f) => f.endsWith('.yaml'))
-  .map((f) => titleKey(fs.readFileSync(`${dir}/${f}`, 'utf8').match(/^title:\s*"?(.*?)"?\s*$/m)[1])));
+  .map((f) => parse(fs.readFileSync(`${dir}/${f}`, 'utf8')) ?? {})
+  .filter((v) => v.title && v.kind)
+  .map((v) => verdictKey(v.kind, v.title)));
 const pm = netflixPeriods(latestWeek(c.global))[0];
 const lists = ['movie', 'series'].flatMap((kind) => [
   ...weeklyTop(c.us, { kind, week: latestWeek(c.us) }),
   ...weeklyTop(c.global, { kind, week: latestWeek(c.global) }),
   ...periodTop(c.global, { kind, from: pm.from, to: pm.to }),
 ]);
-const need = [...new Map(lists.filter((t) => !have.has(t.key)).map((t) => [t.key, t])).values()];
+const need = [...new Map(lists.map((t) => [verdictKey(t.kind, t.title), t]).filter(([k]) => !have.has(k))).values()];
 console.log(need.map((t) => `${t.kind}\t${t.title}`).join('\n') || '(none)');
 EOF
 ```
@@ -64,8 +67,11 @@ checked: "YYYY-MM-DD"          # today
 ## Guardrails (non-negotiable)
 
 - Never invent a review, a quote or a score. Every verdict must follow from the cited sources.
+- **Open every source with `WebFetch` in this run** and confirm it reviews this exact title
+  and, for a series, this exact season (a season-1 review doesn't support a season-2 verdict;
+  a same-named film from another year doesn't count). Search-result snippets are not sources.
 - Fewer than 2 reviews found → no verdict file; list the title in the PR body as skipped.
-- One file per title key. A new season is a new title with its own file; don't reuse season 1's.
+- One file per title and kind. A new season is a new title with its own file; don't reuse season 1's.
 - Don't edit anything outside `src/content/watch-verdicts/`.
 - No spoilers beyond the premise.
 
@@ -73,6 +79,8 @@ checked: "YYYY-MM-DD"          # today
 
 `npm run build` must pass (the schema checks `take` length, URLs, and duplicate titles).
 Branch `verdicts/weekly-YYYY-MM-DD`, commit, push, and `gh pr create`. In the PR body: a
-table of title, verdict, take and source links, plus the titles skipped for lack of reviews.
+table of title, verdict, take and source links, with **one quoted sentence from each source**
+that supports the verdict, so the reviewer can check it quickly. Also list the titles skipped for
+lack of reviews.
 Never push to `master` or merge. End commit messages with a `Co-Authored-By:` trailer naming
 the model that ran.

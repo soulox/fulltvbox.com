@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseTsv, displayTitle, titleKey, globalRows, countryRows, latestWeek,
-  weeklyTop, periodTop, addDays, netflixPeriods, weekLabel, indexByKey,
+  weeklyTop, periodTop, addDays, netflixPeriods, weekLabel, indexByKey, checkSnapshot, verdictKey,
 } from '../src/lib/top10-core.mjs';
 
 const GLOBAL_TSV = [
@@ -106,7 +106,40 @@ test('netflixPeriods: past month, year to date, then each full past year', () =>
 });
 
 test('indexByKey throws on duplicate titles', () => {
-  const map = indexByKey([{ title: 'UNABOMBER' }, { title: 'Wednesday: Season 2' }]);
-  assert.equal(map.get('unabomber').title, 'UNABOMBER');
-  assert.throws(() => indexByKey([{ title: 'UNABOMBER' }, { title: 'Unabomber' }]), /Duplicate verdict/);
+  const map = indexByKey([{ title: 'UNABOMBER', kind: 'movie' }, { title: 'Wednesday: Season 2', kind: 'series' }]);
+  assert.equal(map.get('movie:unabomber').title, 'UNABOMBER');
+  assert.throws(() => indexByKey([{ title: 'UNABOMBER', kind: 'movie' }, { title: 'Unabomber', kind: 'movie' }]), /Duplicate verdict/);
+});
+
+test('blank view cells become undefined, not 0', () => {
+  const tsv = [
+    'week\tcategory\tweekly_rank\tshow_title\tseason_title\tweekly_hours_viewed\truntime\tweekly_views\tcumulative_weeks_in_top_10',
+    '2026-10-04\tFilms (English)\t2\tB Film\tN/A\t1\t1\t\t1',
+    '2026-10-04\tFilms (English)\t1\tA Film\tN/A\t1\t1\t\t1',
+  ].join('\n');
+  const rows = globalRows(parseTsv(tsv), '2025-01-01');
+  assert.equal(rows[0].views, undefined);
+  // Without views the list keeps Netflix's rank order instead of sorting by a fake 0.
+  assert.deepEqual(weeklyTop(rows, { kind: 'movie', week: '2026-10-04' }).map((t) => t.title), ['A Film', 'B Film']);
+});
+
+test('checkSnapshot rejects empty, view-less or stale data', () => {
+  const now = new Date('2026-10-07T09:00:00Z');
+  const good = [{ week: '2026-10-04', kind: 'movie', rank: 1, title: 'A', views: 5, weeks: 1 }];
+  const us = [{ week: '2026-10-04', kind: 'movie', rank: 1, title: 'A', weeks: 1 }];
+  assert.equal(checkSnapshot(good, us, now), null);
+  assert.match(checkSnapshot([], us, now), /no rows/);
+  assert.match(checkSnapshot(good, [], now), /no rows/);
+  assert.match(checkSnapshot([{ ...good[0], views: undefined }], us, now), /no view counts/);
+  assert.match(checkSnapshot([{ ...good[0], week: '2026-09-01' }], us, now), /stale/);
+});
+
+test('indexByKey keys verdicts by kind and title', () => {
+  const map = indexByKey([
+    { title: 'The Thicket', kind: 'movie' },
+    { title: 'The Thicket', kind: 'series' },
+  ]);
+  assert.equal(map.get(verdictKey('movie', 'The Thicket')).kind, 'movie');
+  assert.equal(map.get(verdictKey('series', 'The Thicket')).kind, 'series');
+  assert.throws(() => indexByKey([{ title: 'X', kind: 'movie' }, { title: 'x', kind: 'movie' }]), /Duplicate verdict/);
 });
