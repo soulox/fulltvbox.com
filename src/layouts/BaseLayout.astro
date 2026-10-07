@@ -381,7 +381,8 @@ function isActive(href: string) {
     .btn-ghost:hover { border-color: var(--signal); color: var(--signal); }
 
     /* mono chip / tag */
-    .chip {
+    /* :where() keeps specificity at 0 so text-/border-/hover: utilities on a chip win. */
+    :where(.chip) {
       font-family: "IBM Plex Mono", monospace; font-size: 0.65rem; text-transform: uppercase;
       letter-spacing: 0.06em; color: var(--muted); background: var(--panel2);
       border: 1px solid var(--line); padding: 0.18rem 0.5rem;

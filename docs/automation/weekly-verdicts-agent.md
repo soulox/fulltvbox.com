@@ -54,6 +54,8 @@ Then write `src/content/watch-verdicts/<titleKey>.yaml`:
 ```yaml
 title: "Wednesday: Season 2"   # exactly as the list shows it, season included
 kind: series                   # movie | series
+genres: [drama, mystery]       # 1–3 ids from src/lib/genres.ts
+description: "One spoiler-free line on what it is, ≤200 chars, in our own words."
 verdict: watch                 # watch | skip | depends
 take: "One line, ≤160 chars: who it's for and why, in the site's candid voice."
 sources: ["https://…", "https://…"]
@@ -74,6 +76,11 @@ checked: "YYYY-MM-DD"          # today
 - One file per title and kind. A new season is a new title with its own file; don't reuse season 1's.
 - Don't edit anything outside `src/content/watch-verdicts/`.
 - No spoilers beyond the premise.
+- **`description` is your own sentence**, not Netflix's synopsis or a reviewer's line copied
+  or lightly reworded. It says what the title is (premise, format, who's in it), not whether
+  it's good; the verdict and take do that.
+- **`genres` come only from `src/lib/genres.ts`.** Pick the 1–3 that a viewer would search
+  for. If none fits, use the closest one and say so in the PR body; don't add new genre ids.
 
 ## Step 3 — Validate and deliver
 
