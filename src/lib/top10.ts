@@ -41,8 +41,12 @@ export function netflixLatestWeek(region: 'us' | 'global' = 'us'): string | null
   return c ? latestWeek(c[region]) : null;
 }
 
+// Loaded once per build: every list on every page joins against the same verdicts.
+let verdictIndex: Promise<Map<string, Verdict>> | undefined;
+
 async function withVerdicts(list: Omit<WatchTitle, 'service' | 'verdict'>[]): Promise<WatchTitle[]> {
-  const verdicts = indexByKey((await getCollection('watch-verdicts')).map((e) => e.data));
+  verdictIndex ??= getCollection('watch-verdicts').then((entries) => indexByKey(entries.map((e) => e.data)));
+  const verdicts = await verdictIndex;
   return list.map((t) => ({ ...t, service: 'netflix', verdict: verdicts.get(t.key) }));
 }
 

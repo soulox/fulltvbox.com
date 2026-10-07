@@ -1,0 +1,17 @@
+---
+import { getNetflixPeriods } from '../lib/top10';
+
+interface Props { current: string } // 'week' or a period slug
+const { current } = Astro.props;
+const links = [
+  { slug: 'week', label: 'This week', href: '/what-to-watch/netflix' },
+  ...getNetflixPeriods().map((p) => ({ slug: p.slug, label: p.label, href: `/what-to-watch/netflix/${p.slug}` })),
+];
+---
+<nav aria-label="Netflix Top 10 lists" class="flex flex-wrap gap-2 mb-10">
+  {links.map((l) => (
+    <a href={l.href} class={`chip ${l.slug === current ? 'text-signal border-signal/40' : 'hover:text-signal'}`} aria-current={l.slug === current ? 'page' : undefined}>
+      {l.label}
+    </a>
+  ))}
+</nav>

@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Top10List from '../../../components/Top10List.astro';
+import NetflixListNav from '../../../components/NetflixListNav.astro';
+import NetflixSourceNote from '../../../components/NetflixSourceNote.astro';
+import { getWeeklyTop, netflixLatestWeek, itemListJsonLd, weekLabel } from '../../../lib/top10';
+
+const usWeek = netflixLatestWeek('us');
+const globalWeek = netflixLatestWeek('global');
+const [usMovies, usSeries, globalMovies, globalSeries] = await Promise.all([
+  getWeeklyTop('us', 'movie'), getWeeklyTop('us', 'series'),
+  getWeeklyTop('global', 'movie'), getWeeklyTop('global', 'series'),
+]);
+const jsonLd = [
+  itemListJsonLd('Top 10 Netflix movies in the US this week', usMovies),
+  itemListJsonLd('Top 10 Netflix series in the US this week', usSeries),
+];
+---
+<BaseLayout
+  title="Netflix Top 10 This Week: Movies & Series"
+  description="This week's top 10 movies and series on Netflix in the US and worldwide, from Netflix's official data, with our verdict on each."
+  ogImage="/og/what-to-watch/netflix.png"
+  noindex={!usWeek}
+>
+  {usWeek && (
+    <Fragment slot="head">
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    </Fragment>
+  )}
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <nav class="label text-dim mb-4"><a href="/what-to-watch" class="hover:text-signal">What to Watch</a> / <span class="text-muted">Netflix</span></nav>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mb-2">Netflix Top 10 This Week</h1>
+    <p class="text-muted mb-6">{usWeek ? `Week of ${weekLabel(usWeek)}.` : 'The lists are being refreshed.'}</p>
+    <NetflixListNav current="week" />
+    {usWeek && (
+      <>
+        <h2 class="label text-signal mb-4">{'// United States'}</h2>
+        <div class="grid lg:grid-cols-2 gap-8 mb-14">
+          <Top10List heading="Movies" items={usMovies} />
+          <Top10List heading="Series" items={usSeries} />
+        </div>
+        <h2 class="label text-signal mb-4">{'// Worldwide'}{globalWeek ? ` · week of ${weekLabel(globalWeek)}` : ''}</h2>
+        <div class="grid lg:grid-cols-2 gap-8">
+          <Top10List heading="Movies" items={globalMovies} showViews />
+          <Top10List heading="Series" items={globalSeries} showViews />
+        </div>
+        <NetflixSourceNote />
+      </>
+    )}
+  </div>
+</BaseLayout>
