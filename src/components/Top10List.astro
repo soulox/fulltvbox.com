@@ -1,0 +1,40 @@
+---
+import type { WatchTitle } from '../lib/top10';
+
+interface Props {
+  heading: string;
+  items: WatchTitle[];
+  showViews?: boolean;
+  weeksSuffix?: string; // "in the Top 10" (weekly) or "in the Top 10 this period"
+}
+const { heading, items, showViews = false, weeksSuffix = 'in the Top 10' } = Astro.props;
+
+const fmtViews = (n: number) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : `${Math.round(n / 1e3)}K`);
+const verdictClass = { watch: 'text-signal border-signal/40', skip: 'text-dim', depends: 'text-amber border-amber/40' };
+const verdictLabel = { watch: 'Watch', skip: 'Skip', depends: 'Depends' };
+---
+<section>
+  <h2 class="font-display font-800 text-2xl mb-4">{heading}</h2>
+  {items.length === 0 ? (
+    <p class="text-muted">No titles for this period yet.</p>
+  ) : (
+    <ol role="list" class="space-y-2">
+      {items.map((t) => (
+        <li class="bench-card frame px-4 py-3 flex items-start gap-4">
+          <span aria-hidden="true" class="font-display font-900 text-2xl text-signal leading-none w-8 shrink-0 text-right">{t.rank}</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-display font-700 text-ink">{t.title}</span>
+              {t.verdict && <span class={`chip ${verdictClass[t.verdict.verdict]}`}>{verdictLabel[t.verdict.verdict]}</span>}
+            </div>
+            {t.verdict && <p class="text-muted text-sm mt-1">{t.verdict.take}</p>}
+            <div class="label text-dim mt-1">
+              {showViews && t.views !== undefined && `${fmtViews(t.views)} views · `}
+              {t.weeksInTop10} {t.weeksInTop10 === 1 ? 'week' : 'weeks'} {weeksSuffix}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  )}
+</section>

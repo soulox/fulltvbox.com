@@ -1,0 +1,15 @@
+---
+interface Props { aggregated?: boolean } // true on month/year pages
+const { aggregated = false } = Astro.props;
+---
+<div class="panel frame px-5 py-4 mt-12 text-sm text-muted leading-relaxed">
+  <span class="label text-signal">// Source</span>
+  <p class="mt-1">
+    Rankings come from Netflix's official
+    <a href="https://www.netflix.com/tudum/top10" target="_blank" rel="noopener" class="text-signal border-b border-signal/30 hover:border-signal">Top 10</a>,
+    published weekly. {aggregated
+      ? 'These lists add up each title\'s global views across the weeks it spent in the weekly Top 10. Netflix doesn\'t publish views for weeks outside it, so a title that charted briefly can rank lower than its true total.'
+      : 'US lists use Netflix\'s US ranks; global lists rank by views.'}
+  </p>
+  <p class="mt-2">Verdicts are our take, based on published reviews. Rebuilt daily.</p>
+</div>

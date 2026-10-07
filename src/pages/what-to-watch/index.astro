@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Top10List from '../../components/Top10List.astro';
+import NetflixSourceNote from '../../components/NetflixSourceNote.astro';
+import { getWeeklyTop, getNetflixPeriods, netflixLatestWeek, itemListJsonLd, weekLabel, jsonLdString } from '../../lib/top10';
+
+const week = netflixLatestWeek('us');
+const [movies, series] = await Promise.all([getWeeklyTop('us', 'movie'), getWeeklyTop('us', 'series')]);
+const periods = getNetflixPeriods();
+const jsonLd = [
+  itemListJsonLd('Top 10 movies on Netflix in the US this week', movies),
+  itemListJsonLd('Top 10 series on Netflix in the US this week', series),
+];
+---
+<BaseLayout
+  title="What to Watch: This Week's Top 10 Movies & Shows"
+  description="What everyone is actually watching this week: the top 10 movies and series on Netflix in the US, with a quick verdict on what's worth your time."
+  ogImage="/og/what-to-watch/hub.png"
+  noindex={!week}
+>
+  {week && (
+    <Fragment slot="head">
+      <script type="application/ld+json" set:html={jsonLdString(jsonLd)} />
+    </Fragment>
+  )}
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <span class="label text-signal">// Watch list</span>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">What to Watch</h1>
+    <p class="text-muted mb-8 max-w-2xl">
+      The movies and shows people are actually watching, from official viewing data, with our
+      quick call on what's worth your evening. Netflix today; more services soon.
+    </p>
+
+    {!week ? (
+      <div class="panel frame px-6 py-16 text-center">
+        <div class="label text-signal mb-2">NO SIGNAL</div>
+        <p class="text-muted">The lists are being refreshed. Check back shortly.</p>
+      </div>
+    ) : (
+      <>
+        <div class="flex flex-wrap items-baseline justify-between gap-3 mb-6">
+          <h2 class="font-display font-800 text-xl">Netflix US · week of {weekLabel(week)}</h2>
+          <a href="/what-to-watch/netflix" class="label text-muted hover:text-signal">Global lists →</a>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-8">
+          <Top10List heading="Top 10 movies" items={movies} />
+          <Top10List heading="Top 10 series" items={series} />
+        </div>
+        <div class="mt-12">
+          <span class="label text-signal">{'// More lists'}</span>
+          <div class="flex flex-wrap gap-2 mt-3">
+            {periods.map((p) => (
+              <a href={`/what-to-watch/netflix/${p.slug}`} class="chip hover:text-signal">Netflix · {p.label}</a>
+            ))}
+          </div>
+        </div>
+        <NetflixSourceNote />
+      </>
+    )}
+  </div>
+</BaseLayout>

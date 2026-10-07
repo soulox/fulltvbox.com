@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Top10List from '../../../components/Top10List.astro';
+import NetflixListNav from '../../../components/NetflixListNav.astro';
+import NetflixSourceNote from '../../../components/NetflixSourceNote.astro';
+import { getNetflixPeriods, getPeriodTop, itemListJsonLd, jsonLdString, type Period } from '../../../lib/top10';
+
+export function getStaticPaths() {
+  return getNetflixPeriods().map((period) => ({ params: { period: period.slug }, props: { period } }));
+}
+
+const { period } = Astro.props as { period: Period };
+const [movies, series] = await Promise.all([
+  getPeriodTop('movie', period.from, period.to),
+  getPeriodTop('series', period.from, period.to),
+]);
+// Netflix weeks end on Sundays; the range is of week-ending dates, so say so.
+const day = (d: string) =>
+  new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const heading = period.slug === 'past-month' ? 'the past month' : period.label;
+const title = `Most-Watched on Netflix: ${period.label === 'Past month' ? 'Past Month' : period.label}`;
+const jsonLd = [
+  itemListJsonLd(`Most-watched Netflix movies, ${heading}`, movies),
+  itemListJsonLd(`Most-watched Netflix series, ${heading}`, series),
+];
+---
+<BaseLayout
+  title={title}
+  description={`The 10 most-watched movies and series on Netflix worldwide for ${heading}, from Netflix's official Top 10 data, with our verdict on each.`}
+  ogImage={`/og/what-to-watch/${period.slug}.png`}
+  noindex={movies.length === 0 && series.length === 0}
+>
+  {(movies.length > 0 || series.length > 0) && (
+    <Fragment slot="head">
+      <script type="application/ld+json" set:html={jsonLdString(jsonLd)} />
+    </Fragment>
+  )}
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <nav aria-label="Breadcrumb" class="label text-dim mb-4"><a href="/what-to-watch" class="hover:text-signal">What to Watch</a> / <a href="/what-to-watch/netflix" class="hover:text-signal">Netflix</a> / <span class="text-muted">{period.label}</span></nav>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mb-2">{title}</h1>
+    <p class="text-muted mb-6">Worldwide, ranked by views across Netflix's weekly lists for weeks ending {day(period.from)} through {day(period.to)}.</p>
+    <NetflixListNav current={period.slug} />
+    <div class="grid lg:grid-cols-2 gap-8">
+      <Top10List heading="Movies" items={movies} showViews weeksSuffix="in the Top 10 this period" />
+      <Top10List heading="Series" items={series} showViews weeksSuffix="in the Top 10 this period" />
+    </div>
+    <NetflixSourceNote aggregated />
+  </div>
+</BaseLayout>
