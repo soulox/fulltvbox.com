@@ -4,18 +4,25 @@ import sitemap from '@astrojs/sitemap';
 import pagefind from 'astro-pagefind';
 import { rehypeTableScroll } from './src/lib/rehype-table-scroll.mjs';
 import { readdirSync, readFileSync } from 'node:fs';
+import { readLiveDeals, dealEndsAt } from './src/lib/live-prices.ts';
 
 // /deals is noindexed while it has no live deals (see src/pages/deals.astro), so keep
 // it out of the sitemap too. Content collections aren't available in config, so read
-// the deal files' `expires` directly — a deal with no expiry counts as live.
+// the deal files' `expires`/`checked` directly and check
+// the retailer price snapshot from scripts/fetch-prices.mjs.
 function hasLiveDeals() {
+  if (readLiveDeals().length) return true;
   const dir = new URL('./src/content/deals/', import.meta.url);
-  const now = Date.now();
+  const now = new Date();
   return readdirSync(dir)
     .filter((f) => /\.ya?ml$/.test(f))
     .some((f) => {
-      const m = readFileSync(new URL(f, dir), 'utf8').match(/^expires:\s*["']?([\d-]+)/m);
-      return !m || new Date(m[1]).getTime() >= now;
+      const raw = readFileSync(new URL(f, dir), 'utf8');
+      const expires = raw.match(/^expires:\s*["']?([\dT:.Z+-]+)/m)?.[1];
+      const checked = raw.match(/^checked:\s*["']?([\d-]+)/m)?.[1];
+      if (expires && dealEndsAt(expires) <= now) return false;
+      // Mirrors RECHECK_MS in src/lib/deals.ts: an unconfirmed deal hides after 21 days.
+      return !checked || dealEndsAt(checked).getTime() + 21 * 86_400_000 > now.getTime();
     });
 }
 const liveDeals = hasLiveDeals();

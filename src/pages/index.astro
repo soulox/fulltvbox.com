@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { getLiveDeals } from '../lib/deals';
+import { getLiveDeals, formatDealPrice } from '../lib/deals';
 import { freshness, latestDate } from '../lib/freshness';
 
 const allReviews = await getCollection('reviews');
@@ -199,8 +199,8 @@ const siteSchema = {
               </div>
               <div class="font-display font-700 text-ink leading-snug mb-3 flex-1 group-hover:text-signal transition-colors">{deal.name}</div>
               <div class="flex items-end gap-2">
-                <span class="font-display font-900 text-2xl text-signal leading-none">${deal.price}</span>
-                {deal.wasPrice && <span class="font-mono text-xs text-dim line-through mb-0.5">${deal.wasPrice}</span>}
+                <span class="font-display font-900 text-2xl text-signal leading-none">{formatDealPrice(deal.price, deal.period)}</span>
+                {deal.wasPrice && <span class="font-mono text-xs text-dim line-through mb-0.5">{formatDealPrice(deal.wasPrice, deal.period)}</span>}
                 <span class="label text-dim ml-auto">Get deal →</span>
               </div>
             </a>

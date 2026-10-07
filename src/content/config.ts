@@ -31,6 +31,10 @@ const reviews = defineCollection({
     rating: z.number().min(1).max(5),
     price: z.number().optional(),
     affiliate: z.string().optional(),
+    // Retailer product IDs. scripts/fetch-prices.mjs prices these at build time and any
+    // discount becomes a live deal. Find a Best Buy SKU with `npm run prices -- --find-bestbuy "<name>"`.
+    asin: z.string().regex(/^[A-Z0-9]{10}$/).optional(),
+    bestBuySku: z.number().int().optional(),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     specs,
@@ -116,9 +120,18 @@ const deals = defineCollection({
       retailer: z.string(),
       price: z.number(),
       wasPrice: z.number().optional(),
+      // Subscription promos: what `price`/`wasPrice` are per, and how long the promo
+      // price lasts ("for 2 months", "first year"). Hardware deals leave both unset.
+      period: z.enum(['month', 'year']).optional(),
+      term: z.string().optional(),
+      promoCode: z.string().optional(),
       url: z.string(),
       badge: z.string().optional(),
-      expires: z.string().optional(),
+      expires: z.string().optional(), // the promo's published end date, when it has one
+      // Date the deal was last confirmed on the retailer's or service's own site. A
+      // checked deal hides itself 21 days later unless re-confirmed (the weekly deals
+      // routine bumps it), so a promo with no published end date can't linger.
+      checked: z.string().optional(),
       featured: z.boolean().default(false),
     })
     .refine((d) => !!d.device !== !!d.service, {

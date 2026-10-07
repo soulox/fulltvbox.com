@@ -6,6 +6,7 @@ rating: 4.5
 featured: false
 tags: ["apple", "4k", "premium", "airplay", "homekit"]
 affiliate: "https://www.amazon.com/s?k=Apple%20TV%204K%20(3rd%20Gen)&tag=fulltvbox-20"
+asin: "B0BJLW4GHR"
 updatedDate: "2026-06-15"
 price: 129
 specs:

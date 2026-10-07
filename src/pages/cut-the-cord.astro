@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CostCalculator from '../components/CostCalculator.astro';
 import { getCollection } from 'astro:content';
 import { getServices } from '../lib/services';
-import { getLiveDeals } from '../lib/deals';
+import { getLiveDeals, formatDealPrice } from '../lib/deals';
 
 const reviews = await getCollection('reviews');
 const boxes = [...reviews].sort((a, b) => b.data.rating - a.data.rating).slice(0, 3);
@@ -99,8 +99,8 @@ const deals = (await getLiveDeals()).slice(0, 3);
                 <div class="label text-dim mt-0.5">{d.retailer}</div>
               </div>
               <div class="text-right shrink-0">
-                <span class="font-display font-900 text-xl text-signal leading-none">${d.price}</span>
-                {d.wasPrice && <span class="font-mono text-xs text-dim line-through ml-1.5">${d.wasPrice}</span>}
+                <span class="font-display font-900 text-xl text-signal leading-none">{formatDealPrice(d.price, d.period)}</span>
+                {d.wasPrice && <span class="font-mono text-xs text-dim line-through ml-1.5">{formatDealPrice(d.wasPrice, d.period)}</span>}
               </div>
             </a>
           ))}

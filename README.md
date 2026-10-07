@@ -62,23 +62,46 @@ the top of "Latest" lists (logic in `src/lib/freshness.ts`).
 
 ### Deals
 
-Each deal is one YAML file in `src/content/deals/`:
+Hardware deals mostly come from **live retailer prices**. Before every build,
+`scripts/fetch-prices.mjs` (`npm run prices`) prices each review that sets `asin:` (Amazon
+Creators API) or `bestBuySku:` (Best Buy Products API) and writes `.cache/live-prices.json`.
+Any price at least 5% under the retailer's list price becomes a deal, with the retailer's
+deal badge and end time when it has one. The deploy workflow rebuilds daily, so deals track
+the retailers without editing anything. A snapshot older than 36 hours is ignored, and with
+no credentials the build simply uses the hand-written files below.
+
+To price a device, add its ID to the review frontmatter (`asin: "B0CFJ4Y5XD"`, or
+`bestBuySku: <sku>` — find one with `npm run prices -- --find-bestbuy "Roku Ultra"`).
+Check the product titles `npm run prices -- --dry-run` prints so a wrong ID never prices the
+wrong device.
+
+Hand-written deals, for streaming-service promos and retailers without an API, are one YAML
+file each in `src/content/deals/`:
 
 ```yaml
-device: nvidia-shield-tv-pro-2025   # must match a review slug
-retailer: Amazon
-price: 169
-wasPrice: 199            # optional — drives the discount %
-url: "https://…?tag=fulltvbox-20"  # affiliate link
-badge: Lowest in 6 months           # optional
-expires: "2026-06-22"               # optional — auto-hidden once past
-featured: true                      # optional — surfaces on the homepage strip
+service: youtube-tv            # a service slug — or `device:` with a review slug
+retailer: New subscribers      # retailer, or who/which plan the promo is for
+price: 59.99
+wasPrice: 82.99                # optional — drives the discount %
+period: month                  # optional — month | year; renders "$59.99/mo"
+term: First 2 months           # optional — how long the promo price lasts
+promoCode: SAVE30              # optional
+url: "https://tv.youtube.com/welcome/"
+badge: Save $46                # optional
+expires: "2026-11-16"          # optional — the published end date; a bare date runs through that day (US Pacific)
+checked: "2026-10-07"          # optional — last confirmed on the official site; hidden 21 days later unless re-confirmed
+featured: true                 # optional — surfaces on the homepage strip
 ```
 
 A deal references **exactly one** of `device` (a review slug) or `service` (a service slug) —
 the `.refine` in `config.ts` enforces it. Expired deals disappear automatically at the next
-build. A hardware deal also replaces the "Check Price" CTA on its review and adds `Offer`
-JSON-LD; service deals surface on `/deals`, the homepage strip, and the cord-cutting hub.
+build. A live price for the same device at the same retailer replaces the hand-written
+deal. A hardware deal also replaces the "Check Price" CTA on its review; service deals
+surface on `/deals`, the homepage strip, and the cord-cutting hub.
+
+Service deals are kept current by a **weekly cloud routine** that re-confirms each promo on
+the service's own site, adds new ones, and opens a PR. Its procedure lives in
+[`docs/automation/weekly-deals-agent.md`](docs/automation/weekly-deals-agent.md).
 
 ### Specs & comparison
 
@@ -155,9 +178,11 @@ Associates-licensed and need no attribution.
 
 ## Deploy
 
-Pushing to `master` triggers `.github/workflows/deploy.yml` → `npm run deploy`
-(`astro build && wrangler pages deploy dist`) to the Cloudflare Pages project `fulltvbox`.
-Requires repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+Pushing to `master`, and a daily 09:00 UTC schedule, trigger `.github/workflows/deploy.yml` →
+`npm run deploy` (fetch prices, `astro build`, `wrangler pages deploy dist`) to the Cloudflare
+Pages project `fulltvbox`. Requires repo secrets `CLOUDFLARE_API_TOKEN` and
+`CLOUDFLARE_ACCOUNT_ID`; live deal prices also need `AMAZON_CREATORS_CLIENT_ID`,
+`AMAZON_CREATORS_CLIENT_SECRET` and `BESTBUY_API_KEY` (each source is skipped if unset).
 
 ## Launch checklist
 
