@@ -118,12 +118,12 @@ function isActive(href: string) {
         <span class="font-display font-900 text-xl tracking-tight text-ink leading-none">
           FULL<span class="text-signal glow-text">TV</span>BOX
         </span>
-        <span class="hidden md:inline label text-[0.6rem] text-dim pl-2 border-l border-line">CH·01 / AV TEST LAB</span>
+        <span class="hidden md:inline lg:hidden label text-[0.6rem] text-dim pl-2 border-l border-line">CH·01 / AV TEST LAB</span>
       </a>
 
       <div class="flex items-center gap-2">
         <!-- Desktop nav -->
-        <nav class="hidden sm:flex items-center gap-1 text-sm">
+        <nav class="hidden lg:flex items-center gap-1 text-sm">
           {nav.map(item => (
             <a
               href={item.href}
@@ -143,7 +143,7 @@ function isActive(href: string) {
         </button>
 
       <!-- Mobile hamburger -->
-      <button id="menu-btn" class="sm:hidden text-muted hover:text-signal p-1 transition-colors" aria-label="Toggle menu">
+      <button id="menu-btn" class="lg:hidden text-muted hover:text-signal p-1 transition-colors" aria-label="Toggle menu">
         <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24">
           <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
@@ -155,7 +155,7 @@ function isActive(href: string) {
     </div>
 
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden sm:hidden border-t border-line bg-void">
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-line bg-void">
       <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col">
         {nav.map(item => (
           <a href={item.href} class={`mnav-link ${isActive(item.href) ? 'is-active' : ''}`}>
@@ -301,13 +301,19 @@ function isActive(href: string) {
       position: relative; display: inline-flex; align-items: center; gap: 0.45rem;
       font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; font-weight: 500;
       text-transform: uppercase; letter-spacing: 0.05em;
-      color: var(--muted); padding: 0.5rem 0.7rem; transition: color 0.18s;
+      color: var(--muted); padding: 0.5rem 0.5rem; transition: color 0.18s;
+      white-space: nowrap; /* a wrapped label breaks the 64px header row */
     }
     .nav-link .nav-ch {
-      font-size: 0.6rem; color: var(--dim); transition: color 0.18s;
+      display: none; font-size: 0.6rem; color: var(--dim); transition: color 0.18s;
+    }
+    /* Eight items only fit with their channel numbers from xl up. */
+    @media (min-width: 1280px) {
+      .nav-link { padding: 0.5rem 0.7rem; }
+      .nav-link .nav-ch { display: inline; }
     }
     .nav-link::after {
-      content: ""; position: absolute; left: 0.7rem; right: 0.7rem; bottom: 0.25rem;
+      content: ""; position: absolute; left: 0.5rem; right: 0.5rem; bottom: 0.25rem;
       height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: left;
       transition: transform 0.22s ease; box-shadow: 0 0 8px rgba(168,232,77,0.7);
     }
