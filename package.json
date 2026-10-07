@@ -9,7 +9,8 @@
     "images:amazon": "node scripts/fetch-amazon-images.mjs",
     "images:bestbuy": "node scripts/fetch-bestbuy-images.mjs",
     "prices": "node scripts/fetch-prices.mjs",
-    "deploy": "node scripts/fetch-prices.mjs && astro build && wrangler pages deploy dist --project-name fulltvbox"
+    "top10": "node scripts/fetch-netflix-top10.mjs",
+    "deploy": "node scripts/fetch-prices.mjs && node scripts/fetch-netflix-top10.mjs && astro build && wrangler pages deploy dist --project-name fulltvbox"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
