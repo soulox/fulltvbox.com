@@ -103,6 +103,14 @@ Service deals are kept current by a **weekly cloud routine** that re-confirms ea
 the service's own site, adds new ones, and opens a PR. Its procedure lives in
 [`docs/automation/weekly-deals-agent.md`](docs/automation/weekly-deals-agent.md).
 
+### What to Watch
+
+`/what-to-watch` lists the top 10 Netflix movies and series for this week (US and global), the
+past month, this year and each past year, from Netflix's official Top 10 data. Run
+`npm run top10` once before `npm run dev` to download the data (the deploy does it automatically).
+Each title can carry a short verdict from `src/content/watch-verdicts/`, drafted weekly by the
+routine in [`docs/automation/weekly-verdicts-agent.md`](docs/automation/weekly-verdicts-agent.md).
+
 ### Specs & comparison
 
 Reviews carry an optional `specs` object (SoC, RAM, storage, OS, resolution, HDR/audio/ports,

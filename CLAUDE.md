@@ -16,7 +16,7 @@ npm run deploy     # astro build && wrangler pages deploy dist
 ```
 
 - Node ≥ 20.19 required.
-- **No test runner, linter, or formatter is configured.** `astro build` is the de-facto check — it runs `astro:content` schema validation against every content file and fails the build on a schema violation. Run `npm run build` to validate content/type changes.
+- **Tests:** `npm test` runs `node --test` (pure logic only, e.g. `src/lib/top10-core.mjs` in `tests/`). No linter or formatter. `astro build` is the de-facto check — it runs `astro:content` schema validation against every content file and fails the build on a schema violation. Run `npm run build` to validate content/type changes.
 - Search (Pagefind) only works in `dev`/`preview` **after at least one `npm run build`**, because the index is generated during build into `dist/pagefind/`.
 - Path alias: `@/*` → `src/*` (tsconfig extends `astro/tsconfigs/strict`).
 
@@ -27,6 +27,7 @@ Content is the database. Schemas live in `src/content/config.ts` (Zod) — read 
 - `reviews/`, `guides/`, `tutorials/` — Markdown (`type: 'content'`). Reviews carry `rating` (1–5), optional `specs`, `faq`, `price`, `affiliate`, `asin`/`bestBuySku` (live pricing), `featured`.
 - `services/`, `deals/` — YAML data files (`type: 'data'`).
 - `prompts/` (Markdown) and `ai-tools/` (YAML) power the `/ai` section. A prompt's `tools` (ai-tools slugs) and `related` (guide/tutorial/review slugs) are joined in `src/lib/prompts.ts`, which **throws at build time** on an unknown slug. Each prompt body's example output must be a real run by the model named in `testedOn`.
+- `watch-verdicts/` (YAML) — editorial verdicts for /what-to-watch titles, joined by `titleKey(title)` in `src/lib/top10.ts`; a duplicate key fails the build.
 
 **Cross-collection joins are by slug, validated only at runtime in `src/lib/`, not by Zod:**
 
@@ -38,6 +39,10 @@ Content is the database. Schemas live in `src/content/config.ts` (Zod) — read 
 - `src/lib/services.ts` powers `/cost-calculator`, `/streaming-services`, `/cut-the-cord`.
 
 When changing how content is queried/derived, the logic almost always belongs in `src/lib/` (shared by multiple pages), not inline in a `.astro` page.
+
+## What to Watch (Netflix Top 10)
+
+`scripts/fetch-netflix-top10.mjs` (`npm run top10`) downloads Netflix's official Top 10 TSVs before each deploy build into `.cache/netflix-top10.json` (it exits 1 in CI on failure, so a bad fetch fails the deploy instead of shipping empty lists). Ranking logic is in `src/lib/top10-core.mjs` (unit-tested); `src/lib/top10.ts` joins verdicts and feeds `/what-to-watch`. Weekly lists are US ranks; past-month and year lists total global views across the weeks a title charted. A weekly routine drafts verdicts by PR (brief: `docs/automation/weekly-verdicts-agent.md`). Other services and genres need TMDB (phase 2, pending a commercial agreement). Locally, run `npm run top10` once before `dev`/`build`; Astro caches content in `node_modules/.astro/data-store.json`, so a deleted verdict file can linger until that file is removed.
 
 ## Freshness convention
 
