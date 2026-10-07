@@ -1,11 +1,12 @@
 ---
 title: "Every Streaming Price Increase in 2026, Tracked (and What to Do About It)"
-description: "Peacock, Netflix, and Paramount+ all raised prices in 2026 — while several hikes people blame on 2026 actually landed in late 2025. Here's the accurate timeline, what you're really paying now, and the four moves that claw the money back."
+description: "Apple TV, Peacock, Netflix, and Paramount+ all raised prices in 2026 — while several hikes people blame on 2026 actually landed in late 2025. Here's the accurate timeline, what you're really paying now, and the four moves that claw the money back."
 publishDate: "2026-08-24"
+updatedDate: "2026-10-07"
 category: "cord-cutting"
 faq:
   - question: "Which streaming services raised prices in 2026?"
-    answer: "Three major on-demand services raised US prices during 2026: Paramount+ in January, Netflix on March 26, and Peacock on August 18. Disney is also moving its legacy Disney+/Hulu/ESPN Select bundle to $27.99 for bills dated on or after September 17, 2026. Several other hikes commonly attributed to 2026 — HBO Max, Apple TV+, and the standalone Disney+ and Hulu plans — actually took effect in late 2025."
+    answer: "Four major on-demand services raised US prices during 2026: Paramount+ in January, Netflix on March 26, Peacock on August 18, and Apple TV on August 28. Disney is also moving its legacy Disney+/Hulu/ESPN Select bundle to $27.99 for bills dated on or after September 17, 2026. Several other hikes commonly attributed to 2026 — HBO Max and the standalone Disney+ and Hulu plans — actually took effect in late 2025."
   - question: "How much did Peacock go up in August 2026?"
     answer: "Peacock raised all three tiers on August 18, 2026: Select went from $7.99 to $8.99, Premium from $10.99 to $12.99, and ad-free Premium Plus from $16.99 to $19.99. Annual plans moved to $89.99, $129.99, and $199.99. New and returning subscribers pay the new rates immediately; existing subscribers see them on their first bill dated on or after September 17, 2026."
   - question: "What is Netflix's price after the 2026 increase?"
@@ -17,9 +18,9 @@ faq:
 
 ## The short version
 
-- **Three big services raised US prices during 2026:** Paramount+ (January), Netflix (March 26), and Peacock (August 18).
-- **Peacock is the fresh one** — every tier went up on August 18, 2026, its fourth increase in four years. Existing subscribers get hit on their first bill dated on or after September 17.
-- **A lot of "2026 price hike" coverage is wrong.** HBO Max, Apple TV+, and the standalone Disney+ and Hulu plans all raised prices in **late 2025**. You're feeling them in 2026, but they aren't 2026 increases — and that distinction matters when you're deciding what's about to change next.
+- **Four big services raised US prices during 2026:** Paramount+ (January), Netflix (March 26), Peacock (August 18), and Apple TV (August 28).
+- **Peacock and Apple TV are the fresh ones.** Every Peacock tier went up on August 18, 2026, its fourth increase in four years; existing subscribers get hit on their first bill dated on or after September 17. Apple TV followed ten days later, to $14.99/month.
+- **A lot of "2026 price hike" coverage is wrong.** HBO Max and the standalone Disney+ and Hulu plans raised prices in **late 2025**. You're feeling them in 2026, but they aren't 2026 increases — and that distinction matters when you're deciding what's about to change next.
 - **The ad-supported tiers absorbed the smallest increases** almost everywhere. That's not an accident; it's where the services want you.
 - **The counter-moves still work:** downgrade, rotate, cancel *before* the date, and use free services for filler.
 
@@ -43,6 +44,17 @@ The most recent move, and the one likely to show up on your bill next. Peacock r
 Annual plans moved to **$89.99 / $129.99 / $199.99** respectively. New and returning subscribers pay the new rates as of August 18; **existing subscribers keep their old price until their first billing date on or after September 17, 2026.** That gap is the single most actionable fact in this guide — see the playbook below.
 
 This is NBCUniversal's fourth Peacock increase in four years, and the $3 jump on Premium Plus is the steepest single-tier move of 2026 so far.
+
+### Apple TV — August 28, 2026
+
+Apple (which dropped the "+" from Apple TV+ in late 2025) raised its US prices for new subscribers on August 28:
+
+| Plan | Was | Now |
+|---|---|---|
+| Monthly | $12.99 | **$14.99** |
+| Annual | $99 | **$119** |
+
+It's Apple's second increase in almost exactly a year — the monthly plan was $9.99 until August 2025 — so the service has gone up 50% in twelve months. The annual plan still works out well below twelve monthly payments ($119 against $179.88).
 
 ### Netflix — March 26, 2026
 
@@ -72,10 +84,10 @@ Not a broad Disney increase, but worth knowing if it's you: the **legacy Disney+
 This is where most roundups mislead you, and it's worth being precise, because "when did this last change" is how you predict what changes next.
 
 - **HBO Max** — announced **October 21, 2025**, reaching existing subscribers on renewals on or after **November 20, 2025**. Basic with Ads went to $10.99, Standard to $18.49, Premium to $22.99. Those are the prices you're paying in 2026, but the increase is a 2025 event.
-- **Apple TV+** — went from $9.99 to $12.99 in **late August 2025**, a 30% jump. The $99.99 annual plan was left alone, which quietly made the annual plan the obvious buy.
+- **Apple TV+** — went from $9.99 to $12.99 in **late August 2025**, a 30% jump, with the $99 annual plan left alone. That one really was a 2025 event — but Apple went again on August 28, 2026 (above), so it belongs on both lists.
 - **Standalone Disney+ and Hulu** — raised **October 21, 2025**, when ad tiers on both went from $9.99 to $11.99 and Disney+ Premium went to $18.99.
 
-Why does the distinction matter? Because these services are now roughly a year past their last increase, while Netflix, Paramount+, and Peacock have just taken theirs. If you're deciding where to lock in an annual plan, recency is a genuine signal.
+Why does the distinction matter? Because HBO Max and Disney are now roughly a year past their last increase, while Netflix, Paramount+, Peacock, and Apple TV have just taken theirs. If you're deciding where to lock in an annual plan, recency is a genuine signal.
 
 ---
 ---
@@ -85,7 +97,7 @@ Why does the distinction matter? Because these services are now roughly a year p
 Candor time — some of the standard advice is bad.
 
 - **Don't switch services purely to chase a lower price.** Moving from a $19.99 service you watch to a $12.99 service you don't isn't a $7 saving, it's a $12.99 waste. The only subscription that's expensive is the one you don't open.
-- **Don't prepay an annual plan just to dodge an increase you haven't been told about.** Locking twelve months to avoid a hypothetical $2 is a bad trade if your viewing changes in month three. Annual plans are worth it for services you've *demonstrably* used all year — Apple TV+ at $99.99 is the clearest example.
+- **Don't prepay an annual plan just to dodge an increase you haven't been told about.** Locking twelve months to avoid a hypothetical $2 is a bad trade if your viewing changes in month three. Annual plans are worth it for services you've *demonstrably* used all year — Apple TV at $119/year, against $179.88 billed monthly, is the clearest example.
 - **Don't assume the ad tier is always the answer.** It usually is for casual viewing. But on services where the ad tier drops resolution, downloads, or simultaneous streams, you may be buying a materially worse product to save a dollar. Check what the tier actually removes before you downgrade — our [ad-free streaming device guide](/guides/best-streaming-device-without-ads-2026) covers the same principle on the hardware side.
 - **Don't bother with "cancel to trigger a retention offer."** Some services do it, most now just let you leave. Plan around actually leaving.
 
@@ -109,7 +121,7 @@ Run your own combination through the [streaming cost calculator](/cost-calculato
 
 ## FAQ recap
 
-**Which services raised prices in 2026?** Paramount+ (January), Netflix (March 26), and Peacock (August 18), plus Disney's legacy bundle moving to $27.99 from September 17. HBO Max, Apple TV+, and standalone Disney+/Hulu all raised prices in late 2025, not 2026.
+**Which services raised prices in 2026?** Paramount+ (January), Netflix (March 26), Peacock (August 18), and Apple TV (August 28), plus Disney's legacy bundle moving to $27.99 from September 17. HBO Max and standalone Disney+/Hulu raised prices in late 2025, not 2026.
 
 **How much is Peacock now?** $8.99 Select, $12.99 Premium, $19.99 Premium Plus monthly; $89.99 / $129.99 / $199.99 annually.
 
@@ -117,4 +129,4 @@ Run your own combination through the [streaming cost calculator](/cost-calculato
 
 **What's the single best move?** Rotate rather than stack, and use the gap between the announcement and your billing date to cancel anything you were already lukewarm about.
 
-*Prices are US rates as announced by each service and reported at the time of each change; check the service before subscribing, since promotional and grandfathered rates vary. Last verified August 24, 2026.*
+*Prices are US rates as announced by each service and reported at the time of each change; check the service before subscribing, since promotional and grandfathered rates vary. Apple TV prices updated October 7, 2026; others last verified August 24, 2026.*
