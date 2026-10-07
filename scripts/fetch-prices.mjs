@@ -23,6 +23,7 @@
  */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { amazonToken, amazonGetItems, hasAmazonCredentials } from './lib/amazon-creators.mjs';
 
 const REVIEWS_DIR = join(process.cwd(), 'src', 'content', 'reviews');
 const OUT_DIR = join(process.cwd(), '.cache');
@@ -30,12 +31,6 @@ const OUT_FILE = join(OUT_DIR, 'live-prices.json');
 const DRY = process.argv.includes('--dry-run');
 const UA = 'FullTVBoxBot/1.0 (+https://fulltvbox.com)';
 
-const amazon = {
-  clientId: process.env.AMAZON_CREATORS_CLIENT_ID,
-  clientSecret: process.env.AMAZON_CREATORS_CLIENT_SECRET,
-  partnerTag: process.env.AMAZON_PARTNER_TAG || 'fulltvbox-20',
-  marketplace: 'www.amazon.com',
-};
 const BESTBUY_KEY = process.env.BESTBUY_API_KEY;
 
 // ── helpers ──────────────────────────────────────────────────────────────
@@ -62,84 +57,42 @@ function collectTargets() {
 const round2 = (n) => Math.round(n * 100) / 100;
 
 // ── Amazon Creators API ──────────────────────────────────────────────────
-async function amazonToken() {
-  const res = await fetch('https://api.amazon.com/auth/o2/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      grant_type: 'client_credentials',
-      client_id: amazon.clientId,
-      client_secret: amazon.clientSecret,
-      scope: 'creatorsapi::default',
-    }),
-  });
-  const json = await res.json().catch(() => ({}));
-  if (!res.ok || !json.access_token) throw new Error(`token: HTTP ${res.status} ${json.error_description || json.error || ''}`);
-  return json.access_token;
-}
-
-async function amazonGetItems(token, asins) {
-  const res = await fetch('https://creatorsapi.amazon/catalog/v1/getItems', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      'x-marketplace': amazon.marketplace,
-    },
-    body: JSON.stringify({
-      itemIds: asins,
-      itemIdType: 'ASIN',
-      marketplace: amazon.marketplace,
-      partnerTag: amazon.partnerTag,
-      resources: [
-        'itemInfo.title',
-        'offersV2.listings.price',
-        'offersV2.listings.availability',
-        'offersV2.listings.dealDetails',
-        'offersV2.listings.isBuyBoxWinner',
-      ],
-    }),
-  });
-  const json = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const msg = json?.errors?.map((e) => `${e.code}: ${e.message}`).join('; ') || `HTTP ${res.status}`;
-    throw new Error(msg);
-  }
-  return json;
-}
-
 async function fetchAmazon(targets) {
   const withAsin = targets.filter((t) => t.asin);
   if (!withAsin.length) return [];
-  if (!amazon.clientId || !amazon.clientSecret) {
+  if (!hasAmazonCredentials()) {
     console.warn('! Amazon: AMAZON_CREATORS_CLIENT_ID / _SECRET not set — skipping.');
     return [];
   }
   const token = await amazonToken();
   const byAsin = new Map(withAsin.map((t) => [t.asin, t]));
+  const { items, errors } = await amazonGetItems(token, withAsin.map((t) => t.asin), [
+    'itemInfo.title',
+    'offersV2.listings.price',
+    'offersV2.listings.availability',
+    'offersV2.listings.dealDetails',
+    'offersV2.listings.isBuyBoxWinner',
+  ]);
+  for (const e of errors) console.warn(`! Amazon: ${e.code} ${e.message}`);
   const offers = [];
-  for (let i = 0; i < withAsin.length; i += 10) {
-    const json = await amazonGetItems(token, withAsin.slice(i, i + 10).map((t) => t.asin));
-    for (const e of json?.errors || []) console.warn(`! Amazon: ${e.code} ${e.message}`);
-    for (const item of json?.itemResults?.items || []) {
-      const t = byAsin.get(item.asin);
-      const listings = item?.offersV2?.listings || [];
-      const l = listings.find((x) => x.isBuyBoxWinner) || listings[0];
-      const price = l?.price?.money?.amount;
-      if (!t || !price) continue;
-      if (l.availability?.type && l.availability.type !== 'IN_STOCK') continue;
-      const deal = l.dealDetails;
-      offers.push({
-        device: t.device,
-        retailer: 'Amazon',
-        price: round2(price),
-        wasPrice: l.price?.savingBasis?.money?.amount ? round2(l.price.savingBasis.money.amount) : undefined,
-        url: item.detailPageURL,
-        badge: deal?.badge,
-        endsAt: deal?.endTime ? new Date(deal.endTime).toISOString() : undefined,
-        title: item?.itemInfo?.title?.displayValue,
-      });
-    }
+  for (const item of items) {
+    const t = byAsin.get(item.asin);
+    const listings = item?.offersV2?.listings || [];
+    const l = listings.find((x) => x.isBuyBoxWinner) || listings[0];
+    const price = l?.price?.money?.amount;
+    if (!t || !price) continue;
+    if (l.availability?.type && l.availability.type !== 'IN_STOCK') continue;
+    const deal = l.dealDetails;
+    offers.push({
+      device: t.device,
+      retailer: 'Amazon',
+      price: round2(price),
+      wasPrice: l.price?.savingBasis?.money?.amount ? round2(l.price.savingBasis.money.amount) : undefined,
+      url: item.detailPageURL,
+      badge: deal?.badge,
+      endsAt: deal?.endTime ? new Date(deal.endTime).toISOString() : undefined,
+      title: item?.itemInfo?.title?.displayValue,
+    });
   }
   return offers;
 }

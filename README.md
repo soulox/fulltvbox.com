@@ -171,7 +171,7 @@ before the tracking goes live.
 ## Image attribution
 
 Self-hosted product photos from Wikimedia Commons are credited on
-[`/credits`](src/pages/credits.astro) (CC BY-SA 4.0). Amazon PA-API images (see below) are
+[`/credits`](src/pages/credits.astro) (CC BY-SA 4.0). Amazon Creators API images (see below) are
 Associates-licensed and need no attribution.
 
 ---
@@ -190,18 +190,20 @@ Two steps remain to take the site fully live; both need your accounts.
 
 ### 1. Fill the last product images (Amazon Associates)
 
-Four reviews show the on-brand **NO SIGNAL** placeholder because no freely-licensed photo
-exists (Google TV Streamer, onn 4K Pro, Roku Ultra, TiVo Stream 4K). Fetch licensed images
-from the Amazon Product Advertising API:
+Five reviews show the on-brand **NO SIGNAL** placeholder because no freely-licensed photo
+exists (Fire TV Stick 4K Select, Google TV Streamer, onn 4K Pro, Roku Ultra, TiVo Stream 4K).
+Fetch licensed images from the Amazon Creators API (PA-API's replacement) for every review
+that has an `asin:`:
 
 ```bash
-PAAPI_ACCESS_KEY=...  PAAPI_SECRET_KEY=...  PAAPI_PARTNER_TAG=fulltvbox-20 \
-  npm run images:amazon
+AMAZON_CREATORS_CLIENT_ID=...  AMAZON_CREATORS_CLIENT_SECRET=...   npm run images:amazon
 ```
 
 - `--dry-run` previews what it would fetch; `--force` refetches existing images.
-- It downloads to `public/images/reviews/<slug>.jpg` and patches each review's frontmatter.
-- Then `npm run build`, eyeball the results, and commit.
+- It downloads to `src/assets/reviews/<slug>.jpg`; reviews find their image by slug, so no
+  frontmatter changes. It prints each product's Amazon title — check it matches the review.
+- The API's largest image is ~500px. Then `npm run build`, eyeball the results, and commit.
+- Reviews without an `asin:` (onn is Walmart-only) need `npm run images:bestbuy` or a bench photo.
 
 ### 2. Attach the custom domain
 
