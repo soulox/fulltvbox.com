@@ -3,6 +3,11 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches: [master]
+  # Daily rebuild so live retailer prices (scripts/fetch-prices.mjs) stay current and
+  # ended deals drop off. 09:00 UTC is overnight in the US, before the day's shopping.
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 # One production deploy at a time. Without this, merges that land close together
 # deploy in parallel and whichever finishes last wins, even if it's an older commit.
@@ -26,3 +31,6 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          AMAZON_CREATORS_CLIENT_ID: ${{ secrets.AMAZON_CREATORS_CLIENT_ID }}
+          AMAZON_CREATORS_CLIENT_SECRET: ${{ secrets.AMAZON_CREATORS_CLIENT_SECRET }}
+          BESTBUY_API_KEY: ${{ secrets.BESTBUY_API_KEY }}

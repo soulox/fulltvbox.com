@@ -1,0 +1,9 @@
+service: disney-plus
+retailer: Disney+ & Hulu bundle
+price: 11.99
+wasPrice: 12.99
+period: month
+term: First 6 months, with ads
+url: "https://www.disneyplus.com"
+checked: "2026-10-07"
+featured: false

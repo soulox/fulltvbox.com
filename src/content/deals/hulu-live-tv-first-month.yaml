@@ -1,0 +1,10 @@
+service: hulu
+retailer: Hulu + Live TV
+price: 49.99
+wasPrice: 99.99
+period: month
+term: First month, includes Disney+ and ESPN
+url: "https://www.hulu.com/live-tv"
+expires: "2026-10-26T09:00:00-07:00"
+checked: "2026-10-07"
+featured: true

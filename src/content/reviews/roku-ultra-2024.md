@@ -6,6 +6,7 @@ rating: 4.5
 featured: false
 tags: ["roku", "4k", "streaming", "ethernet"]
 affiliate: "https://www.amazon.com/s?k=Roku%20Ultra%20(2024)&tag=fulltvbox-20"
+asin: "B0CXJL61S5"
 updatedDate: "2026-06-15"
 price: 99
 specs:

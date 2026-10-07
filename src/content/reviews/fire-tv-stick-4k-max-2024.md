@@ -6,6 +6,7 @@ rating: 4.2
 featured: true
 tags: ["amazon", "fire tv", "4k", "budget", "alexa"]
 affiliate: "https://www.amazon.com/s?k=Amazon%20Fire%20TV%20Stick%204K%20Max%20(2024)&tag=fulltvbox-20"
+asin: "B0CFJ4Y5XD"
 updatedDate: "2026-06-15"
 price: 59
 specs:

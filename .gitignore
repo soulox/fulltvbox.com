@@ -1,6 +1,8 @@
 node_modules/
 dist/
 .astro/
+# Build-time retailer price snapshot (scripts/fetch-prices.mjs)
+.cache/
 .env
 fulltvbox/
 

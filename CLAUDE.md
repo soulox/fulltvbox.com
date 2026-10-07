@@ -24,14 +24,16 @@ npm run deploy     # astro build && wrangler pages deploy dist
 
 Content is the database. Schemas live in `src/content/config.ts` (Zod) — read it before touching any content or schema. Collections:
 
-- `reviews/`, `guides/`, `tutorials/` — Markdown (`type: 'content'`). Reviews carry `rating` (1–5), optional `specs`, `faq`, `price`, `affiliate`, `featured`.
+- `reviews/`, `guides/`, `tutorials/` — Markdown (`type: 'content'`). Reviews carry `rating` (1–5), optional `specs`, `faq`, `price`, `affiliate`, `asin`/`bestBuySku` (live pricing), `featured`.
 - `services/`, `deals/` — YAML data files (`type: 'data'`).
 - `prompts/` (Markdown) and `ai-tools/` (YAML) power the `/ai` section. A prompt's `tools` (ai-tools slugs) and `related` (guide/tutorial/review slugs) are joined in `src/lib/prompts.ts`, which **throws at build time** on an unknown slug. Each prompt body's example output must be a real run by the model named in `testedOn`.
 
 **Cross-collection joins are by slug, validated only at runtime in `src/lib/`, not by Zod:**
 
 - A `deals/` file references **exactly one** of `device` (a review slug) or `service` (a service slug) — enforced by a `.refine` in `config.ts`. A bad slug won't fail the schema; it silently fails to join.
-- `src/lib/deals.ts` joins deals → reviews/services, drops expired deals (`expires` past build time), and exposes `getLiveDeals()` / `getDealsByDevice()` (cheapest live hardware deal per review). A live hardware deal replaces the review's "Check Price" CTA and emits `Offer` JSON-LD.
+- `src/lib/deals.ts` joins deals → reviews/services, drops expired deals (a bare `expires` date runs through that day, US Pacific), and exposes `getLiveDeals()` / `getDealsByDevice()` (cheapest live hardware deal per review). A live hardware deal replaces the review's "Check Price" CTA.
+- **Live retailer prices:** `scripts/fetch-prices.mjs` runs before every deploy build, prices reviews that set `asin:` / `bestBuySku:` via the Amazon Creators API and Best Buy API, and writes `.cache/live-prices.json` (gitignored). `src/lib/live-prices.ts` turns any ≥5% discount into a deal, merged in `getLiveDeals()`; snapshots older than 36h are ignored. The deploy workflow rebuilds daily to keep them current. Without credentials the snapshot is absent and only `src/content/deals/` files show.
+- **Service deals** are hand-written `deals/` files (`period`, `term`, `promoCode` for subscription promos). A deal with `checked:` hides 21 days after it unless re-confirmed; a weekly cloud routine re-verifies them on official sites and opens a PR (brief: `docs/automation/weekly-deals-agent.md`).
 - `src/lib/devices.ts` flattens reviews into a client-friendly `Device[]` (powers `/compare`, `/devices.json`). `getComparisonPairs()` only generates "X vs Y" pages for devices that share a non-generic tag **and** sit within 2.2× on price — deliberately avoiding thin permutation pages.
 - `src/lib/services.ts` powers `/cost-calculator`, `/streaming-services`, `/cut-the-cord`.
 
@@ -57,12 +59,14 @@ The site sets no cookies and runs no analytics/ads/third-party trackers — henc
 
 ## Deploy
 
-Push to `master` → `.github/workflows/deploy.yml` runs `npm run deploy` to Cloudflare Pages project `fulltvbox` (needs repo secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`).
+Push to `master` (and a daily 09:00 UTC schedule, for live deal prices) → `.github/workflows/deploy.yml` runs `npm run deploy` to Cloudflare Pages project `fulltvbox` (needs repo secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`).
 
 ## Image fetch scripts
 
 `npm run images:amazon` (Amazon PA-API) and `npm run images:bestbuy` download product photos to `public/images/reviews/<slug>.jpg` and patch review frontmatter. Both need API credentials via env vars (see README "Launch checklist"); support `--dry-run` and `--force`. Wikimedia-sourced photos must be credited on `/credits`; Amazon PA-API images need no attribution.
 
 ## Content automation
+
+A second weekly routine refreshes streaming-service deals by PR (`docs/automation/weekly-deals-agent.md`).
 
 A weekly Claude Code cloud routine (Monday mornings) drafts one topical **guide** about whatever is currently "hot" in streaming/TV-tech and opens a **PR** for human review — it never pushes to `master`. Its full operating procedure and guardrails live in `docs/automation/weekly-content-agent.md`; edit that brief to change the agent's behavior. The routine itself (cron + prompt) is managed via `/schedule`, not in the repo.

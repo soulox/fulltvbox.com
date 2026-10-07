@@ -1,21 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getLiveDeals } from '../lib/deals';
-import { daysUntil } from '../lib/freshness';
+import { getLiveDeals, formatDealPrice } from '../lib/deals';
 
 const liveDeals = await getLiveDeals();
 
-function endsLabel(expires?: string) {
-  if (!expires) return null;
-  const d = daysUntil(expires);
+// Whole days left, rounded down: the daily rebuild runs overnight US time, so a deal
+// ending tonight reads "Ends today" rather than rounding up to "Ends tomorrow".
+const now = Date.now();
+const daysLeft = (expires: string) => Math.floor((new Date(expires).getTime() - now) / 86_400_000);
+
+function endsLabel(d: number) {
   if (d <= 0) return 'Ends today';
   if (d === 1) return 'Ends tomorrow';
   return `Ends in ${d} days`;
 }
 
 const deals = liveDeals.map((deal) => {
-  const d = deal.expires ? daysUntil(deal.expires) : null;
-  return { ...deal, ends: endsLabel(deal.expires), urgent: d !== null && d <= 3 };
+  const d = deal.expires ? daysLeft(deal.expires) : null;
+  return { ...deal, ends: d === null ? null : endsLabel(d), urgent: d !== null && d <= 3 };
 });
 
 // AggregateOffer JSON-LD across live deals
@@ -29,7 +31,7 @@ const jsonLd = prices.length
     }
   : null;
 ---
-<BaseLayout title="Live TV Box Deals" description="Current deals and price drops on the streaming boxes and sticks we've tested." noindex={deals.length === 0}>
+<BaseLayout title="Live TV Box Deals" description="Current price drops on the streaming boxes and sticks we've tested, plus streaming-service promos and free trials." noindex={deals.length === 0}>
   {jsonLd && (
     <Fragment slot="head">
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -43,7 +45,8 @@ const jsonLd = prices.length
     </div>
     <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">TV Box Deals</h1>
     <p class="text-muted mb-10 max-w-2xl">
-      Current price drops on devices we've actually tested. Prices and availability change fast —
+      Current price drops on devices we've actually tested, plus streaming-service promos.
+      Prices and availability change fast —
       we verify against the retailer, but always confirm at checkout. Affiliate links fund the bench.
     </p>
 
@@ -71,9 +74,15 @@ const jsonLd = prices.length
             </a>
 
             <div class="flex items-end gap-3 mb-4">
-              <span class="font-display font-900 text-3xl text-signal leading-none">${deal.price}</span>
-              {deal.wasPrice && <span class="font-mono text-sm text-dim line-through mb-0.5">${deal.wasPrice}</span>}
+              <span class="font-display font-900 text-3xl text-signal leading-none">{formatDealPrice(deal.price, deal.period)}</span>
+              {deal.wasPrice && <span class="font-mono text-sm text-dim line-through mb-0.5">{formatDealPrice(deal.wasPrice, deal.period)}</span>}
             </div>
+            {(deal.term || deal.promoCode) && (
+              <div class="flex flex-wrap items-center gap-2 -mt-2 mb-4">
+                {deal.term && <span class="label text-muted">{deal.term}</span>}
+                {deal.promoCode && <span class="chip font-mono select-all" title="Promo code">CODE {deal.promoCode}</span>}
+              </div>
+            )}
 
             <div class="flex items-center justify-between gap-3 mt-auto pt-3 border-t border-line">
               {deal.ends && (
