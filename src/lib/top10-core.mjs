@@ -24,12 +24,18 @@ export function parseTsv(text) {
   });
 }
 
-/** Seasons rank separately on Netflix, so "Wednesday: Season 2" is its own title. */
+/**
+ * Seasons rank separately on Netflix, so "Wednesday: Season 2" is its own title.
+ * @param {string} show @param {string} season
+ */
 export function displayTitle(show, season) {
   return season && season !== 'N/A' ? season : show;
 }
 
-/** Slug used to join verdicts. Keeps letters of any script so non-Latin titles get a key. */
+/**
+ * Slug used to join verdicts. Keeps letters of any script so non-Latin titles get a key.
+ * @param {string} title
+ */
 export function titleKey(title) {
   return title
     .normalize('NFKD')
@@ -40,15 +46,16 @@ export function titleKey(title) {
     .replace(/^-+|-+$/g, '');
 }
 
+/** @param {string} s */
 const num = (s) => {
   const n = Number(s);
   return Number.isFinite(n) ? n : undefined;
 };
 
-/** @returns {Kind} */
+/** @param {string} category @returns {Kind} */
 const kindOf = (category) => (category.startsWith('Films') ? 'movie' : 'series');
 
-/** @returns {Top10Row[]} */
+/** @param {Record<string, string>[]} records @param {string} since @returns {Top10Row[]} */
 export function globalRows(records, since) {
   return records
     .filter((r) => r.week >= since)
@@ -62,7 +69,11 @@ export function globalRows(records, since) {
     }));
 }
 
-/** Per-country ranks. The country file has no view counts. @returns {Top10Row[]} */
+/**
+ * Per-country ranks. The country file has no view counts.
+ * @param {Record<string, string>[]} records @param {string} iso2 @param {string} since
+ * @returns {Top10Row[]}
+ */
 export function countryRows(records, iso2, since) {
   return records
     .filter((r) => r.country_iso2 === iso2 && r.week >= since)
@@ -81,11 +92,14 @@ export function latestWeek(rows) {
   return rows.reduce((max, r) => (max === null || r.week > max ? r.week : max), /** @type {string|null} */ (null));
 }
 
-const byViewsThenTitle = (a, b) => b.views - a.views || a.title.localeCompare(b.title);
+/** @param {{ views?: number, title: string }} a @param {{ views?: number, title: string }} b */
+const byViewsThenTitle = (a, b) => (b.views ?? 0) - (a.views ?? 0) || a.title.localeCompare(b.title);
 
 /**
  * One week's list. Global rows have views (English and non-English categories merge and
  * re-rank); country rows keep Netflix's own rank order.
+ * @param {Top10Row[]} rows
+ * @param {{ kind: Kind, week: string, limit?: number }} opts
  * @returns {RankedTitle[]}
  */
 export function weeklyTop(rows, { kind, week, limit = 10 }) {
@@ -105,6 +119,8 @@ export function weeklyTop(rows, { kind, week, limit = 10 }) {
 /**
  * Views summed per title over the weeks in [from, to] (inclusive, week-ending dates).
  * A title only has data in weeks it was in a Top 10, so this totals "views while charting".
+ * @param {Top10Row[]} rows
+ * @param {{ kind: Kind, from: string, to: string, limit?: number }} opts
  * @returns {RankedTitle[]}
  */
 export function periodTop(rows, { kind, from, to, limit = 10 }) {
@@ -124,12 +140,17 @@ export function periodTop(rows, { kind, from, to, limit = 10 }) {
     .map((t, i) => ({ key: t.key, title: t.title, kind, rank: i + 1, views: t.views, weeksInTop10: t.weeks }));
 }
 
+/** @param {string} isoDate @param {number} n */
 export function addDays(isoDate, n) {
   return new Date(new Date(`${isoDate}T00:00:00Z`).getTime() + n * 86_400_000).toISOString().slice(0, 10);
 }
 
-/** "Sep 28 – Oct 4, 2026" for a week ending on `weekEnd` (Netflix weeks run Monday–Sunday). */
+/**
+ * "Sep 28 – Oct 4, 2026" for a week ending on `weekEnd` (Netflix weeks run Monday–Sunday).
+ * @param {string} weekEnd
+ */
 export function weekLabel(weekEnd) {
+  /** @param {string} d @param {boolean} year */
   const fmt = (d, year) =>
     new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', {
       month: 'short', day: 'numeric', ...(year ? { year: 'numeric' } : {}), timeZone: 'UTC',
@@ -140,6 +161,7 @@ export function weekLabel(weekEnd) {
 /**
  * The aggregated list pages: rolling past month (last 4 weekly lists), year to date, and
  * every complete past year we hold data for.
+ * @param {string} latest
  * @returns {Period[]}
  */
 export function netflixPeriods(latest) {
