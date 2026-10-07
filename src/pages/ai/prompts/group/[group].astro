@@ -58,6 +58,9 @@ const jsonLd = [
     <span class="label text-signal">// Prompt group</span>
     <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mt-1 mb-2">{section.label} Prompts</h1>
     <p class="text-muted mb-10 max-w-2xl">{section.blurb}</p>
+    {section.id === 'what-to-watch' && (
+      <p class="label text-muted -mt-6 mb-10">Or start from the charts: <a href="/what-to-watch" class="text-signal hover:underline">this week's Netflix Top 10 →</a></p>
+    )}
 
     <div class="grid sm:grid-cols-2 gap-5">
       {section.prompts.map((p) => <PromptCard prompt={p} />)}

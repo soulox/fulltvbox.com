@@ -48,6 +48,7 @@ export default defineConfig({
         else if (/^\/ai\/(tools|prompts\/(?!group\/)[^/]+)$/.test(path)) item.priority = 0.7;
         else if (/^\/guides\/category\/[^/]+$/.test(path)) item.priority = 0.6;
         else if (/^\/(guides|tutorials)\//.test(path)) item.priority = 0.7;
+        else if (/^\/what-to-watch(\/|$)/.test(path)) item.priority = 0.7;
         else item.priority = 0.6;
         return item;
       },
