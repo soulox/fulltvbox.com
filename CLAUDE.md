@@ -27,7 +27,7 @@ Content is the database. Schemas live in `src/content/config.ts` (Zod) — read 
 - `reviews/`, `guides/`, `tutorials/` — Markdown (`type: 'content'`). Reviews carry `rating` (1–5), optional `specs`, `faq`, `price`, `affiliate`, `asin`/`bestBuySku` (live pricing), `featured`.
 - `services/`, `deals/` — YAML data files (`type: 'data'`).
 - `prompts/` (Markdown) and `ai-tools/` (YAML) power the `/ai` section. A prompt's `tools` (ai-tools slugs) and `related` (guide/tutorial/review slugs) are joined in `src/lib/prompts.ts`, which **throws at build time** on an unknown slug. Each prompt body's example output must be a real run by the model named in `testedOn`.
-- `watch-verdicts/` (YAML) — editorial verdicts for /what-to-watch titles, joined by `titleKey(title)` in `src/lib/top10.ts`; a duplicate key fails the build.
+- `watch-verdicts/` (YAML) — editorial verdicts for /what-to-watch titles, joined by kind + title (`verdictKey` in `src/lib/top10-core.mjs`); a duplicate fails the build.
 
 **Cross-collection joins are by slug, validated only at runtime in `src/lib/`, not by Zod:**
 

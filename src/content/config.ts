@@ -179,8 +179,8 @@ const aiTools = defineCollection({
 });
 
 // Editorial verdicts for titles on the /what-to-watch lists, drafted weekly by a cloud
-// routine (docs/automation/weekly-verdicts-agent.md). Joined to Netflix titles by
-// titleKey(title) in src/lib/top10.ts; a duplicate key fails the build.
+// routine (docs/automation/weekly-verdicts-agent.md). Joined to Netflix titles by kind +
+// title (verdictKey in src/lib/top10-core.mjs); a duplicate fails the build.
 const watchVerdicts = defineCollection({
   type: 'data',
   schema: z.object({
