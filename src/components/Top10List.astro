@@ -18,10 +18,10 @@ const verdictLabel = { watch: 'Watch', skip: 'Skip', depends: 'Depends' };
   {items.length === 0 ? (
     <p class="text-muted">No titles for this period yet.</p>
   ) : (
-    <ol class="space-y-2">
+    <ol role="list" class="space-y-2">
       {items.map((t) => (
         <li class="bench-card frame px-4 py-3 flex items-start gap-4">
-          <span class="font-display font-900 text-2xl text-signal leading-none w-8 shrink-0 text-right">{t.rank}</span>
+          <span aria-hidden="true" class="font-display font-900 text-2xl text-signal leading-none w-8 shrink-0 text-right">{t.rank}</span>
           <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-2">
               <span class="font-display font-700 text-ink">{t.title}</span>

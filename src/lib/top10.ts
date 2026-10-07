@@ -4,9 +4,9 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { weeklyTop, periodTop, latestWeek, netflixPeriods, indexByKey, verdictKey, weekLabel } from './top10-core.mjs';
+import { weeklyTop, periodTop, latestWeek, netflixPeriods, indexByKey, verdictKey, weekLabel, jsonLdString } from './top10-core.mjs';
 
-export { weekLabel };
+export { weekLabel, jsonLdString };
 export type Kind = 'movie' | 'series';
 export type Verdict = CollectionEntry<'watch-verdicts'>['data'];
 export type Period = { slug: string; label: string; from: string; to: string };

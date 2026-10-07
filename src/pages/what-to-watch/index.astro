@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Top10List from '../../components/Top10List.astro';
 import NetflixSourceNote from '../../components/NetflixSourceNote.astro';
-import { getWeeklyTop, getNetflixPeriods, netflixLatestWeek, itemListJsonLd, weekLabel } from '../../lib/top10';
+import { getWeeklyTop, getNetflixPeriods, netflixLatestWeek, itemListJsonLd, weekLabel, jsonLdString } from '../../lib/top10';
 
 const week = netflixLatestWeek('us');
 const [movies, series] = await Promise.all([getWeeklyTop('us', 'movie'), getWeeklyTop('us', 'series')]);
@@ -20,7 +20,7 @@ const jsonLd = [
 >
   {week && (
     <Fragment slot="head">
-      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      <script type="application/ld+json" set:html={jsonLdString(jsonLd)} />
     </Fragment>
   )}
   <div class="max-w-5xl mx-auto px-4 py-14">

@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Top10List from '../../../components/Top10List.astro';
 import NetflixListNav from '../../../components/NetflixListNav.astro';
 import NetflixSourceNote from '../../../components/NetflixSourceNote.astro';
-import { getNetflixPeriods, getPeriodTop, itemListJsonLd, type Period } from '../../../lib/top10';
+import { getNetflixPeriods, getPeriodTop, itemListJsonLd, jsonLdString, type Period } from '../../../lib/top10';
 
 export function getStaticPaths() {
   return getNetflixPeriods().map((period) => ({ params: { period: period.slug }, props: { period } }));
@@ -30,11 +30,13 @@ const jsonLd = [
   ogImage={`/og/what-to-watch/${period.slug}.png`}
   noindex={movies.length === 0 && series.length === 0}
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  </Fragment>
+  {(movies.length > 0 || series.length > 0) && (
+    <Fragment slot="head">
+      <script type="application/ld+json" set:html={jsonLdString(jsonLd)} />
+    </Fragment>
+  )}
   <div class="max-w-5xl mx-auto px-4 py-14">
-    <nav class="label text-dim mb-4"><a href="/what-to-watch" class="hover:text-signal">What to Watch</a> / <a href="/what-to-watch/netflix" class="hover:text-signal">Netflix</a> / <span class="text-muted">{period.label}</span></nav>
+    <nav aria-label="Breadcrumb" class="label text-dim mb-4"><a href="/what-to-watch" class="hover:text-signal">What to Watch</a> / <a href="/what-to-watch/netflix" class="hover:text-signal">Netflix</a> / <span class="text-muted">{period.label}</span></nav>
     <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mb-2">{title}</h1>
     <p class="text-muted mb-6">Worldwide, ranked by views across Netflix's weekly lists for weeks ending {day(period.from)} through {day(period.to)}.</p>
     <NetflixListNav current={period.slug} />

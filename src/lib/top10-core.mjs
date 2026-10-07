@@ -42,7 +42,7 @@ export function titleKey(title) {
     .replace(/[̀-ͯ]/g, '')
     .normalize('NFC') // recompose scripts NFKD splits apart (Hangul syllables -> jamo)
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/[^\p{L}\p{M}\p{N}]+/gu, '-') // \p{M} keeps Indic/Thai vowel signs
     .replace(/^-+|-+$/g, '');
 }
 
@@ -94,7 +94,7 @@ export function latestWeek(rows) {
 }
 
 /** @param {{ views?: number, title: string }} a @param {{ views?: number, title: string }} b */
-const byViewsThenTitle = (a, b) => (b.views ?? 0) - (a.views ?? 0) || a.title.localeCompare(b.title);
+const byViewsThenTitle = (a, b) => (b.views ?? 0) - (a.views ?? 0) || a.title.localeCompare(b.title, 'en'); // fixed locale: same order on every build machine
 
 /**
  * One week's list. Global rows have views (English and non-English categories merge and
@@ -213,4 +213,13 @@ export function checkSnapshot(global, us, now, maxAgeDays = 21) {
   const ageDays = (now.getTime() - new Date(`${latest}T00:00:00Z`).getTime()) / 86_400_000;
   if (ageDays > maxAgeDays) return `data is stale: latest week ${latest} is ${Math.floor(ageDays)} days old`;
   return null;
+}
+
+/**
+ * JSON for a <script type="application/ld+json"> tag. Escaping "<" keeps a title like
+ * "</script>" from closing the tag early; JSON parsers read < back as "<".
+ * @param {unknown} value
+ */
+export function jsonLdString(value) {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
 }

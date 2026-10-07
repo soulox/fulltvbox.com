@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseTsv, displayTitle, titleKey, globalRows, countryRows, latestWeek,
-  weeklyTop, periodTop, addDays, netflixPeriods, weekLabel, indexByKey, checkSnapshot, verdictKey,
+  weeklyTop, periodTop, addDays, netflixPeriods, weekLabel, indexByKey, checkSnapshot, verdictKey, jsonLdString,
 } from '../src/lib/top10-core.mjs';
 
 const GLOBAL_TSV = [
@@ -142,4 +142,16 @@ test('indexByKey keys verdicts by kind and title', () => {
   assert.equal(map.get(verdictKey('movie', 'The Thicket')).kind, 'movie');
   assert.equal(map.get(verdictKey('series', 'The Thicket')).kind, 'series');
   assert.throws(() => indexByKey([{ title: 'X', kind: 'movie' }, { title: 'x', kind: 'movie' }]), /Duplicate verdict/);
+});
+
+test('titleKey keeps combining vowel signs in Indic and Thai titles', () => {
+  assert.equal(titleKey('हीरामंडी'), 'हीरामंडी');
+  assert.notEqual(titleKey('हीरा'), titleKey('हर'));
+  assert.equal(titleKey('Pokémon Horizons'), 'pokemon-horizons'); // Latin accents still folded
+});
+
+test('jsonLdString escapes "<" so a title cannot close the script tag', () => {
+  const out = jsonLdString({ name: 'Bad </script><script>alert(1)</script>' });
+  assert.ok(!out.includes('<'));
+  assert.deepEqual(JSON.parse(out), { name: 'Bad </script><script>alert(1)</script>' });
 });
