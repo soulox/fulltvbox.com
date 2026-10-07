@@ -1,5 +1,6 @@
 ---
 import type { WatchTitle } from '../lib/top10';
+import { GENRES } from '../lib/genres';
 
 interface Props {
   heading: string;
@@ -27,10 +28,16 @@ const verdictLabel = { watch: 'Watch', skip: 'Skip', depends: 'Depends' };
               <span class="font-display font-700 text-ink">{t.title}</span>
               {t.verdict && <span class={`chip ${verdictClass[t.verdict.verdict]}`}>{verdictLabel[t.verdict.verdict]}</span>}
             </div>
-            {t.verdict && <p class="text-muted text-sm mt-1">{t.verdict.take}</p>}
-            <div class="label text-dim mt-1">
-              {showViews && t.views !== undefined && `${fmtViews(t.views)} views · `}
-              {t.weeksInTop10} {t.weeksInTop10 === 1 ? 'week' : 'weeks'} {weeksSuffix}
+            {t.verdict && <p class="text-muted text-sm mt-1">{t.verdict.description}</p>}
+            {t.verdict && (
+              <p class="text-sm mt-1"><span class="label text-signal">Our take</span> <span class="text-ink/90">{t.verdict.take}</span></p>
+            )}
+            <div class="label text-dim mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+              {t.verdict?.genres.map((g) => <span class="chip !py-0 !text-[0.65rem]">{GENRES[g]}</span>)}
+              <span>
+                {showViews && t.views !== undefined && `${fmtViews(t.views)} views · `}
+                {t.weeksInTop10} {t.weeksInTop10 === 1 ? 'week' : 'weeks'} {weeksSuffix}
+              </span>
             </div>
           </div>
         </li>

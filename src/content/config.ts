@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { GENRE_IDS } from '../lib/genres';
 
 const specs = z
   .object({
@@ -186,6 +187,8 @@ const watchVerdicts = defineCollection({
   schema: z.object({
     title: z.string(), // exactly as Netflix lists it, season included ("Wednesday: Season 2")
     kind: z.enum(['movie', 'series']),
+    genres: z.array(z.enum(GENRE_IDS)).min(1).max(3), // ids from src/lib/genres.ts
+    description: z.string().max(200), // one spoiler-free line on what it is, in our own words
     verdict: z.enum(['watch', 'skip', 'depends']),
     take: z.string().max(160),
     sources: z.array(z.string().url()).min(2), // the published reviews it's based on
