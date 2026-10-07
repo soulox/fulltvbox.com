@@ -5,7 +5,7 @@ import type { ImageMetadata } from 'astro';
  *
  * Images live in src/assets/reviews/<slug>.{jpg,jpeg,png,webp}. Keeping them in
  * src/ (not public/) lets astro:assets optimize them — responsive widths,
- * modern formats, explicit dimensions. The PA-API fetcher drops new files here
+ * modern formats, explicit dimensions. The Amazon image fetcher drops new files here
  * by slug, so they're picked up automatically with no frontmatter to maintain.
  */
 const files = import.meta.glob<{ default: ImageMetadata }>(

@@ -63,7 +63,7 @@ Push to `master` (and a daily 09:00 UTC schedule, for live deal prices) → `.gi
 
 ## Image fetch scripts
 
-`npm run images:amazon` (Amazon PA-API) and `npm run images:bestbuy` download product photos to `public/images/reviews/<slug>.jpg` and patch review frontmatter. Both need API credentials via env vars (see README "Launch checklist"); support `--dry-run` and `--force`. Wikimedia-sourced photos must be credited on `/credits`; Amazon PA-API images need no attribution.
+`npm run images:amazon` (Amazon Creators API, for reviews with `asin:`; PA-API was retired 2026-05-15) and `npm run images:bestbuy` download product photos to `src/assets/reviews/<slug>.jpg`; reviews resolve images by slug, so no frontmatter is patched. Both need API credentials via env vars (see README "Launch checklist"); support `--dry-run` and `--force`. Wikimedia-sourced photos must be credited on `/credits`; Amazon images need no attribution. Amazon auth and GetItems live in `scripts/lib/amazon-creators.mjs`, shared with `fetch-prices.mjs`.
 
 ## Content automation
 
