@@ -70,6 +70,8 @@ Push to `master` (and a daily 09:00 UTC schedule, for live deal prices) → `.gi
 
 `npm run images:amazon` (Amazon Creators API, for reviews with `asin:`; PA-API was retired 2026-05-15) and `npm run images:bestbuy` download product photos to `src/assets/reviews/<slug>.jpg`; reviews resolve images by slug, so no frontmatter is patched. Both need API credentials via env vars (see README "Launch checklist"); support `--dry-run` and `--force`. Wikimedia-sourced photos must be credited on `/credits`; Amazon images need no attribution. Amazon auth and GetItems live in `scripts/lib/amazon-creators.mjs`, shared with `fetch-prices.mjs`.
 
+`npm run images:watch` fetches the title art Netflix shows in its Top 10 tables for each `watch-verdicts/` file without one, into `src/assets/watch/<verdict id>.jpg`, and adds `image: { credit, source }` to the YAML (credited on `/credits`). An image without that block, or the reverse, fails the build. Netflix rate-limits by IP, so the script fetches slowly. TMDB posters would replace this once TMDB confirms our use is non-commercial or a license is in place.
+
 ## Content automation
 
 A second weekly routine refreshes streaming-service deals by PR (`docs/automation/weekly-deals-agent.md`).
