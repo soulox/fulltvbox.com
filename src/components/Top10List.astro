@@ -32,14 +32,24 @@ const verdictHint = {
           {t.image && (
             <Image
               src={t.image}
-              alt={`${t.title} key art`}
-              widths={[64, 128]}
-              sizes="64px"
+              alt={`${t.title} title art`}
+              widths={[128, 256]}
+              sizes="128px"
               loading="lazy"
-              class="w-16 aspect-[2/3] object-cover shrink-0 border border-line"
+              class="hidden sm:block w-32 aspect-video object-cover shrink-0 border border-line"
             />
           )}
           <div class="flex-1 min-w-0">
+            {t.image && (
+              <Image
+                src={t.image}
+                alt={`${t.title} title art`}
+                widths={[256, 389]}
+                sizes="90vw"
+                loading="lazy"
+                class="sm:hidden w-full aspect-video object-cover border border-line mb-3"
+              />
+            )}
             <div class="flex flex-wrap items-center gap-2">
               <span class="font-display font-700 text-ink">{t.title}</span>
               {t.verdict && <span class={`chip ${verdictClass[t.verdict.verdict]}`} title={verdictHint[t.verdict.verdict]}>{verdictLabel[t.verdict.verdict]}</span>}

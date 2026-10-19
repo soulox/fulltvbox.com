@@ -8,6 +8,7 @@
     "test": "node --test",
     "images:amazon": "node scripts/fetch-amazon-images.mjs",
     "images:bestbuy": "node scripts/fetch-bestbuy-images.mjs",
+    "images:watch": "node scripts/fetch-watch-images.mjs",
     "prices": "node scripts/fetch-prices.mjs",
     "top10": "node scripts/fetch-netflix-top10.mjs",
     "deploy": "node scripts/fetch-prices.mjs && node scripts/fetch-netflix-top10.mjs && astro build && wrangler pages deploy dist --project-name fulltvbox"

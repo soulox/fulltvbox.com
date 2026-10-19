@@ -73,8 +73,8 @@ checked: "YYYY-MM-DD"          # today
   and, for a series, this exact season (a season-1 review doesn't support a season-2 verdict;
   a same-named film from another year doesn't count). Search-result snippets are not sources.
 - Fewer than 2 reviews found → no verdict file; list the title in the PR body as skipped.
-- **Don't add images** (`image:` or files in `src/assets/watch/`). Title art is licensed and
-  added by hand; a verdict without one simply shows no thumbnail.
+- **Don't add images** (`image:` or files in `src/assets/watch/`). Title art is fetched
+  separately with `npm run images:watch`; a verdict without one simply shows no thumbnail.
 - One file per title and kind. A new season is a new title with its own file; don't reuse season 1's.
 - Don't edit anything outside `src/content/watch-verdicts/`.
 - No spoilers beyond the premise.
