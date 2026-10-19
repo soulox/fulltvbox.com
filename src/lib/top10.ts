@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { ImageMetadata } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { watchImage, watchImageIds } from './watchImages';
+import { watchImage } from './watchImages';
 import { weeklyTop, periodTop, latestWeek, netflixPeriods, indexByKey, verdictKey, weekLabel, jsonLdString } from './top10-core.mjs';
 
 export { weekLabel, jsonLdString };
@@ -44,38 +44,18 @@ export function netflixLatestWeek(region: 'us' | 'global' = 'us'): string | null
   return c ? latestWeek(c[region]) : null;
 }
 
-type IndexedVerdict = Verdict & { file?: ImageMetadata };
-
-/**
- * Pairs each verdict with its image file. An image without credit (or credit without an
- * image, or an image file with no verdict) fails the build rather than shipping uncredited
- * or silently missing.
- */
-export async function getVerdictEntries() {
-  const entries = await getCollection('watch-verdicts');
-  const ids = new Set(entries.map((e) => e.id));
-  const orphan = watchImageIds.find((id) => !ids.has(id));
-  if (orphan) throw new Error(`src/assets/watch/${orphan}.* has no matching watch-verdicts/${orphan}.yaml`);
-  return entries.map((e) => {
-    const file = watchImage(e.id);
-    if (file && !e.data.image) throw new Error(`watch-verdicts/${e.id}.yaml has an image file but no image: { credit, source }`);
-    if (!file && e.data.image) throw new Error(`watch-verdicts/${e.id}.yaml sets image: but src/assets/watch/${e.id}.jpg is missing`);
-    return { id: e.id, data: e.data, file };
-  });
-}
-
 // Loaded once per build: every list on every page joins against the same verdicts.
-let verdictIndex: Promise<Map<string, IndexedVerdict>> | undefined;
+let verdictIndex: Promise<Map<string, Verdict>> | undefined;
 
 async function withVerdicts(list: Omit<WatchTitle, 'service' | 'verdict'>[]): Promise<WatchTitle[]> {
-  verdictIndex ??= getVerdictEntries().then((entries) => indexByKey(entries.map((e) => ({ ...e.data, file: e.file }))));
+  verdictIndex ??= getCollection('watch-verdicts').then((entries) => indexByKey(entries.map((e) => e.data)));
   const verdicts = await verdictIndex;
-  return list.map((t) => {
-    const v = verdicts.get(verdictKey(t.kind, t.title));
-    if (!v) return { ...t, service: 'netflix' };
-    const { file, ...verdict } = v;
-    return { ...t, service: 'netflix', verdict, image: file };
-  });
+  return list.map((t) => ({
+    ...t,
+    service: 'netflix',
+    verdict: verdicts.get(verdictKey(t.kind, t.title)),
+    image: watchImage(t.kind, t.title),
+  }));
 }
 
 export async function getWeeklyTop(region: 'us' | 'global', kind: Kind): Promise<WatchTitle[]> {

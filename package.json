@@ -11,7 +11,7 @@
     "images:watch": "node scripts/fetch-watch-images.mjs",
     "prices": "node scripts/fetch-prices.mjs",
     "top10": "node scripts/fetch-netflix-top10.mjs",
-    "deploy": "node scripts/fetch-prices.mjs && node scripts/fetch-netflix-top10.mjs && astro build && wrangler pages deploy dist --project-name fulltvbox"
+    "deploy": "node scripts/fetch-prices.mjs && node scripts/fetch-netflix-top10.mjs && node scripts/fetch-watch-images.mjs --ci && astro build && wrangler pages deploy dist --project-name fulltvbox"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",

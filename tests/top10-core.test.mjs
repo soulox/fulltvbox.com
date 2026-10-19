@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseTsv, displayTitle, titleKey, globalRows, countryRows, latestWeek,
-  weeklyTop, periodTop, addDays, netflixPeriods, weekLabel, indexByKey, checkSnapshot, verdictKey, jsonLdString,
+  weeklyTop, periodTop, addDays, netflixPeriods, weekLabel, indexByKey, checkSnapshot, verdictKey, jsonLdString, displayedTitles,
 } from '../src/lib/top10-core.mjs';
 
 const GLOBAL_TSV = [
@@ -154,4 +154,14 @@ test('jsonLdString escapes "<" so a title cannot close the script tag', () => {
   const out = jsonLdString({ name: 'Bad </script><script>alert(1)</script>' });
   assert.ok(!out.includes('<'));
   assert.deepEqual(JSON.parse(out), { name: 'Bad </script><script>alert(1)</script>' });
+});
+
+test('displayedTitles covers weekly and period lists once each, by kind', () => {
+  const global = globalRows(parseTsv(GLOBAL_TSV), '2025-01-01');
+  const us = [{ week: '2026-10-04', kind: 'movie', rank: 1, title: 'US Only Film', weeks: 1 }];
+  const titles = displayedTitles({ us, global }).map((t) => `${t.kind}:${t.title}`).sort();
+  assert.deepEqual(titles, [
+    'movie:La Sustancia', 'movie:UNABOMBER', 'movie:US Only Film',
+    'series:Wednesday: Season 1', 'series:Wednesday: Season 2',
+  ]);
 });

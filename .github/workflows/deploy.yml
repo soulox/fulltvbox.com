@@ -27,6 +27,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Title art fetched during earlier deploys for titles new to the Top 10 lists
+      # (scripts/fetch-watch-images.mjs --ci), so each run only fetches what's new.
+      - uses: actions/cache@v4
+        with:
+          path: src/assets/watch
+          key: watch-images-${{ github.run_id }}
+          restore-keys: watch-images-
       - run: npm run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

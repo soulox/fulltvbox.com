@@ -1,27 +1,43 @@
 import type { ImageMetadata } from 'astro';
+import { titleKey } from './top10-core.mjs';
 
 /**
- * Map of watch-verdict id -> imported title image (poster or still), resolved at build time.
+ * Title art for /what-to-watch, keyed by kind + title so every listed title can have one,
+ * with or without a verdict.
  *
- * Images live in src/assets/watch/<verdict file name>.{jpg,jpeg,png,webp}, so
- * src/content/watch-verdicts/wednesday-season-2.yaml pairs with
- * src/assets/watch/wednesday-season-2.jpg. Same pattern as ./reviewImages.ts.
+ * Each image is src/assets/watch/<kind>--<titleKey>.jpg with a sidecar .json holding
+ * { title, kind, credit, source }. scripts/fetch-watch-images.mjs writes both; the deploy
+ * also runs it so titles new to the lists get art before the build. Same astro:assets
+ * pattern as ./reviewImages.ts.
  */
-const files = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/watch/*.{jpg,jpeg,png,webp}',
-  { eager: true }
-);
-
-const byId: Record<string, ImageMetadata> = {};
-for (const path in files) {
-  const id = path.split('/').pop()!.replace(/\.(jpe?g|png|webp)$/i, '');
-  byId[id] = files[path].default;
+export interface WatchImageCredit {
+  title: string;
+  kind: 'movie' | 'series';
+  credit: string; // e.g. "Netflix"
+  source: string; // page the image was taken from
 }
 
-/** All image ids, so the build can flag an image with no verdict to belong to. */
-export const watchImageIds = Object.keys(byId);
+const images = import.meta.glob<{ default: ImageMetadata }>('../assets/watch/*.{jpg,jpeg,png,webp}', { eager: true });
+const credits = import.meta.glob<{ default: WatchImageCredit }>('../assets/watch/*.json', { eager: true });
 
-/** The optimized image for a verdict, or undefined if none was added. */
-export function watchImage(id: string): ImageMetadata | undefined {
-  return byId[id];
+const base = (path: string) => path.split('/').pop()!.replace(/\.[a-z]+$/i, '');
+const byName: Record<string, { image: ImageMetadata; credit: WatchImageCredit }> = {};
+const creditByName = Object.fromEntries(Object.entries(credits).map(([p, m]) => [base(p), m.default]));
+for (const path in images) {
+  const name = base(path);
+  // An image with no credit file would ship uncredited, so that fails the build.
+  if (!creditByName[name]) throw new Error(`src/assets/watch/${name}: image has no ${name}.json credit file`);
+  byName[name] = { image: images[path].default, credit: creditByName[name] };
+}
+
+export const watchImageName = (kind: string, title: string) => `${kind}--${titleKey(title)}`;
+
+/** The optimized art for a title, or undefined if none was fetched. */
+export function watchImage(kind: string, title: string): ImageMetadata | undefined {
+  return byName[watchImageName(kind, title)]?.image;
+}
+
+/** Credits for every image, for /credits. */
+export function watchImageCredits(): WatchImageCredit[] {
+  return Object.values(byName).map((e) => e.credit);
 }

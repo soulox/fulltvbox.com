@@ -177,6 +177,30 @@ export function netflixPeriods(latest) {
   return periods;
 }
 
+/**
+ * Every title the /what-to-watch pages show: this week's US and global lists plus each
+ * period list. Used by scripts/fetch-watch-images.mjs to know which titles need art.
+ * @param {{ us: Top10Row[], global: Top10Row[] }} data
+ * @returns {{ key: string, title: string, kind: Kind }[]}
+ */
+export function displayedTitles(data) {
+  /** @type {Map<string, { key: string, title: string, kind: Kind }>} */
+  const out = new Map();
+  const add = (/** @type {RankedTitle[]} */ list) => {
+    for (const t of list) out.set(verdictKey(t.kind, t.title), { key: t.key, title: t.title, kind: t.kind });
+  };
+  const usWeek = latestWeek(data.us);
+  const globalWeek = latestWeek(data.global);
+  for (const kind of /** @type {Kind[]} */ (['movie', 'series'])) {
+    if (usWeek) add(weeklyTop(data.us, { kind, week: usWeek }));
+    if (globalWeek) {
+      add(weeklyTop(data.global, { kind, week: globalWeek }));
+      for (const p of netflixPeriods(globalWeek)) add(periodTop(data.global, { kind, from: p.from, to: p.to }));
+    }
+  }
+  return [...out.values()];
+}
+
 /** Verdicts join on kind + title, so a film and a series with the same name stay apart. */
 /** @param {Kind} kind @param {string} title */
 export function verdictKey(kind, title) {

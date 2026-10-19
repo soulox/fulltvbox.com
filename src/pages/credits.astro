@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getVerdictEntries } from '../lib/top10';
+import { watchImageCredits } from '../lib/watchImages';
 
 // Image attributions. All product photos are from Wikimedia Commons under
 // CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
@@ -14,10 +14,9 @@ const credits = [
   { device: 'Xiaomi Mi Box S', author: 'TGspot.co.il', page: 'https://commons.wikimedia.org/w/index.php?curid=77663174' },
 ];
 const LICENSE = 'https://creativecommons.org/licenses/by-sa/4.0/';
-// What to Watch key art: one image per verdict, credited from its YAML.
-const watchCredits = (await getVerdictEntries())
-  .filter((e) => e.data.image)
-  .map((e) => ({ title: e.data.title, credit: e.data.image!.credit, page: e.data.image!.source }))
+// What to Watch title art, one per listed title (src/assets/watch/*.json).
+const watchCredits = watchImageCredits()
+  .map((c) => ({ title: c.title, credit: c.credit, page: c.source }))
   .sort((a, b) => a.title.localeCompare(b.title));
 ---
 <BaseLayout title="Credits & Image Attribution" description="Image sources and licensing for product photography used on FullTVBox.">
