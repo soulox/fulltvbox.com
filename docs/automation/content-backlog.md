@@ -28,7 +28,6 @@ reorder, or prune at any time.
 
 ## Backlog
 
-- [P1] Fire TV remote not working / won't pair — category: troubleshooting — intent: "fire tv stick remote not working" — very high volume; link the Fire TV reviews
 - [P1] How much internet speed do you need to stream 4K — category: basics-setup — intent: "internet speed for 4k streaming" — evergreen, high volume
 - [P1] Apple TV 4K vs NVIDIA Shield: which premium box to buy — category: comparisons — intent: "apple tv vs nvidia shield" — both devices are reviewed on-site
 - [P1] No sound on your streaming device: HDMI & Atmos audio fixes — category: troubleshooting — intent: "streaming device no sound fix" — evergreen troubleshooting
