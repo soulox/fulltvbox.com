@@ -193,6 +193,11 @@ const watchVerdicts = defineCollection({
     take: z.string().max(160),
     sources: z.array(z.string().url()).min(2), // the published reviews it's based on
     checked: z.string(),
+    // Set when src/assets/watch/<this file's name>.jpg exists; credited on /credits.
+    image: z.object({
+      credit: z.string(), // e.g. "Netflix"
+      source: z.string().url(), // where the image was obtained (press page)
+    }).optional(),
   }),
 });
 

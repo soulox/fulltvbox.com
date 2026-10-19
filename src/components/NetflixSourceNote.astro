@@ -11,5 +11,10 @@ const { aggregated = false } = Astro.props;
       ? 'These lists add up each title\'s global views across the weeks it spent in the weekly Top 10. Netflix doesn\'t publish views for weeks outside it, so a title that charted briefly can rank lower than its true total.'
       : 'US lists use Netflix\'s US ranks; global lists rank by views.'}
   </p>
-  <p class="mt-2">Verdicts are our take, based on published reviews. Rebuilt daily.</p>
+  <p class="mt-2">
+    Verdicts are our take, based on published reviews: <span class="text-signal">Watch</span> means reviews are
+    broadly positive, <span class="text-dim">Skip</span> broadly negative, and <span class="text-amber">Depends</span>
+    mixed or good only for a specific taste (our take says who it suits). Images are credited on
+    <a href="/credits" class="text-signal border-b border-signal/30 hover:border-signal">Credits</a>. Rebuilt daily.
+  </p>
 </div>

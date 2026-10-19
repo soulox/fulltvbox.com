@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getVerdictEntries } from '../lib/top10';
 
 // Image attributions. All product photos are from Wikimedia Commons under
 // CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
@@ -13,6 +14,11 @@ const credits = [
   { device: 'Xiaomi Mi Box S', author: 'TGspot.co.il', page: 'https://commons.wikimedia.org/w/index.php?curid=77663174' },
 ];
 const LICENSE = 'https://creativecommons.org/licenses/by-sa/4.0/';
+// What to Watch key art: one image per verdict, credited from its YAML.
+const watchCredits = (await getVerdictEntries())
+  .filter((e) => e.data.image)
+  .map((e) => ({ title: e.data.title, credit: e.data.image!.credit, page: e.data.image!.source }))
+  .sort((a, b) => a.title.localeCompare(b.title));
 ---
 <BaseLayout title="Credits & Image Attribution" description="Image sources and licensing for product photography used on FullTVBox.">
   <div class="max-w-3xl mx-auto px-4 py-14">
@@ -40,6 +46,26 @@ const LICENSE = 'https://creativecommons.org/licenses/by-sa/4.0/';
         </div>
       ))}
     </div>
+
+    {watchCredits.length > 0 && (
+      <>
+        <h2 class="font-display font-800 text-2xl mt-12 mb-3">What to Watch images</h2>
+        <p class="text-muted mb-4 leading-relaxed">Movie and series key art is used for editorial purposes and belongs to its credited owner.</p>
+        <div class="panel divide-y divide-line">
+          {watchCredits.map((c) => (
+            <div class="flex items-center gap-4 px-5 py-4">
+              <div class="flex-1 min-w-0">
+                <div class="font-display font-700 text-ink truncate">{c.title}</div>
+                <div class="label text-dim mt-0.5">© {c.credit}</div>
+              </div>
+              <a href={c.page} target="_blank" rel="noopener" class="label text-muted hover:text-signal transition-colors shrink-0">
+                Source →
+              </a>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
 
     <h2 class="font-display font-800 text-2xl mt-12 mb-3">Data sources</h2>
     <p class="text-muted leading-relaxed">

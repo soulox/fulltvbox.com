@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { WatchTitle } from '../lib/top10';
 import { GENRES } from '../lib/genres';
 
@@ -13,6 +14,11 @@ const { heading, items, showViews = false, weeksSuffix = 'in the Top 10' } = Ast
 const fmtViews = (n: number) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : `${Math.round(n / 1e3)}K`);
 const verdictClass = { watch: 'text-signal border-signal/40', skip: 'text-dim', depends: 'text-amber border-amber/40' };
 const verdictLabel = { watch: 'Watch', skip: 'Skip', depends: 'Depends' };
+const verdictHint = {
+  watch: 'Reviews are broadly positive',
+  skip: 'Reviews are broadly negative',
+  depends: 'Mixed reviews, or good only for a specific taste; our take says who it suits',
+};
 ---
 <section>
   <h2 class="font-display font-800 text-2xl mb-4">{heading}</h2>
@@ -23,10 +29,20 @@ const verdictLabel = { watch: 'Watch', skip: 'Skip', depends: 'Depends' };
       {items.map((t) => (
         <li class="bench-card frame px-4 py-3 flex items-start gap-4">
           <span aria-hidden="true" class="font-display font-900 text-2xl text-signal leading-none w-8 shrink-0 text-right">{t.rank}</span>
+          {t.image && (
+            <Image
+              src={t.image}
+              alt={`${t.title} key art`}
+              widths={[64, 128]}
+              sizes="64px"
+              loading="lazy"
+              class="w-16 aspect-[2/3] object-cover shrink-0 border border-line"
+            />
+          )}
           <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-2">
               <span class="font-display font-700 text-ink">{t.title}</span>
-              {t.verdict && <span class={`chip ${verdictClass[t.verdict.verdict]}`}>{verdictLabel[t.verdict.verdict]}</span>}
+              {t.verdict && <span class={`chip ${verdictClass[t.verdict.verdict]}`} title={verdictHint[t.verdict.verdict]}>{verdictLabel[t.verdict.verdict]}</span>}
             </div>
             {t.verdict && <p class="text-muted text-sm mt-1">{t.verdict.description}</p>}
             {t.verdict && (
