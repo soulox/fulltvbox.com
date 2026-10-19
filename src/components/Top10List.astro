@@ -29,25 +29,15 @@ const verdictHint = {
       {items.map((t) => (
         <li class="bench-card frame px-4 py-3 flex items-start gap-4">
           <span aria-hidden="true" class="font-display font-900 text-2xl text-signal leading-none w-8 shrink-0 text-right">{t.rank}</span>
-          {t.image && (
-            <Image
-              src={t.image}
-              alt={`${t.title} title art`}
-              widths={[128, 256]}
-              sizes="128px"
-              loading="lazy"
-              class="hidden sm:block w-32 aspect-video object-cover shrink-0 border border-line"
-            />
-          )}
           <div class="flex-1 min-w-0">
             {t.image && (
               <Image
                 src={t.image}
                 alt={`${t.title} title art`}
                 widths={[256, 389]}
-                sizes="90vw"
+                sizes="(min-width: 640px) 448px, 90vw"
                 loading="lazy"
-                class="sm:hidden w-full aspect-video object-cover border border-line mb-3"
+                class="w-full max-w-md aspect-video object-cover border border-line mb-3"
               />
             )}
             <div class="flex flex-wrap items-center gap-2">
