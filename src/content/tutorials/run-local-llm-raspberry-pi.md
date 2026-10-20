@@ -71,6 +71,9 @@ ollama run llama3.2:3b
 
 The first run downloads the model (a few gigabytes), then drops you into an interactive prompt. Type a question and it answers — entirely offline. Press `Ctrl+D` to exit.
 
+![A Linux terminal running ollama run llama3, with a question typed at the prompt and the model's answer below](../../assets/tutorials/inline/ollama-running-llama3.png)
+*An Ollama chat session in the terminal. On the Pi it looks the same, just slower.*
+
 > **Tip:** start with a 1-3B model. If replies are too slow, drop to `llama3.2:1b`; if you have a 16GB Pi and want more capability, try a quantized 7-8B model and accept slower output.
 
 ---

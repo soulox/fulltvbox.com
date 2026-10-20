@@ -88,6 +88,9 @@ Log in with your password. The dashboard shows:
 - Number of domains on your blocklists
 - The query log (what was blocked and what was allowed)
 
+![Pi-hole admin dashboard with total queries, queries blocked, percentage blocked and domains on blocklists, above graphs of queries over 24 hours](../../assets/tutorials/inline/pi-hole-dashboard.png)
+*The Pi-hole dashboard (shown here in an earlier version).*
+
 In Pi-hole v6 the web interface is built into Pi-hole itself, so it no longer needs a separate web server (lighttpd).
 
 ---

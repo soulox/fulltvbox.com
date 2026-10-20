@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import { tutorialImage } from '../../lib/tutorialImages';
 
 const tutorials = await getCollection('tutorials');
 const sorted = tutorials.sort((a, b) =>
@@ -52,6 +54,17 @@ const itemListSchema = {
           data-tags={tutorial.data.tags.join(',')}
           class="tutorial-card bench-card frame group p-6 flex flex-col"
         >
+          {tutorialImage(tutorial.slug) && (
+            <Image
+              src={tutorialImage(tutorial.slug)!.src}
+              alt={tutorialImage(tutorial.slug)!.alt}
+              widths={[400, 800]}
+              sizes="(min-width: 640px) 400px, 100vw"
+              format="webp"
+              loading="lazy"
+              class="-mx-6 -mt-6 mb-5 w-[calc(100%+3rem)] max-w-none aspect-[16/9] object-cover border-b border-line"
+            />
+          )}
           <div class="flex items-center gap-2 mb-4 flex-wrap">
             <span class={`chip ${difficultyColor[tutorial.data.difficulty]}`}>
               ◆ {tutorial.data.difficulty}

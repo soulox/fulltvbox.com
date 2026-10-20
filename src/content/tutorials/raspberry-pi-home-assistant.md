@@ -97,6 +97,9 @@ Useful cards to start:
 
 Arrange cards by dragging. Click **Done** when finished.
 
+![A Home Assistant dashboard with cards for lights, climate, energy, media and weather](../../assets/tutorials/inline/home-assistant-dashboard.png)
+*A finished dashboard: each tile is a card you add in Edit mode.*
+
 ---
 
 ## Step 6: Create an Automation

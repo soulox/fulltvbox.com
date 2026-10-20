@@ -27,6 +27,9 @@ Recommended cooling options:
 - **Pimoroni Heatsink Case** — good passive for light overclocks
 - **Argon ONE V3** — full aluminum case with built-in fan, great for max overclocks
 
+![The official Raspberry Pi Active Cooler: an aluminum heatsink with a small fan](../../assets/tutorials/inline/raspberry-pi-5-active-cooler.jpg)
+*The official Active Cooler clips onto the Pi 5's mounting holes and plugs into its fan header.*
+
 Check your current temperature:
 
 ```bash

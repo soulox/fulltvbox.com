@@ -25,6 +25,9 @@ This guide covers both.
 
 ## Option A: LibreELEC (Recommended)
 
+![LibreELEC settings screen inside Kodi, with System, Network, Connections and Services tabs](../../assets/tutorials/inline/libreelec-12-settings.png)
+*LibreELEC boots straight into Kodi; its own settings (network, SSH, updates) live in this add-on.*
+
 ### Step 1: Flash LibreELEC
 
 1. Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/)

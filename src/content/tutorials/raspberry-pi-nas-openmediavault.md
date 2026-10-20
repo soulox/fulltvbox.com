@@ -75,6 +75,9 @@ Or use the Pi's IP address. Default login:
 
 **Change the password immediately:** System → General Settings → Web Administrator Password
 
+![OpenMediaVault dashboard showing running services and system information, with the System, Network, Storage and Services menus on the left](../../assets/tutorials/inline/openmediavault-dashboard.jpg)
+*The OMV dashboard after login. Storage and Services in the left menu are where Steps 5–7 happen.*
+
 ---
 
 ## Step 5: Set Up Your Storage Drive

@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
+import { tutorialImage } from '../lib/tutorialImages';
 import { freshness } from '../lib/freshness';
 import { getAuthor, authorJsonLd } from '../data/authors';
 import { cleanPathname } from '../lib/url';
@@ -12,11 +14,13 @@ interface Props {
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   duration: string;
   tags: string[];
+  slug?: string; // resolves the header image in src/assets/tutorials/<slug>.*
   image?: string;
   ogImage?: string;
   author?: string;
 }
-const { title, description, publishDate, updatedDate, difficulty, duration, tags, image, ogImage, author: authorSlug } = Astro.props;
+const { title, description, publishDate, updatedDate, difficulty, duration, tags, slug, image, ogImage, author: authorSlug } = Astro.props;
+const hero = slug ? tutorialImage(slug) : undefined;
 const author = getAuthor(authorSlug);
 const fresh = freshness(publishDate, updatedDate);
 
@@ -31,7 +35,7 @@ const jsonLd = [
     datePublished: publishDate,
     ...(updatedDate ? { dateModified: updatedDate } : {}),
     // Article rich results require an image; fall back to the generated OG card.
-    image: new URL(image ?? ogImage ?? '/og-default.png', site).href,
+    image: new URL(hero?.src.src ?? image ?? ogImage ?? '/og-default.png', site).href,
     proficiencyLevel: difficulty,
     keywords: tags.join(', '),
     author: authorJsonLd(author, site),
@@ -70,7 +74,19 @@ const difficultyColor = {
   </nav>
 
   <article class="max-w-3xl mx-auto px-4 py-8" data-pagefind-body data-pagefind-filter="type:tutorial">
-    {image && (
+    {hero ? (
+      <Image
+        src={hero.src}
+        alt={hero.alt}
+        widths={[480, 768, 1536]}
+        sizes="(max-width: 768px) 100vw, 768px"
+        format="webp"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        class="w-full h-48 sm:h-80 mb-8 object-cover border border-line"
+      />
+    ) : image && (
       <img src={image} alt={title} width="960" height="288" decoding="async" fetchpriority="high" class="w-full h-72 mb-8 object-contain bg-panel border border-line" onerror="this.style.display='none';" />
     )}
 

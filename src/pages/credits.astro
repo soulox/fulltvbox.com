@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { watchImageCredits } from '../lib/watchImages';
+import { tutorialImageCredits } from '../lib/tutorialImages';
 
 // Image attributions. All product photos are from Wikimedia Commons under
 // CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
@@ -38,6 +39,28 @@ const watchCredits = watchImageCredits()
           <div class="flex-1 min-w-0">
             <div class="font-display font-700 text-ink truncate">{c.device}</div>
             <div class="label text-dim mt-0.5">© {c.author} · CC BY-SA 4.0</div>
+          </div>
+          <a href={c.page} target="_blank" rel="noopener" class="label text-muted hover:text-signal transition-colors shrink-0">
+            Source →
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <h2 class="font-display font-800 text-2xl mt-12 mb-3">Tutorial images</h2>
+    <p class="text-muted mb-4 leading-relaxed">
+      Tutorial photos and screenshots come from Wikimedia Commons under the licenses listed, unmodified except for resizing.
+    </p>
+    <div class="panel divide-y divide-line">
+      {tutorialImageCredits().map((c) => (
+        <div class="flex items-center gap-4 px-5 py-4">
+          <div class="flex-1 min-w-0">
+            <div class="font-display font-700 text-ink truncate">{c.subject}</div>
+            <div class="label text-dim mt-0.5">
+              © {c.author} · {c.licenseUrl
+                ? <a href={c.licenseUrl} target="_blank" rel="noopener" class="hover:text-signal">{c.license}</a>
+                : c.license}
+            </div>
           </div>
           <a href={c.page} target="_blank" rel="noopener" class="label text-muted hover:text-signal transition-colors shrink-0">
             Source →
