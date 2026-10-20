@@ -9,14 +9,16 @@ const sorted = tutorials.sort((a, b) =>
   new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
 );
 
-// Most-used tags first. Tags shared by several tutorials are shown; one-offs sit behind
-// a "more" toggle so the filter row stays short as the collection grows.
+// Most-used tags first, so the filter row stays short as the collection grows.
 const tagCounts = new Map<string, number>();
 for (const tag of tutorials.flatMap(t => t.data.tags)) tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
 const byUse = [...tagCounts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([tag]) => tag);
-const MAIN_MIN = 3; // tutorials a tag needs to be shown without expanding
-const mainTags = byUse.filter(tag => tagCounts.get(tag)! >= MAIN_MIN);
-const moreTags = byUse.filter(tag => tagCounts.get(tag)! < MAIN_MIN).sort();
+// Up to MAIN_MAX of the most-used tags (each on 3+ tutorials) stay visible: about two rows
+// on desktop. The rest wait behind the toggle.
+const MAIN_MIN = 3;
+const MAIN_MAX = 14;
+const mainTags = byUse.filter(tag => tagCounts.get(tag)! >= MAIN_MIN).slice(0, MAIN_MAX);
+const moreTags = byUse.filter(tag => !mainTags.includes(tag)).sort();
 
 const difficultyColor = {
   beginner: 'text-signal border-signal/40',
