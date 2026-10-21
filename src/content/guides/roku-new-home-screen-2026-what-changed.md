@@ -78,7 +78,7 @@ If the ad load genuinely bothers you more than the price difference justifies, i
 
 ## Does this change which Roku to buy?
 
-Not really. The redesign is identical across the lineup, so it's not a reason to pick one Roku model over another — see our [Roku vs Fire TV vs Google TV comparison](/guides/android-tv-vs-fire-tv-vs-roku) and [best TV box picks](/guides/best-tv-box-2025) for that decision. What it does change is the calculus between Roku and other platforms: Roku's traditional pitch — cheap, simple, light on ads — is a little less true than it was a year ago. It's still lighter than Fire TV or Google TV's home screens, just no longer the clean baseline it used to be.
+Not really. The redesign is identical across the lineup, so it's not a reason to pick one Roku model over another — see our [Roku vs Fire TV vs Google TV comparison](/guides/android-tv-vs-fire-tv-vs-roku) and [best TV box picks](/guides/best-tv-box) for that decision. What it does change is the calculus between Roku and other platforms: Roku's traditional pitch — cheap, simple, light on ads — is a little less true than it was a year ago. It's still lighter than Fire TV or Google TV's home screens, just no longer the clean baseline it used to be.
 
 ---
 ---

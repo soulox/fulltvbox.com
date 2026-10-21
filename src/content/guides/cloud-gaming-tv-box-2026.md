@@ -73,7 +73,7 @@ It's compatible with a wider spread of Fire TV hardware than GeForce Now, includ
 - **Just want to try cloud gaming for free?** PHYND on any recent Fire TV Stick costs nothing beyond the device itself.
 - **On Google TV or Chromecast?** You're mostly watching this space for now — Xbox Game Pass cloud gaming hasn't reached standalone Google TV boxes yet, only select TCL TVs.
 
-For the full picture on picking a streaming box in the first place, see our [best TV boxes of 2026](/guides/best-tv-box-2025) and [what's new in streaming tech this year](/guides/newest-streaming-devices-tech-2026).
+For the full picture on picking a streaming box in the first place, see our [best TV boxes of 2026](/guides/best-tv-box) and [what's new in streaming tech this year](/guides/newest-streaming-devices-tech-2026).
 
 ---
 ---

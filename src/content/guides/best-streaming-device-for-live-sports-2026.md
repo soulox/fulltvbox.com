@@ -99,4 +99,4 @@ The hardware only gets you to the apps — here's what's actually airing where i
 - **Best for voice control:** Fire TV Cube, for hands-free channel switching and an HDMI input.
 - **Do you need Ethernet?** Not required, but it's the biggest reliability upgrade for live sports specifically.
 
-For the wider picture on picking a box, see our [best TV boxes of 2026](/guides/best-tv-box-2025) and the [platform breakdown](/guides/android-tv-vs-fire-tv-vs-roku).
+For the wider picture on picking a box, see our [best TV boxes of 2026](/guides/best-tv-box) and the [platform breakdown](/guides/android-tv-vs-fire-tv-vs-roku).
