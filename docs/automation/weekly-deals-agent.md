@@ -61,6 +61,9 @@ or the service's `url` in `src/content/services/<slug>.yaml`):
 - **Gone, or you can't confirm it** → delete the file. A deal you couldn't load (403, region
   redirect, page down) counts as unconfirmed: delete it and say so in the PR body. It can come
   back next week if it's confirmed then.
+- **No official site loads at all** (DNS errors such as `ENOTFOUND` on every service) → that's
+  the sandbox's network, not the offers. Delete nothing, open no PR, and report it so the
+  environment's network access can be fixed. This happened on 2026-10-08 and 2026-10-15.
 
 ## Step 3 — Find new promos
 
