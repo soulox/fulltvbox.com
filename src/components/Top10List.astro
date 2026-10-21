@@ -8,8 +8,9 @@ interface Props {
   items: WatchTitle[];
   showViews?: boolean;
   weeksSuffix?: string; // "in the Top 10" (weekly) or "in the Top 10 this period"
+  ranked?: boolean; // false for lists that mix titles from different charts
 }
-const { heading, items, showViews = false, weeksSuffix = 'in the Top 10' } = Astro.props;
+const { heading, items, showViews = false, weeksSuffix = 'in the Top 10', ranked = true } = Astro.props;
 
 const fmtViews = (n: number) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : `${Math.round(n / 1e3)}K`);
 const verdictClass = { watch: 'text-signal border-signal/40', skip: 'text-dim', depends: 'text-amber border-amber/40' };
@@ -19,6 +20,15 @@ const verdictHint = {
   skip: 'Reviews are broadly negative',
   depends: 'Mixed reviews, or good only for a specific taste; our take says who it suits',
 };
+// Movement since last week: [visible text, class, spoken/hover text]. No marker for "no change".
+function movement(c: WatchTitle['change']): [string, string, string] | null {
+  if (!c) return null;
+  if (c.type === 'new') return ['New', 'text-signal border-signal/40', 'New in the Top 10 this week'];
+  if (c.type === 'back') return ['Back', 'text-muted', 'Back in the Top 10 after time away'];
+  if (c.by > 0) return [`▲ ${c.by}`, 'text-signal', `Up ${c.by} ${c.by === 1 ? 'place' : 'places'} from last week`];
+  if (c.by < 0) return [`▼ ${-c.by}`, 'text-dim', `Down ${-c.by} ${c.by === -1 ? 'place' : 'places'} from last week`];
+  return null;
+}
 ---
 <section>
   <h2 class="font-display font-800 text-2xl mb-4">{heading}</h2>
@@ -26,9 +36,11 @@ const verdictHint = {
     <p class="text-muted">No titles for this period yet.</p>
   ) : (
     <ol role="list" class="space-y-2">
-      {items.map((t) => (
+      {items.map((t) => {
+        const move = movement(t.change);
+        return (
         <li class="bench-card frame px-4 py-3 flex items-start gap-4">
-          <span aria-hidden="true" class="font-display font-900 text-2xl text-signal leading-none w-8 shrink-0 text-right">{t.rank}</span>
+          {ranked && <span aria-hidden="true" class="font-display font-900 text-2xl text-signal leading-none w-8 shrink-0 text-right">{t.rank}</span>}
           <div class="flex-1 min-w-0">
             {t.image && (
               <Image
@@ -42,6 +54,7 @@ const verdictHint = {
             )}
             <div class="flex flex-wrap items-center gap-2">
               <span class="font-display font-700 text-ink">{t.title}</span>
+              {move && <span class={`chip !py-0 ${move[1]}`} title={move[2]}><span aria-hidden="true">{move[0]}</span><span class="sr-only">{move[2]}</span></span>}
               {t.verdict && <span class={`chip ${verdictClass[t.verdict.verdict]}`} title={verdictHint[t.verdict.verdict]}>{verdictLabel[t.verdict.verdict]}</span>}
             </div>
             {t.verdict && <p class="text-muted text-sm mt-1">{t.verdict.description}</p>}
@@ -57,7 +70,8 @@ const verdictHint = {
             </div>
           </div>
         </li>
-      ))}
+        );
+      })}
     </ol>
   )}
 </section>

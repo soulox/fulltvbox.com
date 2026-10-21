@@ -1,9 +1,10 @@
 ---
 import { getNetflixPeriods } from '../lib/top10';
 
-interface Props { current: string } // 'week' or a period slug
+interface Props { current: string } // 'new', 'week' or a period slug
 const { current } = Astro.props;
 const links = [
+  { slug: 'new', label: 'New this week', href: '/what-to-watch/new-this-week' },
   { slug: 'week', label: 'This week', href: '/what-to-watch/netflix' },
   ...getNetflixPeriods().map((p) => ({ slug: p.slug, label: p.label, href: `/what-to-watch/netflix/${p.slug}` })),
 ];

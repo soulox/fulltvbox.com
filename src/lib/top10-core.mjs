@@ -141,6 +141,33 @@ export function periodTop(rows, { kind, from, to, limit = 10 }) {
     .map((t, i) => ({ key: t.key, title: t.title, kind, rank: i + 1, views: t.views, weeksInTop10: t.weeks }));
 }
 
+/**
+ * One week's list with each title's movement since the week before, plus the titles that
+ * dropped out. "new" means a first week ever in this Top 10 (Netflix's own week count),
+ * "back" a return after time away; `by` is places gained (negative when falling).
+ * Without data for the week before, only "new" can be known, so other titles get no change.
+ * @param {Top10Row[]} rows
+ * @param {{ kind: Kind, week: string, limit?: number }} opts
+ * @returns {{ entries: (RankedTitle & { change?: Change })[], leaving: RankedTitle[] }}
+ */
+export function weeklyChanges(rows, { kind, week, limit = 10 }) {
+  const current = weeklyTop(rows, { kind, week, limit });
+  const before = weeklyTop(rows, { kind, week: addDays(week, -7), limit });
+  const prevRank = new Map(before.map((t) => [t.key, t.rank]));
+  const entries = current.map((t) => {
+    const prev = prevRank.get(t.key);
+    /** @type {Change | undefined} */
+    let change;
+    if (t.weeksInTop10 === 1) change = { type: 'new' };
+    else if (prev !== undefined) change = { type: 'move', by: prev - t.rank };
+    else if (before.length) change = { type: 'back' };
+    return change ? { ...t, change } : t;
+  });
+  const keys = new Set(current.map((t) => t.key));
+  return { entries, leaving: before.filter((t) => !keys.has(t.key)) };
+}
+/** @typedef {{ type: 'new' } | { type: 'back' } | { type: 'move', by: number }} Change */
+
 /** @param {string} isoDate @param {number} n */
 export function addDays(isoDate, n) {
   return new Date(new Date(`${isoDate}T00:00:00Z`).getTime() + n * 86_400_000).toISOString().slice(0, 10);

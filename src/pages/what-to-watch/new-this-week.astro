@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Top10List from '../../components/Top10List.astro';
+import NetflixListNav from '../../components/NetflixListNav.astro';
+import NetflixSourceNote from '../../components/NetflixSourceNote.astro';
+import { getWeeklyChanges, netflixLatestWeek, itemListJsonLd, weekLabel, jsonLdString, type WatchTitle } from '../../lib/top10';
+
+const week = netflixLatestWeek('us');
+const [movies, series] = await Promise.all([getWeeklyChanges('us', 'movie'), getWeeklyChanges('us', 'series')]);
+const isNew = (t: WatchTitle) => t.change?.type === 'new';
+const newMovies = movies.entries.filter(isNew);
+const newSeries = series.entries.filter(isNew);
+const kindLabel = { movie: 'Movie', series: 'Series' };
+// Climbed 2+ places, or came back after time away: the other titles worth noticing.
+const moving = [...movies.entries, ...series.entries]
+  .filter((t) => t.change?.type === 'back' || (t.change?.type === 'move' && t.change.by >= 2))
+  .sort((a, b) => a.rank - b.rank);
+const picks = [...movies.entries, ...series.entries].filter((t) => t.verdict?.verdict === 'watch');
+const leaving = [...movies.leaving, ...series.leaving];
+
+const count = (n: number, one: string, many: string) => `${n === 0 ? 'no' : n} ${n === 1 ? one : many}`;
+const summary = `${count(newMovies.length, 'new movie', 'new movies')} and ${count(newSeries.length, 'new series', 'new series')}`;
+const label = week ? weekLabel(week) : '';
+const jsonLd = [
+  itemListJsonLd('New Netflix movies in the US Top 10 this week', newMovies),
+  itemListJsonLd('New Netflix series in the US Top 10 this week', newSeries),
+];
+---
+<BaseLayout
+  title="New on Netflix This Week: Fresh Top 10 Entries"
+  description="The movies and series that just entered Netflix's US Top 10 this week, what's climbing, what dropped out, and our verdict on each. Updated every week from Netflix's official data."
+  ogImage="/og/what-to-watch/new-this-week.png"
+  noindex={!week}
+>
+  {week && (
+    <Fragment slot="head">
+      <script type="application/ld+json" set:html={jsonLdString(jsonLd)} />
+    </Fragment>
+  )}
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <nav aria-label="Breadcrumb" class="label text-dim mb-4"><a href="/what-to-watch" class="hover:text-signal">What to Watch</a> / <span class="text-muted">New this week</span></nav>
+    <h1 class="font-display font-900 text-4xl sm:text-5xl tracking-tight mb-2">New on Netflix This Week</h1>
+    {!week ? (
+      <p class="text-muted mb-6">The lists are being refreshed. Check back shortly.</p>
+    ) : (
+      <>
+        <p class="text-muted mb-6 max-w-2xl">
+          Week of {label}: {summary} entered Netflix's US Top 10. Here's what they are, what's
+          climbing, and which ones are worth your evening.
+        </p>
+        <NetflixListNav current="new" />
+
+        <h2 class="label text-signal mb-4">{'// New this week'}</h2>
+        <div class="grid lg:grid-cols-2 gap-8 mb-14">
+          <Top10List heading="New movies" items={newMovies} />
+          <Top10List heading="New series" items={newSeries} />
+        </div>
+
+        {picks.length > 0 && (
+          <div class="mb-14">
+            <h2 class="label text-signal mb-4">{'// Our picks from this week\'s Top 10'}</h2>
+            <Top10List heading="Rated Watch" items={picks} ranked={false} />
+          </div>
+        )}
+
+        <div class="grid md:grid-cols-2 gap-8">
+          {moving.length > 0 && (
+            <section class="panel frame px-5 py-4">
+              <h2 class="label text-signal mb-3">{'// Climbing or back'}</h2>
+              <ul role="list" class="space-y-2 text-sm">
+                {moving.map((t) => (
+                  <li>
+                    <span class="text-ink font-700">{t.title}</span>
+                    <span class="text-dim"> · {kindLabel[t.kind]} · now #{t.rank}, </span>
+                    <span class="text-signal">
+                      {t.change?.type === 'move' ? `up ${t.change.by} places` : 'back after time away'}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+          {leaving.length > 0 && (
+            <section class="panel frame px-5 py-4">
+              <h2 class="label text-signal mb-3">{'// Dropped out'}</h2>
+              <ul role="list" class="space-y-2 text-sm">
+                {leaving.map((t) => (
+                  <li>
+                    <span class="text-ink font-700">{t.title}</span>
+                    <span class="text-dim"> · {kindLabel[t.kind]} · after {count(t.weeksInTop10, 'week', 'weeks')}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+
+        <p class="text-muted text-sm mt-10">
+          Want the full charts? See <a href="/what-to-watch/netflix" class="text-signal border-b border-signal/30 hover:border-signal">this week's complete Netflix Top 10</a>,
+          US and worldwide.
+        </p>
+        <NetflixSourceNote />
+      </>
+    )}
+  </div>
+</BaseLayout>

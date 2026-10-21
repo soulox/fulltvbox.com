@@ -40,7 +40,10 @@ const jsonLd = [
       <>
         <div class="flex flex-wrap items-baseline justify-between gap-3 mb-6">
           <h2 class="font-display font-800 text-xl">Netflix US · week of {weekLabel(week)}</h2>
-          <a href="/what-to-watch/netflix" class="label text-muted hover:text-signal">Global lists →</a>
+          <div class="flex flex-wrap gap-4">
+            <a href="/what-to-watch/new-this-week" class="label text-signal hover:text-ink">New this week →</a>
+            <a href="/what-to-watch/netflix" class="label text-muted hover:text-signal">Global lists →</a>
+          </div>
         </div>
         <div class="grid lg:grid-cols-2 gap-8">
           <Top10List heading="Top 10 movies" items={movies} />
@@ -49,6 +52,7 @@ const jsonLd = [
         <div class="mt-12">
           <span class="label text-signal">{'// More lists'}</span>
           <div class="flex flex-wrap gap-2 mt-3">
+            <a href="/what-to-watch/new-this-week" class="chip hover:text-signal">Netflix · New this week</a>
             {periods.map((p) => (
               <a href={`/what-to-watch/netflix/${p.slug}`} class="chip hover:text-signal">Netflix · {p.label}</a>
             ))}

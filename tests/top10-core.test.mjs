@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseTsv, displayTitle, titleKey, globalRows, countryRows, latestWeek,
-  weeklyTop, periodTop, addDays, netflixPeriods, weekLabel, indexByKey, checkSnapshot, verdictKey, jsonLdString, displayedTitles,
+  weeklyTop, periodTop, addDays, netflixPeriods, weekLabel, indexByKey, checkSnapshot, verdictKey, jsonLdString, displayedTitles, weeklyChanges,
 } from '../src/lib/top10-core.mjs';
 
 const GLOBAL_TSV = [
@@ -164,4 +164,26 @@ test('displayedTitles covers weekly and period lists once each, by kind', () => 
     'movie:La Sustancia', 'movie:UNABOMBER', 'movie:US Only Film',
     'series:Wednesday: Season 1', 'series:Wednesday: Season 2',
   ]);
+});
+
+test('weeklyChanges marks new, returning and moving titles, and lists the ones that left', () => {
+  const row = (week, rank, title, weeks) => ({ week, kind: 'movie', rank, title, weeks });
+  const us = [
+    row('2026-09-27', 1, 'Falling', 2), row('2026-09-27', 2, 'Gone', 3), row('2026-09-27', 3, 'Climber', 1),
+    row('2026-10-04', 1, 'Climber', 2), row('2026-10-04', 2, 'Fresh', 1), row('2026-10-04', 3, 'Falling', 3),
+    row('2026-10-04', 4, 'Returning', 5),
+  ];
+  const { entries, leaving } = weeklyChanges(us, { kind: 'movie', week: '2026-10-04' });
+  assert.deepEqual(entries.map((t) => [t.title, t.change]), [
+    ['Climber', { type: 'move', by: 2 }],
+    ['Fresh', { type: 'new' }],
+    ['Falling', { type: 'move', by: -2 }],
+    ['Returning', { type: 'back' }],
+  ]);
+  assert.deepEqual(leaving.map((t) => t.title), ['Gone']);
+
+  // No data for the week before: only first-week titles can be called new.
+  const first = weeklyChanges(us, { kind: 'movie', week: '2026-09-27' });
+  assert.deepEqual(first.entries.map((t) => t.change), [undefined, undefined, { type: 'new' }]);
+  assert.deepEqual(first.leaving, []);
 });

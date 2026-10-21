@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import type { ImageMetadata } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { watchImage } from './watchImages';
-import { weeklyTop, periodTop, latestWeek, netflixPeriods, indexByKey, verdictKey, weekLabel, jsonLdString } from './top10-core.mjs';
+import { weeklyChanges, periodTop, latestWeek, netflixPeriods, indexByKey, verdictKey, weekLabel, jsonLdString } from './top10-core.mjs';
 
 export { weekLabel, jsonLdString };
 export type Kind = 'movie' | 'series';
@@ -23,7 +23,9 @@ export interface WatchTitle {
   weeksInTop10: number;
   verdict?: Verdict;
   image?: ImageMetadata;
+  change?: Change; // weekly lists only: movement since the week before
 }
+export type Change = { type: 'new' } | { type: 'back' } | { type: 'move'; by: number };
 
 type Row = { week: string; kind: Kind; rank: number; title: string; views?: number; weeks: number };
 let cache: { global: Row[]; us: Row[] } | null | undefined;
@@ -59,10 +61,17 @@ async function withVerdicts(list: Omit<WatchTitle, 'service' | 'verdict'>[]): Pr
 }
 
 export async function getWeeklyTop(region: 'us' | 'global', kind: Kind): Promise<WatchTitle[]> {
+  return (await getWeeklyChanges(region, kind)).entries;
+}
+
+/** This week's list with movement, plus the titles that dropped out since last week. */
+export async function getWeeklyChanges(region: 'us' | 'global', kind: Kind): Promise<{ entries: WatchTitle[]; leaving: WatchTitle[] }> {
   const c = readCache();
   const week = netflixLatestWeek(region);
-  if (!c || !week) return [];
-  return withVerdicts(weeklyTop(c[region], { kind, week }));
+  if (!c || !week) return { entries: [], leaving: [] };
+  const { entries, leaving } = weeklyChanges(c[region], { kind, week });
+  const [e, l] = await Promise.all([withVerdicts(entries), withVerdicts(leaving)]);
+  return { entries: e, leaving: l };
 }
 
 export async function getPeriodTop(kind: Kind, from: string, to: string): Promise<WatchTitle[]> {

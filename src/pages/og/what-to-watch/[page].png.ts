@@ -4,6 +4,7 @@ import { getNetflixPeriods } from '../../../lib/top10';
 
 export const getStaticPaths: GetStaticPaths = () => [
   { params: { page: 'hub' }, props: { title: 'What to watch\nthis week.', meta: 'Top 10 movies & series from official viewing data, with our verdict.' } },
+  { params: { page: 'new-this-week' }, props: { title: 'New on Netflix\nthis week.', meta: 'Fresh Top 10 entries, climbers and drop-outs, with our verdict.' } },
   { params: { page: 'netflix' }, props: { title: 'Netflix Top 10\nthis week.', meta: 'US and worldwide, movies and series.' } },
   ...getNetflixPeriods().map((p) => ({
     params: { page: p.slug },
