@@ -1,10 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getScoredReviews } from '../lib/reviews';
 import { resolveAffiliate } from '../lib/affiliate';
 import { latestDate } from '../lib/freshness';
 
-const reviews = await getCollection('reviews');
+const reviews = await getScoredReviews();
 
 const picks = [
   {

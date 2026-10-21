@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content';
+import { getScoredReviews } from './reviews';
 import { getImage } from 'astro:assets';
 import { reviewImage } from './reviewImages';
 import { resolveAffiliate } from './affiliate';
@@ -20,7 +20,7 @@ export interface Device {
 
 /** Flat, client-friendly device list for the compare tool + /devices.json feed. */
 export async function getDevices(): Promise<Device[]> {
-  const reviews = await getCollection('reviews');
+  const reviews = await getScoredReviews(); // unscored (in-progress) devices can't be compared
   const devices = await Promise.all(
     reviews.map(async (r) => {
       const name = r.data.title.replace(/ Review.*$/i, '').trim();

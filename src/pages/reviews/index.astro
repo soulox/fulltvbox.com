@@ -62,16 +62,24 @@ function meter(rating: number) {
               {freshness(review.data.publishDate, review.data.updatedDate) === 'new' && <span class="chip text-signal border-signal/40">◆ NEW</span>}
               {review.data.tags.slice(0, 2).map(tag => <span class="chip">{tag}</span>)}
             </div>
-            <span class="font-display font-900 text-2xl text-signal leading-none shrink-0">{review.data.rating.toFixed(1)}</span>
+            {review.data.rating !== undefined ? (
+              <span class="font-display font-900 text-2xl text-signal leading-none shrink-0">{review.data.rating.toFixed(1)}</span>
+            ) : (
+              <span class="chip text-amber border-amber/40 shrink-0">In testing</span>
+            )}
           </div>
           <h2 class="font-display font-700 text-lg leading-snug text-ink group-hover:text-signal transition-colors mb-2 flex-1">
             {review.data.title.replace(/ Review.*$/i, '').trim()}
           </h2>
           <p class="text-muted text-sm line-clamp-2 mb-5">{review.data.description}</p>
           <div class="flex items-center justify-between">
-            <div class="meter">
-              {meter(review.data.rating).map(s => <span class={`seg ${s}`}></span>)}
-            </div>
+            {review.data.rating !== undefined ? (
+              <div class="meter">
+                {meter(review.data.rating).map(s => <span class={`seg ${s}`}></span>)}
+              </div>
+            ) : (
+              <span class="label text-dim">Score after testing</span>
+            )}
             <time class="label text-dim">
               {new Date(review.data.publishDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
             </time>

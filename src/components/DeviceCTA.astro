@@ -11,7 +11,7 @@ interface Deal {
 interface Item {
   href: string;        // review page
   name: string;        // device name
-  rating: number;
+  rating?: number;     // absent while the review is in progress
   price?: number;      // launch/reference price from frontmatter
   affiliate?: string;  // affiliate URL from frontmatter
   deal?: Deal;         // cheapest live deal, if any
@@ -42,9 +42,13 @@ import { resolveAffiliate } from '../lib/affiliate';
         return (
         <div class="bench-card frame p-4 flex flex-col">
           <div class="flex items-center justify-between mb-2">
-            <span class="font-display font-900 text-lg text-signal leading-none">
-              {i.rating.toFixed(1)}<span class="label text-dim"> /5</span>
-            </span>
+            {i.rating !== undefined ? (
+              <span class="font-display font-900 text-lg text-signal leading-none">
+                {i.rating.toFixed(1)}<span class="label text-dim"> /5</span>
+              </span>
+            ) : (
+              <span class="chip !py-0 text-amber border-amber/40">In testing</span>
+            )}
             {i.deal?.discountPct && (
               <span class="font-mono text-xs font-semibold text-void bg-signal px-1.5 py-0.5">-{i.deal.discountPct}%</span>
             )}

@@ -1,10 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getScoredReviews } from '../lib/reviews';
 import { getLiveDeals, formatDealPrice } from '../lib/deals';
 import { freshness, latestDate } from '../lib/freshness';
 
-const allReviews = await getCollection('reviews');
+const allReviews = await getScoredReviews(); // the homepage shows scores everywhere
 const featured = allReviews.filter(r => r.data.featured).slice(0, 3);
 const recent = [...allReviews].sort((a, b) =>
   new Date(latestDate(b.data.publishDate, b.data.updatedDate)).getTime() -

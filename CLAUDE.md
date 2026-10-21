@@ -25,6 +25,7 @@ npm run deploy     # astro build && wrangler pages deploy dist
 Content is the database. Schemas live in `src/content/config.ts` (Zod) — read it before touching any content or schema. Collections:
 
 - `reviews/`, `guides/`, `tutorials/` — Markdown (`type: 'content'`). Reviews carry `rating` (1–5), optional `specs`, `faq`, `price`, `affiliate`, `asin`/`bestBuySku` (live pricing), `featured`.
+- **Review in progress:** a review sets `testingSince: "YYYY-MM-DD"` *instead of* `rating` (the schema requires exactly one) to publish first impressions before the 2-week test window ends. It shows "In testing" with the date the score is due, gets Article (not Review) JSON-LD, and stays out of every ranking, comparison and `/devices.json`. Pages that rank or show scores must load reviews with `getScoredReviews()` from `src/lib/reviews.ts`, not `getCollection('reviews')`. To publish the verdict, replace `testingSince` with `rating` and set `updatedDate`.
 - `services/`, `deals/` — YAML data files (`type: 'data'`).
 - `prompts/` (Markdown) and `ai-tools/` (YAML) power the `/ai` section. A prompt's `tools` (ai-tools slugs) and `related` (guide/tutorial/review slugs) are joined in `src/lib/prompts.ts`, which **throws at build time** on an unknown slug. Each prompt body's example output must be a real run by the model named in `testedOn`.
 - `watch-verdicts/` (YAML) — editorial verdicts for /what-to-watch titles, joined by kind + title (`verdictKey` in `src/lib/top10-core.mjs`); a duplicate fails the build.

@@ -40,7 +40,7 @@ export const GET: APIRoute = async ({ site }) => {
     item('/ai', 'AI prompts & tools', 'Tested AI prompts and curated AI tools for streaming, TV troubleshooting, and home media labs.'),
     item('/devices.json', 'Device data (JSON)', 'Machine-readable specs for every reviewed device.'),
     '',
-    section('Reviews', reviews.sort(byNewest).map((r) => item(`/reviews/${r.slug}`, r.data.title, r.data.description))),
+    section('Reviews', reviews.sort(byNewest).map((r) => item(`/reviews/${r.slug}`, r.data.title + (r.data.testingSince ? ' (review in progress, not yet scored)' : ''), r.data.description))),
     '',
     section('Guides', guides.sort(byNewest).map((g) => item(`/guides/${g.slug}`, g.data.title, g.data.description))),
     '',

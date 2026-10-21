@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CostCalculator from '../components/CostCalculator.astro';
-import { getCollection } from 'astro:content';
+import { getScoredReviews } from '../lib/reviews';
 import { getServices } from '../lib/services';
 import { getLiveDeals, formatDealPrice } from '../lib/deals';
 
-const reviews = await getCollection('reviews');
+const reviews = await getScoredReviews();
 const boxes = [...reviews].sort((a, b) => b.data.rating - a.data.rating).slice(0, 3);
 const services = (await getServices()).filter((s) => s.featured).slice(0, 6);
 const deals = (await getLiveDeals()).slice(0, 3);

@@ -29,7 +29,10 @@ const reviews = defineCollection({
     description: z.string(),
     publishDate: z.string(),
     updatedDate: z.string().optional(),
-    rating: z.number().min(1).max(5),
+    // Scored once testing is done. While a device is still being tested, set
+    // `testingSince` instead: the review publishes as "in progress" with no score.
+    rating: z.number().min(1).max(5).optional(),
+    testingSince: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     price: z.number().optional(),
     affiliate: z.string().optional(),
     // Retailer product IDs. scripts/fetch-prices.mjs prices these at build time and any
@@ -55,6 +58,8 @@ const reviews = defineCollection({
     // and readers are pointed at `successor` (a review slug) when set.
     discontinued: z.boolean().default(false),
     successor: z.string().optional(),
+  }).refine((d) => (d.rating === undefined) !== (d.testingSince === undefined), {
+    message: 'A review needs exactly one of `rating` (scored) or `testingSince` (in progress)',
   }),
 });
 

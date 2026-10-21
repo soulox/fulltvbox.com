@@ -9,6 +9,7 @@ import { resolveAffiliate } from '../lib/affiliate';
 import { cleanPathname } from '../lib/url';
 import { reviewImage } from '../lib/reviewImages';
 import type { LiveDeal } from '../lib/deals';
+import { scoreDueDate } from '../lib/reviews';
 
 interface Specs {
   releaseYear?: number; price?: number; soc?: string; cpu?: string; gpu?: string;
@@ -21,7 +22,8 @@ interface Props {
   description: string;
   publishDate: string;
   updatedDate?: string;
-  rating: number;
+  rating?: number;       // absent while the review is in progress
+  testingSince?: string; // set instead of `rating` until the test window is done
   price?: number;
   affiliate?: string;
   specs?: Specs;
@@ -34,7 +36,7 @@ interface Props {
   successor?: { href: string; name: string };
 }
 const {
-  title, description, publishDate, updatedDate, rating, price, affiliate, specs, faq,
+  title, description, publishDate, updatedDate, rating, testingSince, price, affiliate, specs, faq,
   author: authorSlug, ogImage, benchmarks, discontinued = false, successor,
 } = Astro.props;
 // A discontinued device keeps its review for owners, but we don't sell it: no deal, no buy CTA.
@@ -48,10 +50,14 @@ const hero = slug ? reviewImage(slug) : undefined;
 const fresh = freshness(publishDate, updatedDate);
 
 const segments = Array.from({ length: 5 }, (_, i) => {
+  if (rating === undefined) return 'off';
   if (rating >= i + 1) return 'on';
   if (rating >= i + 0.5) return 'half';
   return 'off';
 });
+const fmtDay = (d: string, year = true) =>
+  new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', ...(year ? { year: 'numeric' } : {}), timeZone: 'UTC' });
+const scoreDue = testingSince ? scoreDueDate(testingSince) : undefined;
 
 const specRows: [string, string][] = [
   ['releaseYear', 'Released'], ['price', 'Launch price'], ['soc', 'Chipset'], ['cpu', 'CPU'],
@@ -86,7 +92,21 @@ const brand = (brandTable.find(([k]) => haystack.includes(k)) ?? [])[1];
 // Google's recommended shape for a product-review page. It satisfies the product
 // snippet requirement (a `review` is present), yields the star-rating snippet, and
 // carries no `offers`, so it stays a review snippet rather than a merchant listing.
-const jsonLd = {
+// An in-progress review has no rating yet, and a Review without one would be false
+// structured data, so it's described as an article about the product until it's scored.
+const reviewer = authorJsonLd(author, site);
+const publisher = { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } };
+const jsonLd = rating === undefined ? {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishDate,
+  ...(updatedDate ? { dateModified: updatedDate } : {}),
+  author: reviewer,
+  publisher,
+  about: { '@type': 'Product', name: device, ...(brand ? { brand: { '@type': 'Brand', name: brand } } : {}) },
+} : {
   '@context': 'https://schema.org',
   '@type': 'Product',
   name: device,
@@ -100,8 +120,8 @@ const jsonLd = {
     name: title,
     datePublished: publishDate,
     ...(updatedDate ? { dateModified: updatedDate } : {}),
-    author: authorJsonLd(author, site),
-    publisher: { '@type': 'Organization', name: 'FullTVBox', logo: { '@type': 'ImageObject', url: new URL('/og-default.png', site).href } },
+    author: reviewer,
+    publisher,
     reviewRating: { '@type': 'Rating', ratingValue: rating, bestRating: 5, worstRating: 1 },
   },
 };
@@ -187,16 +207,29 @@ const breadcrumb = {
     <!-- verdict panel -->
     <div class="panel frame mb-6">
       <div class="px-5 sm:px-6 py-5 flex items-center gap-6 flex-wrap">
-        <div>
-          <div class="label mb-2">Bench score</div>
-          <div class="meter">
-            {segments.map(s => <span class={`seg ${s}`}></span>)}
+        {rating !== undefined ? (
+          <>
+            <div>
+              <div class="label mb-2">Bench score</div>
+              <div class="meter">
+                {segments.map(s => <span class={`seg ${s}`}></span>)}
+              </div>
+            </div>
+            <div class="flex items-end gap-1">
+              <span class="font-display font-900 text-5xl text-signal leading-none glow-text">{rating.toFixed(1)}</span>
+              <span class="label mb-1">/ 5.0</span>
+            </div>
+          </>
+        ) : (
+          <div class="max-w-md">
+            <div class="label text-amber mb-1">● Review in progress</div>
+            <p class="text-sm text-ink/85 leading-relaxed">
+              We started testing the {device} on {fmtDay(testingSince!)}. Every device gets at least {TEST_WEEKS} weeks
+              of daily use before we score it, so the full verdict and score land on or after {fmtDay(scoreDue!, false)}.
+              These are first impressions.
+            </p>
           </div>
-        </div>
-        <div class="flex items-end gap-1">
-          <span class="font-display font-900 text-5xl text-signal leading-none glow-text">{rating.toFixed(1)}</span>
-          <span class="label mb-1">/ 5.0</span>
-        </div>
+        )}
 
         <div class="ml-auto flex items-center gap-4 flex-wrap">
           {deal ? (
