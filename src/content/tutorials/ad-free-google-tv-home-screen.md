@@ -68,7 +68,7 @@ Some Google TV updates in 2026 broke Projectivy's override on some devices: it s
 2. In Projectivy's settings, turn **Override current launcher** off and back on.
 3. Restart the device (unplug it for 10 seconds).
 
-If it still won't stick, your device's software is blocking it for now. Use Apps only mode instead, and check for Projectivy updates later. Online guides also show how to disable Google TV's home screen entirely with developer tools (ADB). We don't recommend it for most people: the right commands vary by device, a background service can switch the stock home screen back on, and it can break features like the remote's YouTube button.
+If it still won't stick, your device's software is blocking it for now. Use Apps only mode instead, and check for Projectivy updates later. Online guides also show how to disable Google TV's home screen entirely with developer tools (ADB). We don't recommend it for most people: the right commands vary by device, a background service can switch the stock home screen back on, and it can break features like the remote's YouTube button. Some people now hand that job to an AI coding assistant; our guide to [using AI to clean up a smart TV](/guides/clean-up-smart-tv-with-ai-coding-assistant) covers what that involves and its risks.
 
 ---
 
