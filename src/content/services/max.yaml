@@ -1,9 +1,8 @@
-name: "Max"
+name: "HBO Max"
 category: on-demand
-monthlyPrice: 16.99
-adTierPrice: 9.99
-annualPrice: 169.99
+monthlyPrice: 18.49
+adTierPrice: 10.99
 hasAds: true
 highlights: ["HBO originals", "4K on Premium", "Day-and-date WB films"]
-url: "https://www.max.com"
+url: "https://www.hbomax.com"
 featured: true

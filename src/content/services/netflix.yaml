@@ -1,7 +1,7 @@
 name: "Netflix"
 category: on-demand
-monthlyPrice: 17.99
-adTierPrice: 7.99
+monthlyPrice: 19.99
+adTierPrice: 8.99
 hasAds: true
 highlights: ["Massive originals library", "4K on Premium", "Ad-supported tier"]
 url: "https://www.netflix.com/signup"

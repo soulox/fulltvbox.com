@@ -2,6 +2,7 @@
 title: "Every Streaming Price Hike in 2026, Tracked"
 description: "Paramount+, Netflix, Prime Video, Peacock, Apple TV+, ESPN, Disney+, and Hulu all raised prices in 2026. Here's every hike, when it hit, and what it means for your bill."
 publishDate: "2026-09-28"
+updatedDate: "2026-10-21"
 category: "cord-cutting"
 faq:
   - question: "How many streaming services raised prices in 2026?"
@@ -9,7 +10,7 @@ faq:
   - question: "Why do streaming services keep raising prices?"
     answer: "The services now openly frame it as a normal annual event rather than a rare emergency measure — most of the majors have raised prices in each of the last three to four years. Rising content and sports-rights costs, slowing subscriber growth, and pressure to show profitability to investors are the usual drivers cited."
   - question: "What does a full streaming stack cost now in 2026?"
-    answer: "Stacking eight major ad-free services (Netflix, Disney+, Hulu, Max, Paramount+, Peacock, Apple TV+, and Prime Video's ad-free tier) runs a little over $139/month, or roughly $1,670/year, at September 2026's list prices. Switching to ad-supported tiers where available cuts that dramatically — see our streaming cost calculator for your own mix."
+    answer: "Stacking eight major ad-free services (Netflix, Disney+, Hulu, Max, Paramount+, Peacock, Apple TV+, and Prime Video's ad-free tier) runs a little over $144/month, or roughly $1,730/year, at September 2026's list prices. Switching to ad-supported tiers where available cuts that dramatically — see our streaming cost calculator for your own mix."
   - question: "How can I avoid the 2026 streaming price hikes?"
     answer: "You can't avoid them if you keep a service, but you can blunt them: move to ad-supported tiers, drop services you're not actively watching instead of holding them 'just in case', and check whether an official bundle (like Disney+/Hulu/ESPN) undercuts paying for the pieces separately now that all three have gone up."
 ---
@@ -34,7 +35,7 @@ Streaming was supposed to be the cheap alternative to cable. In 2026, "streamfla
 | Jan 15 | Paramount+ | Essential (ads) $7.99 → $8.99/mo; Premium (ad-free) $12.99 → $13.99/mo |
 | Apr 10 | Prime Video | Ad-free tier (rebranded "Prime Video Ultra") $2.99 → $4.99/mo, on top of a Prime membership |
 | Late March | Netflix | Standard with Ads up to $8.99/mo; ad-free and Premium tiers also increased |
-| Aug 18 | Peacock | Select (ads) $7.99 → $8.99/mo; Premium (ad-free) $10.99 → $12.99/mo |
+| Aug 18 | Peacock | Select $7.99 → $8.99/mo; Premium (with ads) $10.99 → $12.99/mo; Premium Plus (ad-free) $16.99 → $19.99/mo |
 | Aug 28 | Apple TV+ | $12.99 → $14.99/mo; annual plan $99 → $119/yr |
 | Sep 17 | ESPN | Unlimited $29.99 → $31.99/mo; Select $12.99 → $13.99/mo |
 | Sep 23 | Disney+ & Hulu | Ad-free Premium (each) $18.99 → $21.49/mo; ad-free Disney+/Hulu bundle $19.99 → $21.99/mo; ad-supported tiers (each) $11.99 → $12.49/mo |
@@ -46,7 +47,7 @@ A few things stand out. First, the pace: seven confirmed increases across nine m
 
 ## What a full stack costs now
 
-Adding up eight major ad-free services — Netflix, Disney+, Hulu, Max, Paramount+, Peacock, Apple TV+, and Prime Video's ad-free tier — at September 2026 list prices comes to roughly **$139/month, or about $1,670/year**, before any bundle discount. Swapping in ad-supported tiers wherever they're offered brings that down closer to $90/month. Either way, that's a meaningfully bigger number than it was even a year ago, purely from list-price increases on services most households already had — not from adding anything new.
+Adding up eight major ad-free services — Netflix, Disney+, Hulu, Max, Paramount+, Peacock, Apple TV+, and Prime Video's ad-free tier — at September 2026 list prices comes to roughly **$144/month, or about $1,730/year**, before any bundle discount. Swapping in ad-supported tiers wherever they're offered brings that down closer to $90/month. Either way, that's a meaningfully bigger number than it was even a year ago, purely from list-price increases on services most households already had — not from adding anything new.
 
 For the full breakdown of what a realistic four-service stack costs and where live TV blows the budget, see [the real cost of cutting the cord in 2026](/guides/real-cost-of-cutting-the-cord-2026). Our [streaming cost calculator](/cost-calculator) lets you plug in your own combination and tiers to see your actual number, and the [streaming services hub](/streaming-services) has the current lineup of what each service offers.
 

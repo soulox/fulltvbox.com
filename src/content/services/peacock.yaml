@@ -1,9 +1,9 @@
 name: "Peacock"
 category: on-demand
-monthlyPrice: 13.99
-adTierPrice: 7.99
-annualPrice: 79.99
+monthlyPrice: 19.99
+adTierPrice: 8.99
+annualPrice: 199.99
 hasAds: true
 hasLiveTV: true
-highlights: ["NBC & Bravo next-day", "Premier League & live sports", "Olympics"]
+highlights: ["NBC & Bravo next-day", "Live sports from Premium ($12.99)", "Olympics"]
 url: "https://www.peacocktv.com"
