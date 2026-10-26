@@ -1,6 +1,5 @@
 ---
 import SearchModal from '../components/SearchModal.astro';
-import Analytics from '../components/Analytics.astro';
 import Newsletter from '../components/Newsletter.astro';
 import { cleanPathname } from '../lib/url';
 
@@ -202,7 +201,6 @@ function isActive(href: string) {
           <a href="/how-we-test" class="text-muted hover:text-signal transition-colors">How We Test</a>
           <a href="/credits" class="text-muted hover:text-signal transition-colors">Credits</a>
           <a href="/privacy" class="text-muted hover:text-signal transition-colors">Privacy</a>
-          <a href="/privacy#analytics" data-consent-open class="text-muted hover:text-signal transition-colors">Cookie settings</a>
           <a href="/rss.xml" class="text-muted hover:text-signal transition-colors">RSS</a>
         </div>
       </div>
@@ -218,7 +216,6 @@ function isActive(href: string) {
   </footer>
 
   <SearchModal />
-  <Analytics />
 
   <script>
     const btn = document.getElementById('menu-btn');
