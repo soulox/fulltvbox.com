@@ -20,10 +20,12 @@ const updated = 'October 26, 2026';
 
       <p>
         FullTVBox ("we", "us") is an independent review site. We believe a privacy policy should
-        describe what actually happens — so here is the short, honest version: <strong>we set no
-        cookies, run no advertising trackers, and do not ask you to log in or hand over personal
-        information.</strong> We count visits with a cookieless, privacy-first tool described below. The detail below explains the limited data
-        that is unavoidably processed when you visit any website.
+        describe what actually happens — so here is the short, honest version: <strong>we run no
+        advertising trackers, and we do not ask you to log in or hand over personal information.
+        We count visits with Cloudflare's cookieless statistics, and use Google Analytics only if
+        you accept it.</strong> The detail
+        below explains that, and the limited data that is unavoidably processed when you visit any
+        website.
       </p>
 
       <h2>Who is responsible</h2>
@@ -33,14 +35,7 @@ const updated = 'October 26, 2026';
         <a href="mailto:privacy@fulltvbox.com">privacy@fulltvbox.com</a>.
       </p>
 
-      <h2>Cookies and local storage</h2>
-      <p>
-        We do not set any cookies, and we do not use local or session storage to track you. There
-        is no advertising pixel and no consent banner — because there is nothing to consent to.
-        Our on-site search runs entirely in your browser and sends no queries to us or anyone else.
-      </p>
-
-      <h2 id="analytics">Visitor statistics</h2>
+      <h2 id="statistics">Visitor statistics (no cookies)</h2>
       <p>
         To know how many people visit and which pages are read, we use
         <strong>Cloudflare Web Analytics</strong>. It sets no cookies, uses no local storage,
@@ -50,6 +45,31 @@ const updated = 'October 26, 2026';
         legal basis is our legitimate interest in understanding how the site is used (GDPR Article
         6(1)(f)). See <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web
         Analytics</a>.
+      </p>
+
+      <h2 id="analytics">Google Analytics and cookies (only with your consent)</h2>
+      <p>
+        We use <strong>Google Analytics 4</strong> to learn how many people visit and which pages
+        are useful. It loads <strong>only if you click "Accept"</strong> on the banner shown on
+        your first visit; if you decline or ignore it, no Google script is loaded and no cookie is
+        set. You can change your mind at any time with the <a href="#analytics" data-consent-open>cookie
+        settings</a> link (also in the footer of every page); withdrawing consent deletes the
+        Analytics cookies.
+      </p>
+      <p>
+        If you accept, Google Analytics sets first-party cookies (<code>_ga</code> and
+        <code>_ga_*</code>, lasting up to two years) to tell visits apart, and sends Google the
+        pages you view, how you arrived, and your device, browser and approximate location. Google
+        Analytics 4 does not log or store IP addresses. Advertising features and ad personalisation
+        are switched off. The legal basis is your consent (GDPR Article 6(1)(a)). Google LLC is
+        certified under the EU–US Data Privacy Framework, which covers the transfer of this data to
+        the United States. See <a href="https://policies.google.com/privacy">Google's privacy
+        policy</a>.
+      </p>
+      <p>
+        Your choice is remembered in your browser's local storage (not a cookie), so we don't ask
+        again on every page. There is no advertising pixel. Our on-site search runs entirely in
+        your browser and sends no queries to us or anyone else.
       </p>
 
       <h2>What is processed when you visit</h2>
@@ -81,10 +101,11 @@ const updated = 'October 26, 2026';
       <h2>Third parties we rely on</h2>
       <ul>
         <li><strong>Cloudflare</strong> — hosting, content delivery and cookieless visitor statistics (as described above).</li>
+        <li><strong>Google</strong> — Google Analytics, only if you accept it (see above).</li>
         <li><strong>Affiliate retailers</strong> (e.g. Amazon) — only when you click an outbound affiliate link.</li>
       </ul>
       <p>
-        Because our host operates a global network, technical data may be processed on servers
+        Because our providers operate global networks, technical data may be processed on servers
         outside your country, including outside the EEA. Such transfers rely on the provider's
         standard contractual clauses and equivalent safeguards.
       </p>
@@ -94,7 +115,8 @@ const updated = 'October 26, 2026';
         If you are in the EU/EEA or UK, you have the right to access, correct, erase, restrict, or
         object to the processing of your personal data, and the right to data portability. As we
         hold no account or profile data about you, in practice the only data tied to you is
-        transient server-log information. To make a request, or to lodge a complaint with your
+        transient server-log information and, if you accepted it, pseudonymous Google Analytics
+        data. You can withdraw analytics consent at any time without affecting what came before. To make a request, or to lodge a complaint with your
         local data protection authority, email{' '}
         <a href="mailto:privacy@fulltvbox.com">privacy@fulltvbox.com</a>.
       </p>
@@ -102,7 +124,8 @@ const updated = 'October 26, 2026';
       <h2>Data retention</h2>
       <p>
         Server logs are retained only for as long as needed for security and operational purposes
-        and are then deleted or anonymised. We keep no other personal data.
+        and are then deleted or anonymised. Google Analytics data is kept for at most 14 months and
+        then deleted automatically. We keep no other personal data.
       </p>
 
       <h2>Children</h2>
@@ -114,7 +137,7 @@ const updated = 'October 26, 2026';
       <h2>Changes to this policy</h2>
       <p>
         We may update this policy as the site evolves — for example, if we ever introduce
-        advertising or tracking analytics. Material changes will be reflected in the "Last updated" date above, and any
+        advertising. Material changes will be reflected in the "Last updated" date above, and any
         new data collection will be described here before it begins.
       </p>
     </div>
