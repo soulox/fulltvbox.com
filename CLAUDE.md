@@ -61,7 +61,7 @@ Broadcast/AV-test-equipment aesthetic. Tokens live in `tailwind.config.mjs` and 
 
 ## Privacy constraint (don't break this)
 
-The site sets no cookies and runs no analytics/ads/third-party trackers — hence no consent banner, and fonts are self-hosted so visitor IPs aren't shared. The only outbound flow is affiliate-link clicks. If you ever add analytics, ads, or a third-party embed, update `src/pages/privacy.astro` and reconsider the consent question before it ships.
+The site runs no ads or third-party trackers, and fonts are self-hosted so visitor IPs aren't shared. The one exception is **Google Analytics 4** (`src/components/Analytics.astro`, ID `G-Y2PDZXKM42`), which is **opt-in**: nothing from Google loads and no cookie is set until the visitor clicks Accept on the consent banner (EU rules; Accept and Decline stay equally prominent). Ad signals are denied. The footer's "Cookie settings" link (`data-consent-open`) reopens the banner. Never load gtag or any other tracker before consent. If you add ads, another analytics tool, or a third-party embed, update `src/pages/privacy.astro` and route it through the same consent before it ships.
 
 ## Deploy
 
