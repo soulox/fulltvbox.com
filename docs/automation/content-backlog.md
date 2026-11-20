@@ -28,7 +28,6 @@ reorder, or prune at any time.
 
 ## Backlog
 
-- [P1] How much internet speed do you need to stream 4K — category: basics-setup — intent: "internet speed for 4k streaming" — evergreen, high volume
 - [P1] Apple TV 4K vs NVIDIA Shield: which premium box to buy — category: comparisons — intent: "apple tv vs nvidia shield" — both devices are reviewed on-site
 - [P1] No sound on your streaming device: HDMI & Atmos audio fixes — category: troubleshooting — intent: "streaming device no sound fix" — evergreen troubleshooting
 
@@ -89,3 +88,6 @@ reorder, or prune at any time.
 - [P2] Walmart raised Onn streaming device prices by $10: what changed and is it still worth buying — category: whats-new — intent: "onn streaming device price increase" / "walmart onn price increase 2026" — surfaced 2026-11-09 via Android Authority; distinct angle from the existing Onn 4K Pro scalping/sold-out item below
 - [P2] How to tell if a cheap "generic" Android TV box is safe to buy before you buy it — category: buying-guides — intent: "is this android tv box safe" / "android tv box malware brands to avoid" — natural follow-up to the Nov 2026 Videostrong/BadBox malware guide; focus on pre-purchase red flags (marketplace-only listings, no Play Protect certification, "unlocked"/free-live-TV marketing) rather than post-purchase detection
 - [P3] Disney+ is reportedly planning a free, ad-supported tier with live FAST channels — category: whats-new — intent: "disney plus free tier" — surfaced via a leaked internal deck reported mid-November 2026; still unconfirmed/rumored as of this writing, verify an official Disney announcement before writing
+
+- [P1] Update fox-buying-roku-what-it-means-2026: Fox completed its $22B acquisition of Roku on Nov 6, 2026 — months ahead of the original H1 2027 target the guide cites — Roku shares stopped trading on Nasdaq, Roku now sits inside a new "Fox Digital Platforms" division alongside Tubi, and founder Anthony Wood joined the Fox board; the existing guide's core premise ("nothing changes today, deal not expected to close until H1 2027") is now out of date — category: whats-new — intent: "fox roku deal closed" / "fox owns roku now" — verify final terms and any device-level changes at write-time
+- [P3] Xfinity's StreamSaver bundle (Peacock Premium + Netflix Standard with Ads + Apple TV+) is reportedly getting a price increase — category: cord-cutting — intent: "xfinity streamsaver price increase" — surfaced during November 2026 streaming-price research; distinct from streaming-bundles-worth-it-2026.md, which doesn't cover carrier/ISP-bundled streaming packages; verify the increase amount and effective date at write-time before publishing
