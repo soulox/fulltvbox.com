@@ -28,7 +28,6 @@ reorder, or prune at any time.
 
 ## Backlog
 
-- [P1] How much internet speed do you need to stream 4K — category: basics-setup — intent: "internet speed for 4k streaming" — evergreen, high volume
 - [P1] Apple TV 4K vs NVIDIA Shield: which premium box to buy — category: comparisons — intent: "apple tv vs nvidia shield" — both devices are reviewed on-site
 - [P1] No sound on your streaming device: HDMI & Atmos audio fixes — category: troubleshooting — intent: "streaming device no sound fix" — evergreen troubleshooting
 
@@ -85,3 +84,6 @@ reorder, or prune at any time.
 - [P3] Google TV's Gemini "Photo Remix" AI image/video creation feature: what it actually does — category: ai-llm — intent: "google tv gemini photo remix" / "ai image creation google tv" — surfaced via an October 2026 Google TV feature roundup; US-only and experimental so far, and the existing ai-on-tv-box-2026.md guide only dismisses "photo remixes" in one line as novelty — worth a dedicated, skeptical look once it's rolled out more broadly; verify availability/scope at write-time
 - [P3] Comcast's cable-TV subscriber losses in 2026: what it means for cord-cutters — category: cord-cutting — intent: "comcast losing cable tv subscribers 2026" — Cord Cutters News reported around Oct 22, 2026 that Comcast has lost over half its TV customers; ties into the site's cord-cutting narrative, distinct from any device or price-hike guide; verify the actual figures/timeframe at write-time
 - [P3] Report: the White House blocked Netflix's bid to buy Warner Bros. Discovery — what it means for HBO Max — category: whats-new — intent: "netflix warner bros discovery deal blocked" — surfaced around Oct 23, 2026; explain what staying independent means for HBO Max/WBD's streaming assets without speculating on a future deal — this is a developing regulatory story, so verify current status (deal could still change) before publishing
+
+- [P1] Update fox-buying-roku-what-it-means-2026: Fox completed its $22B acquisition of Roku on Nov 6, 2026 — months ahead of the original H1 2027 target the guide cites — Roku shares stopped trading on Nasdaq, Roku now sits inside a new "Fox Digital Platforms" division alongside Tubi, and founder Anthony Wood joined the Fox board; the existing guide's core premise ("nothing changes today, deal not expected to close until H1 2027") is now out of date — category: whats-new — intent: "fox roku deal closed" / "fox owns roku now" — verify final terms and any device-level changes at write-time
+- [P3] Xfinity's StreamSaver bundle (Peacock Premium + Netflix Standard with Ads + Apple TV+) is reportedly getting a price increase — category: cord-cutting — intent: "xfinity streamsaver price increase" — surfaced during November 2026 streaming-price research; distinct from streaming-bundles-worth-it-2026.md, which doesn't cover carrier/ISP-bundled streaming packages; verify the increase amount and effective date at write-time before publishing
