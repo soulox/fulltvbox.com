@@ -1,9 +1,9 @@
 service: apple-tv-plus
-retailer: With Apple TV 4K
+retailer: With a new Apple device
 price: 0
 wasPrice: 14.99
 period: month
-term: 3 months included with a new Apple TV 4K
-url: "https://tv.apple.com"
-checked: "2026-11-19"
+term: 3 months included when you buy an Apple device and redeem within 90 days
+url: "https://www.apple.com/apple-tv-plus/"
+checked: "2026-11-26"
 featured: false
