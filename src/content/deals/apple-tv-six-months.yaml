@@ -1,0 +1,11 @@
+service: apple-tv-plus
+retailer: New subscribers
+price: 6.99
+wasPrice: 14.99
+period: month
+term: First 6 months
+url: "https://www.apple.com/apple-tv-plus/"
+badge: Save 50%
+expires: "2026-11-30T20:00:00-08:00"
+checked: "2026-11-26"
+featured: false

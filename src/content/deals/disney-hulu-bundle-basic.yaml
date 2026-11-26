@@ -1,9 +1,11 @@
 service: disney-plus
 retailer: Disney+ & Hulu bundle
-price: 11.99
+price: 4.99
 wasPrice: 12.99
 period: month
-term: First 6 months, with ads
+term: First 12 months, with ads (Black Friday sale)
 url: "https://www.disneyplus.com"
-checked: "2026-11-19"
-featured: false
+badge: Save $96
+expires: "2026-11-30T23:59:00-08:00"
+checked: "2026-11-26"
+featured: true
